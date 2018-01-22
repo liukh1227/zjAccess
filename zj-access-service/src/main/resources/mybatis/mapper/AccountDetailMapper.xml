@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.AccountDetailMapper">
+  <resultMap id="BaseResultMap" type="com.zj.entity.base.po.AccountDetail">
+    <id column="accountDetail_id" jdbcType="VARCHAR" property="id" />
+    <result column="companyId" jdbcType="VARCHAR" property="companyId" />
+    <result column="businessType" jdbcType="INTEGER" property="businessType" />
+    <result column="expenseType" jdbcType="VARCHAR" property="expenseType" />
+    <result column="transactionAmount" jdbcType="DECIMAL" property="transactionAmount" />
+    <result column="sequenceNum" jdbcType="VARCHAR" property="sequenceNum" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="recordTime" jdbcType="TIMESTAMP" property="recordTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    accountDetail_id as id, companyId, businessType, expenseType, transactionAmount, sequenceNum, memo, recordTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from b_accountdetail
+    where accountDetail_id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from b_accountdetail
+    where accountDetail_id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zj.entity.base.po.AccountDetail"
+   keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+    insert into b_accountdetail (accountDetail_id, companyId, businessType, 
+      expenseType, transactionAmount, sequenceNum, 
+      memo, recordTime)
+    values (#{id,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, #{businessType,jdbcType=INTEGER}, 
+      #{expenseType,jdbcType=VARCHAR}, #{transactionAmount,jdbcType=DECIMAL}, #{sequenceNum,jdbcType=VARCHAR}, 
+      #{memo,jdbcType=VARCHAR}, #{recordTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zj.entity.base.po.AccountDetail"
+   keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+    insert into b_accountdetail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        accountDetail_id,
+      </if>
+      <if test="companyId != null">
+        companyId,
+      </if>
+      <if test="businessType != null">
+        businessType,
+      </if>
+      <if test="expenseType != null">
+        expenseType,
+      </if>
+      <if test="transactionAmount != null">
+        transactionAmount,
+      </if>
+      <if test="sequenceNum != null">
+        sequenceNum,
+      </if>
+      <if test="memo != null">
+        memo,
+      </if>
+      <if test="recordTime != null">
+        recordTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessType != null">
+        #{businessType,jdbcType=INTEGER},
+      </if>
+      <if test="expenseType != null">
+        #{expenseType,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionAmount != null">
+        #{transactionAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="sequenceNum != null">
+        #{sequenceNum,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null">
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="recordTime != null">
+        #{recordTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.AccountDetail">
+    update b_accountdetail
+    <set>
+      <if test="companyId != null">
+        companyId = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessType != null">
+        businessType = #{businessType,jdbcType=INTEGER},
+      </if>
+      <if test="expenseType != null">
+        expenseType = #{expenseType,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionAmount != null">
+        transactionAmount = #{transactionAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="sequenceNum != null">
+        sequenceNum = #{sequenceNum,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null">
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="recordTime != null">
+        recordTime = #{recordTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where accountDetail_id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zj.entity.base.po.AccountDetail">
+    update b_accountdetail
+    set companyId = #{companyId,jdbcType=VARCHAR},
+      businessType = #{businessType,jdbcType=INTEGER},
+      expenseType = #{expenseType,jdbcType=VARCHAR},
+      transactionAmount = #{transactionAmount,jdbcType=DECIMAL},
+      sequenceNum = #{sequenceNum,jdbcType=VARCHAR},
+      memo = #{memo,jdbcType=VARCHAR},
+      recordTime = #{recordTime,jdbcType=TIMESTAMP}
+    where accountDetail_id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="getAccountDetailPageList" parameterType="com.zj.entity.bm.form.AccountDetailQueryForm"
+		resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+		from b_accountdetail
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="businessType!=null">
+				AND businessType = #{businessType}
+			</if>
+			<if test="companyId!=null">
+				AND companyId = #{companyId}
+			</if>
+			<if test="expenseType!=null">
+				AND expenseType = #{expenseType}
+			</if>
+		</trim>
+	</select>
+</mapper>

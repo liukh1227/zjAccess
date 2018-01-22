@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.DataMappingMapper">
+  <resultMap id="BaseResultMap" type="com.zj.entity.system.DataEntry">
+    <id column="catalogString" jdbcType="VARCHAR" property="catalogString" />
+    <id column="keyString" jdbcType="VARCHAR" property="keyString" />
+    <result column="valueString" jdbcType="VARCHAR" property="valueString" />
+     <result column="enabled" jdbcType="BIT" property="enabled" />
+    <result column="orderSeq" jdbcType="INTEGER" property="orderSeq" />
+  </resultMap>
+  <sql id="Base_Column_List">
+   catalogString, keyString, valueString, enabled, orderSeq
+  </sql>
+  <parameterMap type="com.zj.entity.system.DataEntry" id="DataMappingParameterMap">
+		<parameter property="catalogString" resultMap="catalogString" />
+		<parameter property="keyString" resultMap="keyString" />
+	</parameterMap>
+<insert id="insertSelective" parameterType="com.zj.entity.system.DataEntry">
+    insert into sys_datamapping
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="catalogString != null">
+        catalogString,
+      </if>
+      <if test="keyString != null">
+        keyString,
+      </if>
+      <if test="valueString != null">
+        valueString,
+      </if>
+      <if test="enabled != null">
+        enabled,
+      </if>
+      <if test="orderSeq != null">
+        orderSeq,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="catalogString != null">
+        #{catalogString,jdbcType=VARCHAR},
+      </if>
+      <if test="keyString != null">
+        #{keyString,jdbcType=VARCHAR},
+      </if>
+      <if test="valueString != null">
+        #{valueString,jdbcType=VARCHAR},
+      </if>
+      <if test="enabled != null">
+        #{enabled,jdbcType=BIT},
+      </if>
+      <if test="orderSeq != null">
+        #{orderSeq,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  	<select id="getDataMappingByCatalogKey" parameterMap="DataMappingParameterMap"
+		resultMap="BaseResultMap">
+	  select 
+    <include refid="Base_Column_List" />
+	from sys_datamapping 
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="catalogString!=null">
+				AND catalogString = #{catalogString}
+			</if>
+			<if test="keyString!=null">
+				AND keyString = #{keyString}
+			</if>
+	</trim>
+	order by orderSeq,keyString
+	</select>
+    <select id="getAllDataMappingList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+	from sys_datamapping order by orderSeq
+	</select>
+
+</mapper>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.DeviceTypeMapper">
+  <resultMap id="BaseResultMap" type="com.zj.entity.base.po.DeviceType">
+    <id column="deviceType_id" jdbcType="VARCHAR" property="id" />
+    <result column="isDisplay" jdbcType="INTEGER" property="isDisplay" />
+    <result column="sequenceOrder" jdbcType="INTEGER" property="sequenceOrder" />
+    <result column="typeName" jdbcType="VARCHAR" property="typeName" />
+    <result column="isChild" jdbcType="BIT" property="isChild" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="parentId" jdbcType="VARCHAR" property="parentId" />
+    <result column="parid" jdbcType="VARCHAR" property="parid" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    deviceType_id , isDisplay, sequenceOrder, typeName, isChild, creator, parentId, createTime,parid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from b_devicetype
+    where deviceType_id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from b_devicetype
+    where deviceType_id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zj.entity.base.po.DeviceType"
+  	keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+    insert into b_devicetype (deviceType_id, isDisplay, sequenceOrder, 
+      typeName, isChild, creator, 
+      parentId, createTime)
+    values (#{id,jdbcType=VARCHAR}, #{isDisplay,jdbcType=INTEGER}, #{sequenceOrder,jdbcType=INTEGER}, 
+      #{typeName,jdbcType=VARCHAR}, #{isChild,jdbcType=BIT}, #{creator,jdbcType=VARCHAR}, 
+      #{parentId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zj.entity.base.po.DeviceType"
+  	keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+    insert into b_devicetype
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        deviceType_id,
+      </if>
+      <if test="isDisplay != null">
+        isDisplay,
+      </if>
+      <if test="sequenceOrder != null">
+        sequenceOrder,
+      </if>
+      <if test="typeName != null">
+        typeName,
+      </if>
+      <if test="isChild != null">
+        isChild,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="parentId != null">
+        parentId,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="parid != null">
+        parid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="isDisplay != null">
+        #{isDisplay,jdbcType=INTEGER},
+      </if>
+      <if test="sequenceOrder != null">
+        #{sequenceOrder,jdbcType=INTEGER},
+      </if>
+      <if test="typeName != null">
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="isChild != null">
+        #{isChild,jdbcType=BIT},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parid != null">
+        #{parid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.DeviceType">
+    update b_devicetype
+    <set>
+      <if test="isDisplay != null">
+        isDisplay = #{isDisplay,jdbcType=INTEGER},
+      </if>
+      <if test="sequenceOrder != null">
+        sequenceOrder = #{sequenceOrder,jdbcType=INTEGER},
+      </if>
+      <if test="typeName != null">
+        typeName = #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="isChild != null">
+        isChild = #{isChild,jdbcType=BIT},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parentId = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parid != null">
+        parid = #{parid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where deviceType_id = #{id,jdbcType=VARCHAR}
+  </update>
+	<select id="getDeviceTypePageList" parameterType="com.zj.entity.bm.form.DeviceTypeQueryForm"
+		resultMap="BaseResultMap">
+		select * from b_devicetype
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="isDisplay!=null">
+				AND isDisplay = #{isDisplay}
+			</if>
+			<if test="parentId!=null">
+				AND parentId = #{parentId}
+			</if>
+			<if test="typeName!=null">
+				AND typeName = #{typeName}
+			</if>
+		</trim>
+	</select>
+</mapper>

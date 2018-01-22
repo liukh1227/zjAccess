@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.DeviceStatusTraceMapper">
+	<resultMap id="BaseResultMap" type="com.zj.entity.base.po.DeviceStatusTrace">
+		<id column="devStaTrace_id" jdbcType="VARCHAR" property="id" />
+		<result column="deviceId" jdbcType="VARCHAR" property="deviceId" />
+		<result column="deviceName" jdbcType="VARCHAR" property="deviceName" />
+		<result column="leasingId" jdbcType="VARCHAR" property="leasingId" />
+		<result column="lesseeId" jdbcType="VARCHAR" property="lesseeId" />
+		<result column="orderId" jdbcType="VARCHAR" property="orderId" />
+		<result column="comment" jdbcType="VARCHAR" property="comment" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		devStaTrace_id, deviceId, deviceName, leasingId, lesseeId, orderId, comment,
+		createTime
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from d_devicestatustrace
+		where devStaTrace_id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from d_devicestatustrace
+		where devStaTrace_id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.zj.entity.base.po.DeviceStatusTrace"
+		keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into d_devicestatustrace (devStaTrace_id, deviceId, deviceName,
+		leasingId, lesseeId, orderId,
+		comment, createTime)
+		values (#{id,jdbcType=VARCHAR}, #{deviceId,jdbcType=VARCHAR},
+		#{deviceName,jdbcType=VARCHAR},
+		#{leasingId,jdbcType=VARCHAR}, #{lesseeId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR},
+		#{comment,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zj.entity.base.po.DeviceStatusTrace"
+		keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into d_devicestatustrace
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				devStaTrace_id,
+			</if>
+			<if test="deviceId != null">
+				deviceId,
+			</if>
+			<if test="deviceName != null">
+				deviceName,
+			</if>
+			<if test="leasingId != null">
+				leasingId,
+			</if>
+			<if test="lesseeId != null">
+				lesseeId,
+			</if>
+			<if test="orderId != null">
+				orderId,
+			</if>
+			<if test="comment != null">
+				comment,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceId != null">
+				#{deviceId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceName != null">
+				#{deviceName,jdbcType=VARCHAR},
+			</if>
+			<if test="leasingId != null">
+				#{leasingId,jdbcType=VARCHAR},
+			</if>
+			<if test="lesseeId != null">
+				#{lesseeId,jdbcType=VARCHAR},
+			</if>
+			<if test="orderId != null">
+				#{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="comment != null">
+				#{comment,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.DeviceStatusTrace">
+		update d_devicestatustrace
+		<set>
+			<if test="deviceId != null">
+				deviceId = #{deviceId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceName != null">
+				deviceName = #{deviceName,jdbcType=VARCHAR},
+			</if>
+			<if test="leasingId != null">
+				leasingId = #{leasingId,jdbcType=VARCHAR},
+			</if>
+			<if test="lesseeId != null">
+				lesseeId = #{lesseeId,jdbcType=VARCHAR},
+			</if>
+			<if test="orderId != null">
+				orderId = #{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="comment != null">
+				comment = #{comment,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				createTime = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where devStaTrace_id = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="getDeviceStatusTracePageList" parameterType="com.zj.entity.dm.form.DeviceStatusTraceQueryForm"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		 from d_devicestatustrace
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="deviceId!=null">
+				AND deviceId = #{deviceId}
+			</if>
+			<if test="deviceName!=null">
+				AND deviceName = #{deviceName}
+			</if>
+			<if test="orderId!=null">
+				AND orderId = #{orderId}
+			</if>
+		</trim>
+	</select>
+</mapper>

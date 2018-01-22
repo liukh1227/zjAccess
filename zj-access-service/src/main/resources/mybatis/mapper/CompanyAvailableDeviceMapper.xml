@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.CompanyAvailableDeviceMapper">
+	<resultMap id="BaseResultMap" type="com.zj.entity.dm.dto.CompanyAvailableDevice">
+		<result column="address" jdbcType="VARCHAR" property="address" />
+		<result column="city" jdbcType="VARCHAR" property="city" />
+		<result column="latitude" jdbcType="VARCHAR" property="latitude" />
+		<result column="longitude" jdbcType="VARCHAR" property="longitude" />
+		<result column="companyId" jdbcType="VARCHAR" property="companyId" />
+		<result column="companyName" jdbcType="VARCHAR" property="companyName" />
+		<result column="deviceModelId" jdbcType="VARCHAR" property="deviceModelId" />
+		<result column="deviceModelName" jdbcType="VARCHAR" property="deviceModelName" />
+		<result column="deviceBrandName" jdbcType="VARCHAR" property="deviceBrandName" />
+		<result column="deviceTypeName" jdbcType="VARCHAR" property="deviceTypeName" />
+		<result column="deviceTypeSpecData" jdbcType="VARCHAR"
+			property="deviceTypeSpecData" />
+		<result column="deviceTypeSpecDefinitionName" jdbcType="VARCHAR"
+			property="deviceTypeSpecDefinitionName" />
+		<result column="unit" jdbcType="VARCHAR" property="unit" />
+		<result column="modelQuote" jdbcType="VARCHAR" property="modelQuote" />
+		<result column="picture" jdbcType="LONGVARCHAR" property="picture" />
+		<result column="total" jdbcType="INTEGER" property="total" />
+		<result column="viewCount" jdbcType="INTEGER" property="viewCount" />
+		<result column="available" jdbcType="BIT" property="available" />
+	</resultMap>
+
+	<parameterMap type="com.zj.entity.dm.dto.CompanyAvailableDevice"
+		id="CompanyAvailableDeviceParameterMap">
+		<parameter property="companyId" resultMap="BaseResultMap" />
+		<parameter property="deviceModelId" resultMap="BaseResultMap" />
+	</parameterMap>
+
+	<sql id="Base_Column_List">
+		address,city,latitude,longitude,companyId,companyName,deviceModelId,deviceModelName,deviceBrandName,deviceTypeName,
+		deviceTypeSpecData,deviceTypeSpecDefinitionName,unit,modelQuote,picture,total,viewCount,available
+	</sql>
+
+	<select id="getCompanyAvailableDevice" parameterMap="CompanyAvailableDeviceParameterMap"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from view_companyavailabledevice
+		where companyId =
+		#{companyId,jdbcType=VARCHAR} and deviceModelId =
+		#{deviceModelId,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getCompanyNotAvailableDevice" parameterMap="CompanyAvailableDeviceParameterMap"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from view_companynotavailabledevice
+		where companyId =
+		#{companyId,jdbcType=VARCHAR} and deviceModelId =
+		#{deviceModelId,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getCompanyAvailableDevicePageList"
+		parameterType="com.zj.entity.dm.form.CompanyAvailableDeviceQueryForm"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from view_companyavailabledevice
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="address!=null">
+				AND address like CONCAT('%', '${address}', '%')
+			</if>
+			<if test="city!=null">
+				AND city like CONCAT('%', '${city}', '%')
+			</if>
+			<if test="companyId!=null">
+				AND companyId = #{companyId}
+			</if>
+			<if test="companyName!=null">
+				AND companyName = #{companyName}
+			</if>
+			<if test="excludedCompanyId!=null">
+				AND companyId != #{excludedCompanyId}
+			</if>
+			<if test="deviceBrandId!=null">
+				AND deviceBrandId = #{deviceBrandId}
+			</if>
+			<if test="deviceBrandName!=null">
+				AND deviceBrandName = #{deviceBrandName}
+			</if>
+			<if test="deviceModelId!=null">
+				AND deviceModelId = #{deviceModelId}
+			</if>
+			<if test="deviceModelName!=null">
+				AND deviceModelName like CONCAT('%', '${deviceModelName}', '%')
+			</if>
+			<if test="parentDeviceTypeId!=null">
+				AND parentDeviceTypeId = #{parentDeviceTypeId}
+			</if>
+			<if test="deviceTypeId!=null">
+				AND deviceTypeId = #{deviceTypeId}
+			</if>
+			<if test="deviceTypeName!=null">
+				AND deviceTypeName = #{deviceTypeName}
+			</if>
+			<if test="keyAttributeValueId!=null">
+				AND keyAttributeValueId = #{keyAttributeValueId}
+			</if>
+		</trim>
+	</select>
+	<select id="getCompanyAvailableDeviceList"
+		parameterType="com.zj.entity.dm.form.CompanyAvailableDeviceQueryForm"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from view_companyavailabledevice
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="address!=null">
+				AND address like CONCAT('%', '${address}', '%')
+			</if>
+			<if test="city!=null">
+				AND city like CONCAT('%', '${city}', '%')
+			</if>
+			<if test="companyId!=null">
+				AND companyId = #{companyId}
+			</if>
+			<if test="companyName!=null">
+				AND companyName = #{companyName}
+			</if>
+			<if test="excludedCompanyId!=null">
+				AND companyId != #{excludedCompanyId}
+			</if>
+			<if test="deviceBrandId!=null">
+				AND deviceBrandId = #{deviceBrandId}
+			</if>
+			<if test="deviceBrandName!=null">
+				AND deviceBrandName = #{deviceBrandName}
+			</if>
+			<if test="deviceModelId!=null">
+				AND deviceModelId = #{deviceModelId}
+			</if>
+			<if test="deviceModelName!=null">
+				AND deviceModelName like CONCAT('%', '${deviceModelName}', '%')
+			</if>
+			<if test="parentDeviceTypeId!=null">
+				AND parentDeviceTypeId = #{parentDeviceTypeId}
+			</if>
+			<if test="deviceTypeId!=null">
+				AND deviceTypeId = #{deviceTypeId}
+			</if>
+			<if test="deviceTypeName!=null">
+				AND deviceTypeName = #{deviceTypeName}
+			</if>
+			<if test="keyAttributeValueId!=null">
+				AND keyAttributeValueId = #{keyAttributeValueId}
+			</if>
+			<if test="requreAmount!=null">
+				AND total &gt;= #{requreAmount}
+			</if>
+		</trim>
+	</select>
+</mapper>

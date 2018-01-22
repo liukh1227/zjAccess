@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.SmsDistributionLogMapper">
+	<resultMap id="BaseResultMap" type="com.zj.entity.base.po.SmsDistributionLog">
+		<id column="smslog_id" jdbcType="VARCHAR" property="id" />
+		<result column="smsPort" jdbcType="VARCHAR" property="smsPort" />
+		<result column="smsPortMessageId" jdbcType="VARCHAR" property="smsPortMessageId" />
+		<result column="cellphone" jdbcType="VARCHAR" property="cellphone" />
+		<result column="content" jdbcType="LONGVARCHAR" property="content" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="responseStatus" jdbcType="INTEGER" property="responseStatus" />
+		<result column="responseTime" jdbcType="TIMESTAMP" property="responseTime" />
+		<result column="totalDistributionCount" jdbcType="INTEGER"
+			property="totalDistributionCount" />
+		<result column="smsPushTime" jdbcType="TIMESTAMP" property="smsPushTime" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		smslog_id, smsPort, smsPortMessageId, cellphone, content, status,
+		responseStatus, responseTime,
+		totalDistributionCount, smsPushTime,createTime
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from s_smsdistributionlog
+		where smslog_id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from s_smsdistributionlog
+		where smslog_id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insertSelective" parameterType="com.zj.entity.base.po.SmsDistributionLog"
+		keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into s_smsdistributionlog
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				smslog_id,
+			</if>
+			<if test="smsPort != null">
+				smsPort,
+			</if>
+			<if test="smsPortMessageId != null">
+				smsPortMessageId,
+			</if>
+			<if test="cellphone != null">
+				cellphone,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="responseStatus != null">
+				responseStatus,
+			</if>
+			<if test="responseTime != null">
+				responseTime,
+			</if>
+			<if test="totalDistributionCount != null">
+				totalDistributionCount,
+			</if>
+			<if test="smsPushTime != null">
+				smsPushTime,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="smsPort != null">
+				#{smsPort,jdbcType=VARCHAR},
+			</if>
+			<if test="smsPortMessageId != null">
+				#{smsPortMessageId,jdbcType=VARCHAR},
+			</if>
+			<if test="cellphone != null">
+				#{cellphone,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="responseStatus != null">
+				#{responseStatus,jdbcType=INTEGER},
+			</if>
+			<if test="responseTime != null">
+				#{responseTime,jdbcType=VARCHAR},
+			</if>
+			<if test="totalDistributionCount != null">
+				#{totalDistributionCount,jdbcType=INTEGER},
+			</if>
+			<if test="smsPushTime != null">
+				#{smsPushTime,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.SmsDistributionLog">
+		update s_smsdistributionlog
+		<set>
+			<if test="smsPort != null">
+				smsPort = #{smsPort,jdbcType=VARCHAR},
+			</if>
+			<if test="smsPortMessageId != null">
+				smsPortMessageId = #{smsPortMessageId,jdbcType=VARCHAR},
+			</if>
+			<if test="cellphone != null">
+				cellphone = #{cellphone,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="responseStatus != null">
+				responseStatus = #{responseStatus,jdbcType=INTEGER},
+			</if>
+			<if test="responseTime != null">
+				responseTime = #{responseTime,jdbcType=VARCHAR},
+			</if>
+			<if test="totalDistributionCount != null">
+				totalDistributionCount = #{totalDistributionCount,jdbcType=INTEGER},
+			</if>
+			<if test="smsPushTime != null">
+				smsPushTime = #{smsPushTime,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where smslog_id = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="getSmsDistributionLogPageList" parameterType="com.zj.entity.sm.form.SmsDistributionLogQueryForm"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from s_smsdistributionlog
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="smsPort!=null">
+				AND smsPort = #{smsPort}
+			</if>
+			<if test="smsPortMessageId!=null">
+				AND smsPortMessageId = #{smsPortMessageId}
+			</if>
+			<if test="cellphone!=null">
+				AND cellphone = #{cellphone}
+			</if>
+			<if test="status!=null">
+				AND status = #{status}
+			</if>
+			<if test="responseStatus!=null">
+				AND responseStatus = #{responseStatus}
+			</if>
+			<if test="startTime!=null">
+				AND createTime &gt;= #{startTime}
+			</if>
+			<if test="endTime!=null">
+				AND createTime &lt;= #{endTime}
+			</if>
+		</trim>
+	</select>
+</mapper>

@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.InqueryRentThrowMapper">
+	<resultMap id="BaseResultMap" type="com.zj.entity.base.po.InqueryRentThrow">
+		<id column="iRentThrow_id" jdbcType="VARCHAR" property="id" />
+		<result column="lesseeSideId" jdbcType="VARCHAR" property="lesseeSideId" />
+		<result column="lesseeSideName" jdbcType="VARCHAR" property="lesseeSideName" />
+		<result column="deviceTypeId" jdbcType="VARCHAR" property="deviceTypeId" />
+		<result column="deviceTypeName" jdbcType="VARCHAR" property="deviceTypeName" />
+		<result column="deviceTypeSpecDataId" jdbcType="VARCHAR"
+			property="deviceTypeSpecDataId" />
+		<result column="startTime" jdbcType="VARCHAR" property="startTime" />
+		<result column="endTime" jdbcType="VARCHAR" property="endTime" />
+		<result column="leaseTerm" jdbcType="VARCHAR" property="leaseTerm" />
+		<result column="billingType" jdbcType="INTEGER" property="billingType" />
+		<result column="address" jdbcType="VARCHAR" property="address" />
+		<result column="city" jdbcType="VARCHAR" property="city" />
+		<result column="latitude" jdbcType="VARCHAR" property="latitude" />
+		<result column="longitude" jdbcType="VARCHAR" property="longitude" />
+		<result column="quantity" jdbcType="INTEGER" property="quantity" />
+		<result column="additionalRequirement" jdbcType="VARCHAR"
+			property="additionalRequirement" />
+		<result column="isIncludeShippingFee" jdbcType="BIT"
+			property="isIncludeShippingFee" />
+		<result column="isIncludeInvoice" jdbcType="BIT" property="isIncludeInvoice" />
+		<result column="isInlcudeJiShou" jdbcType="BIT" property="isInlcudeJiShou" />
+		<result column="isInlcudeFuel" jdbcType="BIT" property="isInlcudeFuel" />
+		<result column="isInlcudeInsurance" jdbcType="BIT"
+			property="isInlcudeInsurance" />
+		<result column="rentFee" jdbcType="DECIMAL" property="rentFee" />
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="responseLeasingSideId" jdbcType="VARCHAR"
+			property="responseLeasingSideId" />
+		<result column="responseLeasingSideName" jdbcType="VARCHAR"
+			property="responseLeasingSideName" />
+		<result column="responseTime" jdbcType="VARCHAR" property="responseTime" />
+		<result column="responseUserId" jdbcType="VARCHAR" property="responseUserId" />
+		<result column="deviceModelId" jdbcType="VARCHAR" property="deviceModelId" />
+		<result column="deviceModelName" jdbcType="VARCHAR" property="deviceModelName" />
+		<result column="picture" jdbcType="LONGVARCHAR" property="picture" />
+		<result column="otherExpenseComment" jdbcType="VARCHAR"
+			property="otherExpenseComment" />
+		<result column="projectId" jdbcType="VARCHAR" property="projectId" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		iRentThrow_id as id, lesseeSideId, lesseeSideName, deviceTypeId,
+		deviceTypeName,
+		deviceTypeSpecDataId,
+		startTime, endTime, leaseTerm,
+		billingType, address, city, latitude, longitude,
+		quantity,
+		additionalRequirement, isIncludeShippingFee, isIncludeInvoice,
+		isInlcudeJiShou,
+		isInlcudeFuel,
+		isInlcudeInsurance, rentFee, creator,
+		status, responseLeasingSideId,
+		responseLeasingSideName,
+		responseTime,
+		responseUserId, deviceModelId, deviceModelName, picture,
+		otherExpenseComment,
+		projectId, createTime
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_inqueryrentthrow
+		where iRentThrow_id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		t_inqueryrentthrow
+		where iRentThrow_id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.zj.entity.base.po.InqueryRentThrow"
+		keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into t_inqueryrentthrow (iRentThrow_id, lesseeSideId, lesseeSideName,
+		deviceTypeId, deviceTypeName, deviceTypeSpecDataId,
+		startTime, endTime,
+		leaseTerm,
+		billingType, address, city,
+		latitude, longitude, quantity,
+		additionalRequirement, isIncludeShippingFee,
+		isIncludeInvoice,
+		isInlcudeJiShou, isInlcudeFuel,
+		isInlcudeInsurance, rentFee, creator,
+		status, responseLeasingSideId, responseLeasingSideName,
+		responseTime,
+		responseUserId, deviceModelId,
+		deviceModelName, picture,
+		otherExpenseComment,
+		projectId, createTime)
+		values
+		(#{id,jdbcType=VARCHAR}, #{lesseeSideId,jdbcType=VARCHAR},
+		#{lesseeSideName,jdbcType=VARCHAR},
+		#{deviceTypeId,jdbcType=VARCHAR},
+		#{deviceTypeName,jdbcType=VARCHAR},
+		#{deviceTypeSpecDataId,jdbcType=VARCHAR},
+		#{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR},
+		#{leaseTerm,jdbcType=VARCHAR},
+		#{billingType,jdbcType=INTEGER},
+		#{address,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR},
+		#{latitude,jdbcType=VARCHAR}, #{longitude,jdbcType=VARCHAR},
+		#{quantity,jdbcType=INTEGER},
+		#{additionalRequirement,jdbcType=VARCHAR},
+		#{isIncludeShippingFee,jdbcType=BIT},
+		#{isIncludeInvoice,jdbcType=BIT}, #{isInlcudeJiShou,jdbcType=BIT},
+		#{isInlcudeFuel,jdbcType=BIT},
+		#{isInlcudeInsurance,jdbcType=BIT},
+		#{rentFee,jdbcType=DECIMAL}, #{creator,jdbcType=VARCHAR},
+		#{status,jdbcType=INTEGER}, #{responseLeasingSideId,jdbcType=VARCHAR},
+		#{responseLeasingSideName,jdbcType=VARCHAR},
+		#{responseTime,jdbcType=VARCHAR}, #{responseUserId,jdbcType=VARCHAR},
+		#{deviceModelId,jdbcType=VARCHAR},
+		#{deviceModelName,jdbcType=VARCHAR}, #{picture,jdbcType=LONGVARCHAR},
+		#{otherExpenseComment,jdbcType=VARCHAR},
+		#{projectId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zj.entity.base.po.InqueryRentThrow"
+		keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into t_inqueryrentthrow
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				iRentThrow_id,
+			</if>
+			<if test="lesseeSideId != null">
+				lesseeSideId,
+			</if>
+			<if test="lesseeSideName != null">
+				lesseeSideName,
+			</if>
+			<if test="deviceTypeId != null">
+				deviceTypeId,
+			</if>
+			<if test="deviceTypeName != null">
+				deviceTypeName,
+			</if>
+			<if test="deviceTypeSpecDataId != null">
+				deviceTypeSpecDataId,
+			</if>
+			<if test="startTime != null">
+				startTime,
+			</if>
+			<if test="endTime != null">
+				endTime,
+			</if>
+			<if test="leaseTerm != null">
+				leaseTerm,
+			</if>
+			<if test="billingType != null">
+				billingType,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="city != null">
+				city,
+			</if>
+			<if test="latitude != null">
+				latitude,
+			</if>
+			<if test="longitude != null">
+				longitude,
+			</if>
+			<if test="quantity != null">
+				quantity,
+			</if>
+			<if test="additionalRequirement != null">
+				additionalRequirement,
+			</if>
+			<if test="isIncludeShippingFee != null">
+				isIncludeShippingFee,
+			</if>
+			<if test="isIncludeInvoice != null">
+				isIncludeInvoice,
+			</if>
+			<if test="isInlcudeJiShou != null">
+				isInlcudeJiShou,
+			</if>
+			<if test="isInlcudeFuel != null">
+				isInlcudeFuel,
+			</if>
+			<if test="isInlcudeInsurance != null">
+				isInlcudeInsurance,
+			</if>
+			<if test="rentFee != null">
+				rentFee,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="responseLeasingSideId != null">
+				responseLeasingSideId,
+			</if>
+			<if test="responseLeasingSideName != null">
+				responseLeasingSideName,
+			</if>
+			<if test="responseTime != null">
+				responseTime,
+			</if>
+			<if test="responseUserId != null">
+				responseUserId,
+			</if>
+			<if test="deviceModelId != null">
+				deviceModelId,
+			</if>
+			<if test="deviceModelName != null">
+				deviceModelName,
+			</if>
+			<if test="picture != null">
+				picture,
+			</if>
+			<if test="otherExpenseComment != null">
+				otherExpenseComment,
+			</if>
+			<if test="projectId != null">
+				projectId,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="lesseeSideId != null">
+				#{lesseeSideId,jdbcType=VARCHAR},
+			</if>
+			<if test="lesseeSideName != null">
+				#{lesseeSideName,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceTypeId != null">
+				#{deviceTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceTypeName != null">
+				#{deviceTypeName,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceTypeSpecDataId != null">
+				#{deviceTypeSpecDataId,jdbcType=VARCHAR},
+			</if>
+			<if test="startTime != null">
+				#{startTime,jdbcType=VARCHAR},
+			</if>
+			<if test="endTime != null">
+				#{endTime,jdbcType=VARCHAR},
+			</if>
+			<if test="leaseTerm != null">
+				#{leaseTerm,jdbcType=VARCHAR},
+			</if>
+			<if test="billingType != null">
+				#{billingType,jdbcType=INTEGER},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				#{city,jdbcType=VARCHAR},
+			</if>
+			<if test="latitude != null">
+				#{latitude,jdbcType=VARCHAR},
+			</if>
+			<if test="longitude != null">
+				#{longitude,jdbcType=VARCHAR},
+			</if>
+			<if test="quantity != null">
+				#{quantity,jdbcType=INTEGER},
+			</if>
+			<if test="additionalRequirement != null">
+				#{additionalRequirement,jdbcType=VARCHAR},
+			</if>
+			<if test="isIncludeShippingFee != null">
+				#{isIncludeShippingFee,jdbcType=BIT},
+			</if>
+			<if test="isIncludeInvoice != null">
+				#{isIncludeInvoice,jdbcType=BIT},
+			</if>
+			<if test="isInlcudeJiShou != null">
+				#{isInlcudeJiShou,jdbcType=BIT},
+			</if>
+			<if test="isInlcudeFuel != null">
+				#{isInlcudeFuel,jdbcType=BIT},
+			</if>
+			<if test="isInlcudeInsurance != null">
+				#{isInlcudeInsurance,jdbcType=BIT},
+			</if>
+			<if test="rentFee != null">
+				#{rentFee,jdbcType=DECIMAL},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="responseLeasingSideId != null">
+				#{responseLeasingSideId,jdbcType=VARCHAR},
+			</if>
+			<if test="responseLeasingSideName != null">
+				#{responseLeasingSideName,jdbcType=VARCHAR},
+			</if>
+			<if test="responseTime != null">
+				#{responseTime,jdbcType=VARCHAR},
+			</if>
+			<if test="responseUserId != null">
+				#{responseUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceModelId != null">
+				#{deviceModelId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceModelName != null">
+				#{deviceModelName,jdbcType=VARCHAR},
+			</if>
+			<if test="picture != null">
+				#{picture,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="otherExpenseComment != null">
+				#{otherExpenseComment,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null">
+				#{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.InqueryRentThrow">
+		update t_inqueryrentthrow
+		<set>
+			<if test="lesseeSideId != null">
+				lesseeSideId = #{lesseeSideId,jdbcType=VARCHAR},
+			</if>
+			<if test="lesseeSideName != null">
+				lesseeSideName = #{lesseeSideName,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceTypeId != null">
+				deviceTypeId = #{deviceTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceTypeName != null">
+				deviceTypeName = #{deviceTypeName,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceTypeSpecDataId != null">
+				deviceTypeSpecDataId =
+				#{deviceTypeSpecDataId,jdbcType=VARCHAR},
+			</if>
+			<if test="startTime != null">
+				startTime = #{startTime,jdbcType=VARCHAR},
+			</if>
+			<if test="endTime != null">
+				endTime = #{endTime,jdbcType=VARCHAR},
+			</if>
+			<if test="leaseTerm != null">
+				leaseTerm = #{leaseTerm,jdbcType=VARCHAR},
+			</if>
+			<if test="billingType != null">
+				billingType = #{billingType,jdbcType=INTEGER},
+			</if>
+			<if test="address != null">
+				address = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				city = #{city,jdbcType=VARCHAR},
+			</if>
+			<if test="latitude != null">
+				latitude = #{latitude,jdbcType=VARCHAR},
+			</if>
+			<if test="longitude != null">
+				longitude = #{longitude,jdbcType=VARCHAR},
+			</if>
+			<if test="quantity != null">
+				quantity = #{quantity,jdbcType=INTEGER},
+			</if>
+			<if test="additionalRequirement != null">
+				additionalRequirement =
+				#{additionalRequirement,jdbcType=VARCHAR},
+			</if>
+			<if test="isIncludeShippingFee != null">
+				isIncludeShippingFee =
+				#{isIncludeShippingFee,jdbcType=BIT},
+			</if>
+			<if test="isIncludeInvoice != null">
+				isIncludeInvoice = #{isIncludeInvoice,jdbcType=BIT},
+			</if>
+			<if test="isInlcudeJiShou != null">
+				isInlcudeJiShou = #{isInlcudeJiShou,jdbcType=BIT},
+			</if>
+			<if test="isInlcudeFuel != null">
+				isInlcudeFuel = #{isInlcudeFuel,jdbcType=BIT},
+			</if>
+			<if test="isInlcudeInsurance != null">
+				isInlcudeInsurance = #{isInlcudeInsurance,jdbcType=BIT},
+			</if>
+			<if test="rentFee != null">
+				rentFee = #{rentFee,jdbcType=DECIMAL},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="responseLeasingSideId != null">
+				responseLeasingSideId =
+				#{responseLeasingSideId,jdbcType=VARCHAR},
+			</if>
+			<if test="responseLeasingSideName != null">
+				responseLeasingSideName =
+				#{responseLeasingSideName,jdbcType=VARCHAR},
+			</if>
+			<if test="responseTime != null">
+				responseTime = #{responseTime,jdbcType=VARCHAR},
+			</if>
+			<if test="responseUserId != null">
+				responseUserId = #{responseUserId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceModelId != null">
+				deviceModelId = #{deviceModelId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceModelName != null">
+				deviceModelName = #{deviceModelName,jdbcType=VARCHAR},
+			</if>
+			<if test="picture != null">
+				picture = #{picture,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="otherExpenseComment != null">
+				otherExpenseComment =
+				#{otherExpenseComment,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null">
+				projectId = #{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				createTime = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where iRentThrow_id = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="getInqueryRentThrowPageList" parameterType="com.zj.entity.tm.form.InqueryRentThrowQueryForm"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_inqueryrentthrow
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="lesseeSideId!=null">
+				AND lesseeSideId = #{lesseeSideId}
+			</if>
+			<if test="removeCompanyId!=null">
+				AND lesseeSideId != #{removeCompanyId}
+			</if>
+			<if test="deviceTypeId!=null">
+				AND deviceTypeId != #{deviceTypeId}
+			</if>
+			<if test="parentDeviceTypeId!=null">
+				AND deviceTypeId in (select id from b_devicetype where
+				parentId = #{parentDeviceTypeId})
+			</if>
+			<if test="responseLeasingSideId!=null">
+				AND responseLeasingSideId = #{responseLeasingSideId})
+			</if>
+			<if test="status!=null">
+				AND status = #{status}
+			</if>
+			<if test="city!=null">
+				AND city = #{city}
+			</if>
+			<if test="projectId!=null">
+				AND projectId = #{projectId})
+			</if>
+			<if test="startDate!=null">
+				AND createTime &gt;= #{startDate}
+			</if>
+			<if test="endDate!=null">
+				AND createTime &lt;= #{endDate}
+			</if>
+		</trim>
+	</select>
+</mapper>

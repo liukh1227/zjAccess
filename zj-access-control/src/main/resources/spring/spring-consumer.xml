@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+        http://www.springframework.org/schema/beans/spring-beans.xsd  
+        http://code.alibabatech.com/schema/dubbo  
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd  
+        ">
+	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
+	<dubbo:application name="app-consumer"></dubbo:application>
+
+	<!-- 使用zookeeper注册中心暴露服务地址 -->
+	<!-- <dubbo:registry address="zookeeper://119.23.237.219:2181"></dubbo:registry> -->
+          <dubbo:registry address="zookeeper://127.0.0.1:2181"></dubbo:registry> 
+	<!--  <dubbo:registry address="zookeeper://10.0.2.6:4181"></dubbo:registry>-->
+	<!-- 生成远程服务代理，可以像使用本地bean一样使用demoService -->
+    <dubbo:reference id="initService" interface="com.zj.access.service.IInitService"  timeout="20000" group="zjtest"></dubbo:reference>
+	<dubbo:reference id="baseBMService" interface="com.zj.access.service.BaseBMService" timeout="20000" group="zjtest"></dubbo:reference>
+	<dubbo:reference id="baseDMService" interface="com.zj.access.service.BaseDMService" timeout="20000" group="zjtest"></dubbo:reference>
+	<dubbo:reference id="baseOtherService" interface="com.zj.access.service.BaseOtherService"  timeout="20000" group="zjtest"></dubbo:reference>
+	<dubbo:reference id="basePMService" interface="com.zj.access.service.BasePMService" timeout="20000" group="zjtest"></dubbo:reference>
+	<dubbo:reference id="baseSMService" interface="com.zj.access.service.BaseSMService" timeout="20000" group="zjtest"></dubbo:reference>
+	<dubbo:reference id="baseSysService" interface="com.zj.access.service.BaseSysService"  timeout="20000" group="zjtest"></dubbo:reference>
+	<dubbo:reference id="baseTMService" interface="com.zj.access.service.BaseTMService" timeout="20000" group="zjtest"></dubbo:reference>
+	<dubbo:reference id="ftpUploadMyService" interface="com.zj.access.service.FtpUploadMyService" timeout="20000" group="zjtest"></dubbo:reference>
+	<dubbo:reference id="smsService" interface="com.zj.access.service.ISmsService" timeout="20000" group="zjtest"></dubbo:reference>
+	
+</beans>  

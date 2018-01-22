@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.SysUserMapper">
+	<resultMap id="BaseResultMap" type="com.zj.entity.base.po.SysUser">
+		<id column="user_id" jdbcType="VARCHAR" property="id" />
+		<result column="account" jdbcType="VARCHAR" property="account" />
+		<result column="password" jdbcType="VARCHAR" property="password" />
+		<result column="password_salt" jdbcType="VARCHAR" property="password_salt" />
+		<result column="user_name" jdbcType="VARCHAR" property="user_name" />
+		<result column="mobile" jdbcType="VARCHAR" property="mobile" />
+		<result column="email" jdbcType="VARCHAR" property="email" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="company_name" jdbcType="VARCHAR" property="company_name" />
+		<result column="creater_id" jdbcType="VARCHAR" property="creater_id" />
+		<result column="creater_name" jdbcType="VARCHAR" property="creater_name" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="orderNum" jdbcType="INTEGER" property="orderNum" />
+		<result column="last_long_time" jdbcType="TIMESTAMP" property="last_long_time" />
+	</resultMap>
+	<parameterMap type="com.zj.entity.base.po.SysUser" id="SysUserParameterMap">
+		<parameter property="account" resultMap="BaseResultMap" />
+		<parameter property="password" resultMap="BaseResultMap" />
+		<parameter property="id" resultMap="BaseResultMap" />
+	</parameterMap>
+	<sql id="Base_Column_List">
+		user_id, account, password, password_salt, user_name, mobile, email, status,
+		company_name,
+		creater_id, creater_name, createTime, orderNum, last_long_time
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_user
+		where user_id = #{user_id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from sys_user
+		where user_id = #{user_id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insertSelective" parameterType="com.zj.entity.base.po.SysUser"
+		keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into sys_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				user_id,
+			</if>
+			<if test="account != null">
+				account,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="password_salt != null">
+				password_salt,
+			</if>
+			<if test="user_name != null">
+				user_name,
+			</if>
+			<if test="mobile != null">
+				mobile,
+			</if>
+			<if test="email != null">
+				email,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="company_name != null">
+				company_name,
+			</if>
+			<if test="creater_id != null">
+				creater_id,
+			</if>
+			<if test="creater_name != null">
+				creater_name,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+			<if test="orderNum != null">
+				orderNum,
+			</if>
+			<if test="last_long_time != null">
+				last_long_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="account != null">
+				#{account,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="password_salt != null">
+				#{password_salt,jdbcType=VARCHAR},
+			</if>
+			<if test="user_name != null">
+				#{user_name,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				#{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="company_name != null">
+				#{company_name,jdbcType=VARCHAR},
+			</if>
+			<if test="creater_id != null">
+				#{creater_id,jdbcType=VARCHAR},
+			</if>
+			<if test="creater_name != null">
+				#{creater_name,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="orderNum != null">
+				#{orderNum,jdbcType=INTEGER},
+			</if>
+			<if test="last_long_time != null">
+				#{last_long_time,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.SysUser">
+		update sys_user
+		<set>
+			<if test="account != null">
+				account = #{account,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="password_salt != null">
+				password_salt = #{password_salt,jdbcType=VARCHAR},
+			</if>
+			<if test="user_name != null">
+				user_name = #{user_name,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				mobile = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				email = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="company_name != null">
+				company_name = #{company_name,jdbcType=VARCHAR},
+			</if>
+			<if test="creater_id != null">
+				creater_id = #{creater_id,jdbcType=VARCHAR},
+			</if>
+			<if test="creater_name != null">
+				creater_name = #{creater_name,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				createTime = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="orderNum != null">
+				orderNum = #{orderNum,jdbcType=INTEGER},
+			</if>
+			<if test="last_long_time != null">
+				last_long_time = #{last_long_time,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where user_id = #{user_id,jdbcType=VARCHAR}
+	</update>
+
+	<select id="getSysUserByAccount" parameterMap="SysUserParameterMap"
+		resultMap="BaseResultMap">
+		select * from sys_user
+		where account
+		=#{account,jdbcType=VARCHAR} and password
+		=#{password,jdbcType=VARCHAR}
+	</select>
+	<select id="getSysUserByIdOrAccountId" parameterMap="SysUserParameterMap"
+		resultMap="BaseResultMap">
+		select * from sys_user
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="account !=null">
+				OR account = #{account}
+			</if>
+			<if test="user_id !=null">
+				OR user_id = #{id}
+			</if>
+		</trim>
+	</select>
+	<select id="isValidSysUser" parameterMap="SysUserParameterMap"
+		resultMap="BaseResultMap">
+		select *
+		from sys_user
+		where account = #{account,jdbcType=VARCHAR}
+	</select>
+	<select id="getSysUserPageList" parameterType="com.zj.entity.sys.form.SysUserQueryForm"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_user
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="status!=null">
+				AND status = #{status}
+			</if>
+
+		</trim>
+	</select>
+</mapper>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.LogMapper">
+  <resultMap id="BaseResultMap" type="com.zj.entity.base.po.Log">
+    <id column="log_id" jdbcType="VARCHAR" property="id" />
+    <result column="businessName" jdbcType="VARCHAR" property="businessName" />
+    <result column="processTypeName" jdbcType="VARCHAR" property="processTypeName" />
+    <result column="clientSide" jdbcType="VARCHAR" property="clientSide" />
+    <result column="clientSideType" jdbcType="VARCHAR" property="clientSideType" />
+    <result column="operator" jdbcType="VARCHAR" property="operator" />
+    <result column="operatorContent" jdbcType="LONGVARCHAR" property="operatorContent" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+   log_id, businessName, processTypeName, clientSide, clientSideType, operator, operatorContent,createTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from s_log
+    where log_id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from s_log
+    where log_id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.zj.entity.base.po.Log"
+keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+    insert into s_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        log_id,
+      </if>
+      <if test="businessName != null">
+        businessName,
+      </if>
+      <if test="processTypeName != null">
+        processTypeName,
+      </if>
+      <if test="clientSide != null">
+        clientSide,
+      </if>
+      <if test="clientSideType != null">
+        clientSideType,
+      </if>
+      <if test="operator != null">
+        operator,
+      </if>
+      <if test="operatorContent != null">
+        operatorContent,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="businessName != null">
+        #{businessName,jdbcType=VARCHAR},
+      </if>
+      <if test="processTypeName != null">
+        #{processTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="clientSide != null">
+        #{clientSide,jdbcType=VARCHAR},
+      </if>
+      <if test="clientSideType != null">
+        #{clientSideType,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorContent != null">
+        #{operatorContent,jdbcType=LONGVARCHAR},
+      </if>
+       <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.Log">
+    update s_log
+    <set>
+      <if test="businessName != null">
+        businessName = #{businessName,jdbcType=VARCHAR},
+      </if>
+      <if test="processTypeName != null">
+        processTypeName = #{processTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="clientSide != null">
+        clientSide = #{clientSide,jdbcType=VARCHAR},
+      </if>
+      <if test="clientSideType != null">
+        clientSideType = #{clientSideType,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorContent != null">
+        operatorContent = #{operatorContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where log_id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+    <select id="getLogPageList" parameterType="com.zj.entity.sm.form.LogQueryForm" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+	from s_log
+	<trim prefix="WHERE" prefixOverrides="AND |OR" > 
+            <if test="businessName!=null">  
+                AND businessName = #{businessName}  
+            </if>  
+            <if test="processTypeName!=null">  
+                AND processTypeName = #{processTypeName}  
+            </if>  
+            <if test="clientSide!=null">  
+                AND clientSide =  #{clientSide}  
+            </if>   
+            <if test="clientSideType!=null">  
+                AND clientSideType = #{clientSideType}  
+            </if> 
+            <if test="operator!=null">  
+                AND operator = #{operator}  
+            </if>  
+            <if test="operatorContent!=null">  
+                AND operatorContent = #{operatorContent}  
+            </if>  
+        </trim> 
+	</select>
+
+</mapper>

@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.InqueryDeviceMapper">
+	<resultMap id="BaseResultMap" type="com.zj.entity.base.po.InqueryDevice">
+		<id column="inquerydevice_id" jdbcType="VARCHAR" property="id" />
+		<result column="deviceModelId" jdbcType="VARCHAR" property="deviceModelId" />
+		<result column="deviceModelName" jdbcType="VARCHAR" property="deviceModelName" />
+		<result column="quantity" jdbcType="INTEGER" property="quantity" />
+		<result column="startTime" jdbcType="VARCHAR" property="startTime" />
+		<result column="endTime" jdbcType="VARCHAR" property="endTime" />
+		<result column="unitPrice" jdbcType="DECIMAL" property="unitPrice" />
+		<result column="totalPrice" jdbcType="DECIMAL" property="totalPrice" />
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="picture" jdbcType="LONGVARCHAR" property="picture" />
+		<result column="leaseTerm" jdbcType="VARCHAR" property="leaseTerm" />
+		<result column="billingType" jdbcType="INTEGER" property="billingType" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+	<resultMap type="com.zj.entity.tm.dto.InqueryDeviceListDto" 
+		id="ResultMap" extends="BaseResultMap">
+		<result column="deviceBrandName" jdbcType="VARCHAR" property="deviceBrandName" />
+		<result column="deviceTypeName" jdbcType="VARCHAR" property="deviceTypeName" />
+		<result column="inqueryOrderId" jdbcType="VARCHAR" property="inqueryOrderId" />
+	</resultMap>
+		<parameterMap type="com.zj.entity.base.po.InqueryDevice" id="InqueryDeviceParameterMap">
+		<parameter property="id" resultMap="ResultMap" />
+	</parameterMap>
+		<resultMap id="BaseAlResultMap" type="com.zj.entity.tm.dto.InqueryDeviceAllListDto">
+		<id column="inquerydevice_id" jdbcType="VARCHAR" property="id" />
+		<result column="deviceModelId" jdbcType="VARCHAR" property="deviceModelId" />
+		<result column="deviceModelName" jdbcType="VARCHAR" property="deviceModelName" />
+		<result column="quantity" jdbcType="INTEGER" property="quantity" />
+		<result column="startTime" jdbcType="VARCHAR" property="startTime" />
+		<result column="endTime" jdbcType="VARCHAR" property="endTime" />
+		<result column="unitPrice" jdbcType="DECIMAL" property="unitPrice" />
+		<result column="totalPrice" jdbcType="DECIMAL" property="totalPrice" />
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="picture" jdbcType="LONGVARCHAR" property="picture" />
+		<result column="leaseTerm" jdbcType="VARCHAR" property="leaseTerm" />
+		<result column="billingType" jdbcType="INTEGER" property="billingType" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="inqueryOrderId" jdbcType="VARCHAR" property="inqueryOrderId" />
+		
+	</resultMap>
+	<sql id="Base_Column_List">
+		inquerydevice_id, deviceModelId, deviceModelName,
+		quantity, startTime,
+		endTime,
+		unitPrice, totalPrice, creator, picture,
+		leaseTerm, billingType, createTime
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_inquerydevice
+		where inquerydevice_id = #{id,jdbcType=VARCHAR}
+	</select>
+	<select id="selectInquerDevieDeatilinfo" parameterMap="InqueryDeviceParameterMap"
+		resultMap="ResultMap">
+		select
+		inquerydevice_id,
+		inqueryDevice.deviceModelId as deviceModelId,
+		inqueryDevice.quantity as quantity,
+		inqueryDevice.startTime as startTime,
+		inqueryDevice.endTime as endTime,
+		inqueryDevice.unitPrice as unitPrice,
+		inqueryDevice.totalPrice as totalPrice,
+		inqueryDevice.creator as creator,
+		inqueryDevice.picture as picture,
+		inqueryDevice.leaseTerm as leaseTerm,
+		inqueryDevice.billingType as billingType,
+		inqueryDevice.createTime as createTime,
+		inqueryDevice.inqueryOrderId  as inqueryOrderId,
+		deviceModel.modelName as deviceModelName,
+		deviceType.typeName as deviceTypeName,
+		deviceBrand.brandName as deviceBrandName
+		from t_inquerydevice inqueryDevice
+		left JOIN b_devicemodel deviceModel
+		on inqueryDevice.deviceModelId = deviceModel.deviceModel_id
+		left join b_devicetype deviceType on deviceType.deviceType_id =
+		deviceModel.deviceTypeId
+		left join b_devicebrand deviceBrand on deviceBrand.deviceBrand_id =
+		deviceModel.deviceBrandId
+		where inqueryDevice.inquerydevice_id = #{id,jdbcType=VARCHAR}
+
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		t_inquerydevice
+		where inquerydevice_id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insertSelective" parameterType="com.zj.entity.base.po.InqueryDevice"
+		keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into t_inquerydevice
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				inquerydevice_id,
+			</if>
+			<if test="inqueryOrder != null and inqueryOrder.id != null">
+				inqueryOrderId,
+			</if>
+			<if test="deviceModelId != null">
+				deviceModelId,
+			</if>
+			<if test="deviceModelName != null">
+				deviceModelName,
+			</if>
+			<if test="quantity != null">
+				quantity,
+			</if>
+			<if test="startTime != null">
+				startTime,
+			</if>
+			<if test="endTime != null">
+				endTime,
+			</if>
+			<if test="unitPrice != null">
+				unitPrice,
+			</if>
+			<if test="totalPrice != null">
+				totalPrice,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="picture != null">
+				picture,
+			</if>
+			<if test="leaseTerm != null">
+				leaseTerm,
+			</if>
+			<if test="billingType != null">
+				billingType,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="inqueryOrder != null and inqueryOrder.id != null">
+				#{inqueryOrder.id,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceModelId != null">
+				#{deviceModelId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceModelName != null">
+				#{deviceModelName,jdbcType=VARCHAR},
+			</if>
+			<if test="quantity != null">
+				#{quantity,jdbcType=INTEGER},
+			</if>
+			<if test="startTime != null">
+				#{startTime,jdbcType=VARCHAR},
+			</if>
+			<if test="endTime != null">
+				#{endTime,jdbcType=VARCHAR},
+			</if>
+			<if test="unitPrice != null">
+				#{unitPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="totalPrice != null">
+				#{totalPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="picture != null">
+				#{picture,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="leaseTerm != null">
+				#{leaseTerm,jdbcType=VARCHAR},
+			</if>
+			<if test="billingType != null">
+				#{billingType,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.InqueryDevice">
+		update t_inquerydevice
+		<set>
+			<if test="inqueryOrder != null and inqueryOrder.id != null">
+				inqueryOrderId = #{inqueryOrder.id,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceModelId != null">
+				deviceModelId = #{deviceModelId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceModelName != null">
+				deviceModelName = #{deviceModelName,jdbcType=VARCHAR},
+			</if>
+			<if test="quantity != null">
+				quantity = #{quantity,jdbcType=INTEGER},
+			</if>
+			<if test="startTime != null">
+				startTime = #{startTime,jdbcType=VARCHAR},
+			</if>
+			<if test="endTime != null">
+				endTime = #{endTime,jdbcType=VARCHAR},
+			</if>
+			<if test="unitPrice != null">
+				unitPrice = #{unitPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="totalPrice != null">
+				totalPrice = #{totalPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="picture != null">
+				picture = #{picture,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="leaseTerm != null">
+				leaseTerm = #{leaseTerm,jdbcType=VARCHAR},
+			</if>
+			<if test="billingType != null">
+				billingType = #{billingType,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				createTime = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where inquerydevice_id = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="getInqueryDevicePageList" parameterType="com.zj.entity.tm.form.InqueryDeviceQueryForm"
+		resultMap="BaseAlResultMap">
+		select
+	     *
+		from t_inquerydevice
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="inqueryOrderId!=null">
+				AND inqueryOrderId = #{inqueryOrderId}
+			</if>
+			<if test="deviceModelId!=null">
+				AND deviceModelId = #{deviceModelId}
+			</if>
+		</trim>
+	</select>
+	<select id="getInqueryDeviceList" parameterType="com.zj.entity.tm.form.InqueryDeviceQueryForm"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_inquerydevice
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="inqueryOrderId!=null">
+				AND inqueryOrderId = #{inqueryOrderId}
+			</if>
+			<if test="deviceModelId!=null">
+				AND deviceModelId = #{deviceModelId}
+			</if>
+		</trim>
+	</select>
+	
+	<select id="getInqueryDeviceMoreInforList" parameterType="com.zj.entity.tm.form.InqueryDeviceQueryForm"
+		resultMap="ResultMap">
+		select
+		inquerydevice_id,
+		inqueryDevice.deviceModelId as deviceModelId,
+		inqueryDevice.quantity as quantity,
+		inqueryDevice.startTime as startTime,
+		inqueryDevice.endTime as endTime,
+		inqueryDevice.unitPrice as unitPrice,
+		inqueryDevice.totalPrice as totalPrice,
+		inqueryDevice.creator as creator,
+		inqueryDevice.picture as picture,
+		inqueryDevice.leaseTerm as leaseTerm,
+		inqueryDevice.billingType as billingType,
+		inqueryDevice.createTime as createTime,
+		deviceModel.modelName as deviceModelName,
+		deviceType.typeName as deviceTypeName,
+		deviceBrand.brandName as deviceBrandName
+		from t_inquerydevice inqueryDevice
+		left JOIN b_devicemodel deviceModel
+		on inqueryDevice.deviceModelId = deviceModel.deviceModel_id
+		left join b_devicetype deviceType on deviceType.deviceType_id =
+		deviceModel.deviceTypeId
+		left join b_devicebrand deviceBrand on deviceBrand.deviceBrand_id =
+		deviceModel.deviceBrandId
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="inqueryOrderId!=null">
+				AND inqueryDevice.inqueryOrderId = #{inqueryOrderId}
+			</if>
+		</trim>
+	</select>
+	<select id="getInqueryDeviceMoreInforAllList"  parameterType="java.lang.String"
+		resultMap="ResultMap">
+		select
+		inquerydevice_id,
+		inqueryDevice.inqueryOrderId as inqueryOrderId,
+		inqueryDevice.deviceModelId as deviceModelId,
+		inqueryDevice.quantity as quantity,
+		inqueryDevice.startTime as startTime,
+		inqueryDevice.endTime as endTime,
+		inqueryDevice.unitPrice as unitPrice,
+		inqueryDevice.totalPrice as totalPrice,
+		inqueryDevice.creator as creator,
+		inqueryDevice.picture as picture,
+		inqueryDevice.leaseTerm as leaseTerm,
+		inqueryDevice.billingType as billingType,
+		inqueryDevice.createTime as createTime,
+		deviceModel.modelName as deviceModelName,
+		deviceType.typeName as deviceTypeName,
+		deviceBrand.brandName as deviceBrandName
+		from t_inquerydevice inqueryDevice
+		left JOIN b_devicemodel deviceModel
+		on inqueryDevice.deviceModelId = deviceModel.deviceModel_id
+		left join b_devicetype deviceType on deviceType.deviceType_id =
+		deviceModel.deviceTypeId
+		left join b_devicebrand deviceBrand on deviceBrand.deviceBrand_id =
+		deviceModel.deviceBrandId where inqueryDevice.inqueryOrderId = #{id}
+		
+	</select>
+	<select id="getInqueryDeviceAllList"  parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select *
+		from t_inquerydevice
+		 where inqueryOrderId = #{id}
+	</select>
+</mapper>

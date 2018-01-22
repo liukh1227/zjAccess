@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.DeviceTypeSpecDefinitionMapper">
+  <resultMap id="BaseResultMap" type="com.zj.entity.base.po.DeviceTypeSpecDefinition">
+    <id column="devSpecDef_id" jdbcType="VARCHAR" property="id" />
+    <result column="attributeName" jdbcType="VARCHAR" property="attributeName" />
+    <result column="deviceTypeId" jdbcType="VARCHAR" property="deviceTypeId" />
+    <result column="isDisplay" jdbcType="BIT" property="isDisplay" />
+    <result column="sequenceOrder" jdbcType="INTEGER" property="sequenceOrder" />
+    <result column="isKeyattribute" jdbcType="BIT" property="isKeyattribute" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <resultMap id="SpecDefResultMap" type="com.zj.entity.bm.dto.DeviceTypeSpecDefinitionDto" extends="BaseResultMap">
+		<result column="deviceTypeName" jdbcType="VARCHAR" property="deviceTypeName" />
+	</resultMap>
+  <sql id="Base_Column_List">
+    devSpecDef_id , attributeName, deviceTypeId, isDisplay, sequenceOrder, isKeyattribute, creator, unit, 
+    createTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from b_devicetypespecdefinition
+    where devSpecDef_id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from b_devicetypespecdefinition
+    where devSpecDef_id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zj.entity.base.po.DeviceTypeSpecDefinition"
+  keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+    insert into b_devicetypespecdefinition (devSpecDef_id, attributeName, deviceTypeId, 
+      isDisplay, sequenceOrder, isKeyattribute, 
+      creator, unit, createTime
+      )
+    values (#{id,jdbcType=VARCHAR}, #{attributeName,jdbcType=VARCHAR}, #{deviceTypeId,jdbcType=VARCHAR}, 
+      #{isDisplay,jdbcType=BIT}, #{sequenceOrder,jdbcType=INTEGER}, #{isKeyattribute,jdbcType=BIT}, 
+      #{creator,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zj.entity.base.po.DeviceTypeSpecDefinition"
+  keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+    insert into b_devicetypespecdefinition
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        devSpecDef_id,
+      </if>
+      <if test="attributeName != null">
+        attributeName,
+      </if>
+      <if test="deviceTypeId != null">
+        deviceTypeId,
+      </if>
+      <if test="isDisplay != null">
+        isDisplay,
+      </if>
+      <if test="sequenceOrder != null">
+        sequenceOrder,
+      </if>
+      <if test="isKeyattribute != null">
+        isKeyattribute,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="attributeName != null">
+        #{attributeName,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceTypeId != null">
+        #{deviceTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="isDisplay != null">
+        #{isDisplay,jdbcType=BIT},
+      </if>
+      <if test="sequenceOrder != null">
+        #{sequenceOrder,jdbcType=INTEGER},
+      </if>
+      <if test="isKeyattribute != null">
+        #{isKeyattribute,jdbcType=BIT},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.DeviceTypeSpecDefinition">
+    update b_devicetypespecdefinition
+    <set>
+      <if test="attributeName != null">
+        attributeName = #{attributeName,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceTypeId != null">
+        deviceTypeId = #{deviceTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="isDisplay != null">
+        isDisplay = #{isDisplay,jdbcType=BIT},
+      </if>
+      <if test="sequenceOrder != null">
+        sequenceOrder = #{sequenceOrder,jdbcType=INTEGER},
+      </if>
+      <if test="isKeyattribute != null">
+        isKeyattribute = #{isKeyattribute,jdbcType=BIT},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where devSpecDef_id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  	<select id="getDeviceTypeSpecDefinitionPageList" parameterType="com.zj.entity.bm.form.DeviceTypeSpecDefinitionQueryForm"
+		resultMap="SpecDefResultMap">
+		select
+	  devSpecDef_id , attributeName, specdefin.deviceTypeId as deviceTypeId, specdefin.isDisplay as isDisplay, specdefin.sequenceOrder as sequenceOrder, specdefin.isKeyattribute as isKeyattribute, specdefin.creator as creator, specdefin.unit as unit, 
+    specdefin.createTime as createTime,deviceType.typeName as deviceTypeName
+		from b_devicetypespecdefinition  specdefin
+		left join
+		b_devicetype deviceType
+		on specdefin.deviceTypeId =deviceType.deviceType_id
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="attributeName!=null">
+				AND specdefin.attributeName = #{attributeName}
+			</if>
+			<if test="deviceTypeId!=null">
+				AND specdefin.deviceTypeId = #{deviceTypeId}
+			</if>
+			<if test="isDisplay!=null">
+				AND specdefin.isDisplay = #{isDisplay}
+			</if>
+			<if test="isKeyAttribute!=null">
+				AND specdefin.isKeyAttribute = #{isKeyAttribute}
+			</if>
+		</trim>
+	</select>
+</mapper>

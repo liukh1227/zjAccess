@@ -1,0 +1,678 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.InqueryRentMapper">
+	<resultMap id="BaseResultMap" type="com.zj.entity.base.po.InqueryRent">
+		<id column="inqueryRent_id" jdbcType="VARCHAR" property="id" />
+		<result column="lesseeSideId" jdbcType="VARCHAR" property="lesseeSideId" />
+		<result column="lesseeSideName" jdbcType="VARCHAR" property="lesseeSideName" />
+		<result column="deviceTypeId" jdbcType="VARCHAR" property="deviceTypeId" />
+		<result column="deviceTypeName" jdbcType="VARCHAR" property="deviceTypeName" />
+		<result column="deviceTypeSpecDataId" jdbcType="VARCHAR"
+			property="deviceTypeSpecDataId" />
+		<result column="startTime" jdbcType="VARCHAR" property="startTime" />
+		<result column="endTime" jdbcType="VARCHAR" property="endTime" />
+		<result column="payMethod" jdbcType="VARCHAR" property="payMethod" />
+		<result column="address" jdbcType="VARCHAR" property="address" />
+		<result column="city" jdbcType="VARCHAR" property="city" />
+		<result column="latitude" jdbcType="VARCHAR" property="latitude" />
+		<result column="longitude" jdbcType="VARCHAR" property="longitude" />
+		<result column="quantity" jdbcType="INTEGER" property="quantity" />
+		<result column="additionalRequirement" jdbcType="VARCHAR"
+			property="additionalRequirement" />
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="leaseTerm" jdbcType="VARCHAR" property="leaseTerm" />
+		<result column="billingType" jdbcType="INTEGER" property="billingType" />
+		<result column="projectId" jdbcType="VARCHAR" property="projectId" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<collection property="inqueryRentQuotes" ofType="com.zj.entity.base.po.InqueryRentQuote" column="inqueryRent_id" select="com.zj.access.base.mapper.InqueryRentQuoteMapper.getAssRentQuotos"></collection>
+		<!-- <collection property="inqueryRentQuotes" column="inqueryRentId"
+			javaType="java.util.List" ofType="com.zj.entity.base.po.InqueryRentQuote">
+			<id column="id" jdbcType="VARCHAR" property="id" />
+			<result column="deviceModelId" jdbcType="VARCHAR" property="deviceModelId" />
+			<result column="deviceModelName" jdbcType="VARCHAR" property="deviceModelName" />
+			<result column="quantity" jdbcType="INTEGER" property="quantity" />
+			<result column="price" jdbcType="DECIMAL" property="price" />
+			<result column="isIncludeShippingFee" jdbcType="BIT"
+				property="isIncludeShippingFee" />
+			<result column="isIncludeInvoice" jdbcType="BIT" property="isIncludeInvoice" />
+			<result column="isInlcudeJiShou" jdbcType="BIT" property="isInlcudeJiShou" />
+			<result column="isInlcudeFuel" jdbcType="BIT" property="isInlcudeFuel" />
+			<result column="isInlcudeInsurance" jdbcType="BIT"
+				property="isInlcudeInsurance" />
+			<result column="payMethod" jdbcType="VARCHAR" property="payMethod" />
+			<result column="otherExpense" jdbcType="DECIMAL" property="otherExpense" />
+			<result column="otherExpenseComment" jdbcType="VARCHAR"
+				property="otherExpenseComment" />
+			<result column="picture" jdbcType="VARCHAR" property="picture" />
+			<result column="totalOffer" jdbcType="VARCHAR" property="totalOffer" />
+			<result column="leasingSideId" jdbcType="VARCHAR" property="leasingSideId" />
+			<result column="leasingSideName" jdbcType="VARCHAR" property="leasingSideName" />
+			<result column="creator" jdbcType="VARCHAR" property="creator" />
+			<result column="status" jdbcType="INTEGER" property="status" />
+			<result column="currentHandler" jdbcType="VARCHAR" property="currentHandler" />
+			<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		</collection> -->
+	</resultMap>
+	
+	<resultMap type="com.zj.entity.tm.dto.InqueryRentDetailDto"
+		id="ResultMap">
+		<id column="inqueryRent_id" jdbcType="VARCHAR" property="id" />
+		<result column="lesseeSideId" jdbcType="VARCHAR" property="lesseeSideId" />
+		<result column="lesseeSideName" jdbcType="VARCHAR" property="lesseeSideName" />
+		<result column="deviceTypeId" jdbcType="VARCHAR" property="deviceTypeId" />
+		<result column="deviceTypeName" jdbcType="VARCHAR" property="deviceTypeName" />
+		<result column="deviceTypeSpecDataId" jdbcType="VARCHAR"
+			property="deviceTypeSpecDataId" />
+		<result column="startTime" jdbcType="VARCHAR" property="startTime" />
+		<result column="endTime" jdbcType="VARCHAR" property="endTime" />
+		<result column="payMethod" jdbcType="VARCHAR" property="payMethod" />
+		<result column="address" jdbcType="VARCHAR" property="address" />
+		<result column="city" jdbcType="VARCHAR" property="city" />
+		<result column="latitude" jdbcType="VARCHAR" property="latitude" />
+		<result column="longitude" jdbcType="VARCHAR" property="longitude" />
+		<result column="quantity" jdbcType="INTEGER" property="quantity" />
+		<result column="additionalRequirement" jdbcType="VARCHAR"
+			property="additionalRequirement" />
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="leaseTerm" jdbcType="VARCHAR" property="leaseTerm" />
+		<result column="billingType" jdbcType="INTEGER" property="billingType" />
+		<result column="projectId" jdbcType="VARCHAR" property="projectId" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="deviceTypeSpecDataValue" jdbcType="VARCHAR"
+			property="deviceTypeSpecDataValue" />
+		<result column="DeviceTypeSpecDefinitionName" jdbcType="VARCHAR"
+			property="DeviceTypeSpecDefinitionName" />
+		<result column="unit" jdbcType="VARCHAR" property="unit" />
+	</resultMap>
+	<resultMap type="com.zj.entity.tm.dto.InqueryRentDetailListDto"
+		id="ResultListMap">
+		<id column="inqueryRent_id" jdbcType="VARCHAR" property="id" />
+		<result column="lesseeSideId" jdbcType="VARCHAR" property="lesseeSideId" />
+		<result column="lesseeSideName" jdbcType="VARCHAR" property="lesseeSideName" />
+		<result column="deviceTypeId" jdbcType="VARCHAR" property="deviceTypeId" />
+		<result column="deviceTypeName" jdbcType="VARCHAR" property="deviceTypeName" />
+		<result column="deviceTypeSpecDataId" jdbcType="VARCHAR"
+			property="deviceTypeSpecDataId" />
+		<result column="startTime" jdbcType="VARCHAR" property="startTime" />
+		<result column="endTime" jdbcType="VARCHAR" property="endTime" />
+		<result column="payMethod" jdbcType="VARCHAR" property="payMethod" />
+		<result column="address" jdbcType="VARCHAR" property="address" />
+		<result column="city" jdbcType="VARCHAR" property="city" />
+		<result column="latitude" jdbcType="VARCHAR" property="latitude" />
+		<result column="longitude" jdbcType="VARCHAR" property="longitude" />
+		<result column="quantity" jdbcType="INTEGER" property="quantity" />
+		<result column="additionalRequirement" jdbcType="VARCHAR"
+			property="additionalRequirement" />
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="leaseTerm" jdbcType="VARCHAR" property="leaseTerm" />
+		<result column="billingType" jdbcType="INTEGER" property="billingType" />
+		<result column="projectId" jdbcType="VARCHAR" property="projectId" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="deviceTypeSpecDataValue" jdbcType="VARCHAR"
+			property="deviceTypeSpecDataValue" />
+		<result column="DeviceTypeSpecDefinitionName" jdbcType="VARCHAR"
+			property="DeviceTypeSpecDefinitionName" />
+		<result column="unit" jdbcType="VARCHAR" property="unit" />
+	</resultMap>
+	<parameterMap type="com.zj.entity.tm.dto.InqueryRentDetailDto"
+		id="InqueryRentParamsMap">
+		<parameter property="id" resultMap="ResultMap" />
+	</parameterMap>
+	<sql id="Base_Column_List">
+		inqueryRent_id , lesseeSideId, lesseeSideName,
+		deviceTypeId,
+		deviceTypeName,
+		deviceTypeSpecDataId,
+		startTime, endTime,
+		payMethod,
+		address, city, latitude, longitude, quantity,
+		additionalRequirement,
+		creator, status, leaseTerm, billingType,
+		projectId, createTime
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select *
+		from t_inqueryrent  where inqueryRent_id=
+		#{id,jdbcType=VARCHAR}
+	</select>
+	<!-- <select id="getAllRentQuotos" parameterType="java.lang.String" resultType="com.zj.entity.base.po.InqueryRentQuote">
+	select * from t_inqueryrentQuote where inqueryRentId = #{id,jdbcType=VARCHAR}
+	</select> -->
+	<select id="getInqueryRentDetail" parameterMap="InqueryRentParamsMap"
+		resultMap="ResultMap">
+		select
+		inqueryRent.inqueryRent_id as inqueryRent_id ,
+		inqueryRent.lesseeSideId as lesseeSideId,
+		company.companyName as
+		lesseeSideName,
+		inqueryRent.deviceTypeId as deviceTypeId,
+		deviceType.typeName as deviceTypeName,
+		inqueryRent.deviceTypeSpecDataId as
+		deviceTypeSpecDataId,
+		inqueryRent.startTime as startTime,
+		inqueryRent.endTime as endTime,
+		inqueryRent.payMethod as payMethod,
+		inqueryRent.address as address,
+		inqueryRent.city as city,
+		inqueryRent.latitude as latitude,
+		inqueryRent.longitude as longitude,
+		inqueryRent.quantity as quantity,
+		inqueryRent.additionalRequirement as
+		additionalRequirement,
+		inqueryRent.creator as creator,
+		inqueryRent.status as status,
+		inqueryRent.leaseTerm as leaseTerm,
+		inqueryRent.billingType as
+		billingType, inqueryRent.projectId as projectId,
+		inqueryRent.createTime as createTime,
+		deviceSpecData.data as
+		deviceTypeSpecDataValue,
+		deviceSpecDef.attributeName as
+		DeviceTypeSpecDefinitionName,
+		deviceSpecDef.unit as unit
+		from
+		t_inqueryrent inqueryRent
+		left join b_devicetype deviceType on
+		inqueryRent.deviceTypeId =
+		deviceType.deviceType_id
+		left join
+		b_devicetypespecdata deviceSpecData on
+		inqueryRent.deviceTypeSpecDataId = deviceSpecData.devSpecData_id
+		left
+		join b_devicetypespecdefinition deviceSpecDef on
+		deviceSpecDef.devSpecDef_id = deviceSpecData.definitionId
+		left join
+		b_company company on company.company_id =
+		inqueryRent.lesseeSideId
+		where inqueryRent.inqueryRent_id= #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		t_inqueryrent
+		where inqueryRent_id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insertSelective" parameterType="com.zj.entity.base.po.InqueryRent"
+		keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into t_inqueryrent
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				inqueryRent_id,
+			</if>
+			<if test="lesseeSideId != null">
+				lesseeSideId,
+			</if>
+			<if test="lesseeSideName != null">
+				lesseeSideName,
+			</if>
+			<if test="deviceTypeId != null">
+				deviceTypeId,
+			</if>
+			<if test="deviceTypeName != null">
+				deviceTypeName,
+			</if>
+			<if test="deviceTypeSpecDataId != null">
+				deviceTypeSpecDataId,
+			</if>
+			<if test="startTime != null">
+				startTime,
+			</if>
+			<if test="endTime != null">
+				endTime,
+			</if>
+			<if test="payMethod != null">
+				payMethod,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="city != null">
+				city,
+			</if>
+			<if test="latitude != null">
+				latitude,
+			</if>
+			<if test="longitude != null">
+				longitude,
+			</if>
+			<if test="quantity != null">
+				quantity,
+			</if>
+			<if test="additionalRequirement != null">
+				additionalRequirement,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="leaseTerm != null">
+				leaseTerm,
+			</if>
+			<if test="billingType != null">
+				billingType,
+			</if>
+			<if test="projectId != null">
+				projectId,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="lesseeSideId != null">
+				#{lesseeSideId,jdbcType=VARCHAR},
+			</if>
+			<if test="lesseeSideName != null">
+				#{lesseeSideName,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceTypeId != null">
+				#{deviceTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceTypeName != null">
+				#{deviceTypeName,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceTypeSpecDataId != null">
+				#{deviceTypeSpecDataId,jdbcType=VARCHAR},
+			</if>
+			<if test="startTime != null">
+				#{startTime,jdbcType=VARCHAR},
+			</if>
+			<if test="endTime != null">
+				#{endTime,jdbcType=VARCHAR},
+			</if>
+			<if test="payMethod != null">
+				#{payMethod,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				#{city,jdbcType=VARCHAR},
+			</if>
+			<if test="latitude != null">
+				#{latitude,jdbcType=VARCHAR},
+			</if>
+			<if test="longitude != null">
+				#{longitude,jdbcType=VARCHAR},
+			</if>
+			<if test="quantity != null">
+				#{quantity,jdbcType=INTEGER},
+			</if>
+			<if test="additionalRequirement != null">
+				#{additionalRequirement,jdbcType=VARCHAR},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="leaseTerm != null">
+				#{leaseTerm,jdbcType=VARCHAR},
+			</if>
+			<if test="billingType != null">
+				#{billingType,jdbcType=INTEGER},
+			</if>
+			<if test="projectId != null">
+				#{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.InqueryRent">
+		update t_inqueryrent
+		<set>
+			<if test="lesseeSideId != null">
+				lesseeSideId = #{lesseeSideId,jdbcType=VARCHAR},
+			</if>
+			<if test="lesseeSideName != null">
+				lesseeSideName = #{lesseeSideName,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceTypeId != null">
+				deviceTypeId = #{deviceTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceTypeName != null">
+				deviceTypeName = #{deviceTypeName,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceTypeSpecDataId != null">
+				deviceTypeSpecDataId =
+				#{deviceTypeSpecDataId,jdbcType=VARCHAR},
+			</if>
+			<if test="startTime != null">
+				startTime = #{startTime,jdbcType=VARCHAR},
+			</if>
+			<if test="endTime != null">
+				endTime = #{endTime,jdbcType=VARCHAR},
+			</if>
+			<if test="payMethod != null">
+				payMethod = #{payMethod,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				address = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				city = #{city,jdbcType=VARCHAR},
+			</if>
+			<if test="latitude != null">
+				latitude = #{latitude,jdbcType=VARCHAR},
+			</if>
+			<if test="longitude != null">
+				longitude = #{longitude,jdbcType=VARCHAR},
+			</if>
+			<if test="quantity != null">
+				quantity = #{quantity,jdbcType=INTEGER},
+			</if>
+			<if test="additionalRequirement != null">
+				additionalRequirement =
+				#{additionalRequirement,jdbcType=VARCHAR},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="leaseTerm != null">
+				leaseTerm = #{leaseTerm,jdbcType=VARCHAR},
+			</if>
+			<if test="billingType != null">
+				billingType = #{billingType,jdbcType=INTEGER},
+			</if>
+			<if test="projectId != null">
+				projectId = #{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				createTime = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where inqueryRent_id = #{id,jdbcType=VARCHAR}
+	</update>
+
+
+	<select id="getInqueryRentPageList" parameterType="com.zj.entity.tm.form.InqueryRentQueryForm"
+		resultType="com.zj.entity.base.po.InqueryRent">
+		select inqueryRent_id as id,
+		<include refid="Base_Column_List" />
+		from t_inqueryrent
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="lesseeSideId!=null">
+				AND lesseeSideId = #{lesseeSideId}
+			</if>
+			<if test="removeQuotedCompanyId!=null">
+				AND lesseeSideId != #{removeQuotedCompanyId}
+			</if>
+			<if test="deviceTypeId!=null">
+				AND deviceTypeId = #{deviceTypeId}
+			</if>
+			<if test="parentDeviceTypeId!=null">
+				AND deviceTypeId in (select id from b_devicetype where
+				parentId = #{parentDeviceTypeId})
+			</if>
+			<if test="payMethod!=null">
+				AND payMethod = #{payMethod}
+			</if>
+			<if test="city!=null">
+				AND city like  CONCAT('%', '${city}', '%')
+			</if>
+				<if test="address!=null">
+				AND address like  CONCAT('%', '${address}', '%')
+			</if>
+			<if test="projectId!=null">
+				AND projectId = #{projectId}
+			</if>
+			<if test="status!=null and statusArrayList!= null">
+				AND status in
+				<foreach item="item" index="index" collection="statusArrayList"
+					open="(" separator="," close=")">
+					${item}
+				</foreach>
+			</if>
+			<if test="startDate!=null">
+				AND createTime &gt;= #{startDate}
+			</if>
+			<if test="endDate!=null">
+				AND createTime &lt;= #{endDate}
+			</if>
+		</trim>
+	</select>
+	<select id="getCanQuotoInqueryRentPageList" parameterType="com.zj.entity.tm.form.InqueryRentQueryForm"
+		resultMap="ResultListMap">
+		select
+		inqueryRent.inqueryRent_id as inqueryRent_id ,
+		inqueryRent.lesseeSideId as
+		lesseeSideId,
+		company.companyName as lesseeSideName,
+		inqueryRent.deviceTypeId as deviceTypeId,
+		deviceType.typeName as
+		deviceTypeName,
+		inqueryRent.deviceTypeSpecDataId as
+		deviceTypeSpecDataId,
+		inqueryRent.startTime as startTime,
+		inqueryRent.endTime as endTime,
+		inqueryRent.payMethod as payMethod,
+		inqueryRent.address as address,
+		inqueryRent.city as city,
+		inqueryRent.latitude as latitude,
+		inqueryRent.longitude as longitude,
+		inqueryRent.quantity as quantity,
+		inqueryRent.additionalRequirement as
+		additionalRequirement,
+		inqueryRent.creator as creator,
+		inqueryRent.status as status,
+		inqueryRent.leaseTerm as leaseTerm,
+		inqueryRent.billingType as billingType, inqueryRent.projectId as
+		projectId,
+		inqueryRent.createTime as createTime,
+		deviceSpecData.data as
+		deviceTypeSpecDataValue,
+		deviceSpecDef.attributeName as
+		DeviceTypeSpecDefinitionName,
+		deviceSpecDef.unit as unit
+		from
+		t_inqueryrent inqueryRent
+		left join b_devicetype deviceType on
+		inqueryRent.deviceTypeId =
+		deviceType.deviceType_id
+		left join
+		b_devicetypespecdata deviceSpecData on
+		inqueryRent.deviceTypeSpecDataId = deviceSpecData.devSpecData_id
+		left
+		join b_devicetypespecdefinition deviceSpecDef on
+		deviceSpecDef.devSpecDef_id = deviceSpecData.definitionId
+		left join
+		b_company company on company.company_id =
+		inqueryRent.lesseeSideId
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="lesseeSideId!=null">
+				AND inqueryRent.lesseeSideId = #{lesseeSideId}
+			</if>
+			<if test="removeQuotedCompanyId!=null">
+				AND inqueryRent.lesseeSideId != #{removeQuotedCompanyId}
+				AND inqueryRent.inqueryRent_id not in (select inqueryRentId from t_inqueryrentquote where leasingSideId = #{removeQuotedCompanyId})
+			</if>
+			<if test="deviceTypeId!=null">
+				AND inqueryRent.deviceTypeId = #{deviceTypeId}
+			</if>
+			<if test="parentDeviceTypeId!=null">
+				AND inqueryRent.deviceTypeId in (select deviceType_id
+				from b_devicetype where
+				parentId = #{parentDeviceTypeId})
+			</if>
+			<if test="payMethod!=null">
+				AND inqueryRent.payMethod = #{payMethod}
+			</if>
+			<if test="city!=null">
+				AND inqueryRent.city like  CONCAT('%', '${city}', '%')
+			</if>
+				<if test="address!=null">
+				AND inqueryRent.address like  CONCAT('%', '${address}', '%')
+			</if>
+			<if test="projectId!=null">
+				AND inqueryRent.projectId = #{projectId}
+			</if>
+			<if test="status!=null and statusArrayList!= null">
+				AND inqueryRent.status in
+				<foreach item="item" index="index" collection="statusArrayList"
+					open="(" separator="," close=")">
+					${item}
+				</foreach>
+			</if>
+			<if test="startDate!=null">
+				AND inqueryRent.createTime &gt;= #{startDate}
+			</if>
+			<if test="endDate!=null">
+				AND inqueryRent.createTime &lt;= #{endDate}
+			</if>
+		</trim>
+		order by inqueryRent.createTime DESC
+	</select>
+	<select id="getInqueryRentDetailPageList" parameterType="com.zj.entity.tm.form.InqueryRentQueryForm"
+		resultMap="ResultListMap">
+		select
+		inqueryRent.inqueryRent_id as inqueryRent_id ,
+		inqueryRent.lesseeSideId as
+		lesseeSideId,
+		company.companyName as lesseeSideName,
+		inqueryRent.deviceTypeId as deviceTypeId,
+		deviceType.typeName as
+		deviceTypeName,
+		inqueryRent.deviceTypeSpecDataId as
+		deviceTypeSpecDataId,
+		inqueryRent.startTime as startTime,
+		inqueryRent.endTime as endTime,
+		inqueryRent.payMethod as payMethod,
+		inqueryRent.address as address,
+		inqueryRent.city as city,
+		inqueryRent.latitude as latitude,
+		inqueryRent.longitude as longitude,
+		inqueryRent.quantity as quantity,
+		inqueryRent.additionalRequirement as
+		additionalRequirement,
+		inqueryRent.creator as creator,
+		inqueryRent.status as status,
+		inqueryRent.leaseTerm as leaseTerm,
+		inqueryRent.billingType as billingType, inqueryRent.projectId as
+		projectId,
+		inqueryRent.createTime as createTime,
+		deviceSpecData.data as
+		deviceTypeSpecDataValue,
+		deviceSpecDef.attributeName as
+		DeviceTypeSpecDefinitionName,
+		deviceSpecDef.unit as unit
+		from
+		t_inqueryrent
+		inqueryRent
+		left join b_devicetype deviceType on
+		inqueryRent.deviceTypeId =
+		deviceType.deviceType_id
+		left join
+		b_devicetypespecdata deviceSpecData on
+		inqueryRent.deviceTypeSpecDataId = deviceSpecData.devSpecData_id
+		left
+		join b_devicetypespecdefinition deviceSpecDef on
+		deviceSpecDef.devSpecDef_id = deviceSpecData.definitionId
+		left join
+		b_company company on company.company_id =
+		inqueryRent.lesseeSideId
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="lesseeSideId!=null">
+				AND inqueryRent.lesseeSideId = #{lesseeSideId}
+			</if>
+			<if test="removeQuotedCompanyId!=null">
+				AND inqueryRent.lesseeSideId != #{removeQuotedCompanyId}
+			</if>
+			<if test="deviceTypeId!=null">
+				AND inqueryRent.deviceTypeId = #{deviceTypeId}
+			</if>
+			<if test="parentDeviceTypeId!=null">
+				AND inqueryRent.deviceTypeId in (select deviceType_id from
+				b_devicetype where
+				parentId = #{parentDeviceTypeId})
+			</if>
+			<if test="payMethod!=null">
+				AND inqueryRent.payMethod = #{payMethod}
+			</if>
+			<if test="city!=null">
+				AND inqueryRent.city like  CONCAT('%', '${city}', '%')
+			</if>
+				<if test="address!=null">
+				AND inqueryRent.address like  CONCAT('%', '${address}', '%')
+			</if>
+			<if test="projectId!=null">
+				AND inqueryRent.projectId = #{projectId}
+			</if>
+				<if test="status!=null and statusArrayList!= null">
+				AND inqueryRent.status in
+				<foreach item="item" index="index" collection="statusArrayList"
+					open="(" separator="," close=")">
+					${item}
+				</foreach>
+			</if>
+			<if test="startDate!=null">
+				AND createTime &gt;= #{startDate}
+			</if>
+			<if test="endDate!=null">
+				AND createTime &lt;= #{endDate}
+			</if>
+		</trim>
+		order by inqueryRent.createTime DESC
+	</select>
+	<select id="getInqueryRentCount" parameterType="com.zj.entity.tm.form.InqueryRentQueryForm"
+		resultType="long">
+		select COUNT(inqueryRent_id) from t_inqueryrent
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="lesseeSideId!=null">
+				AND lesseeSideId = #{lesseeSideId}
+			</if>
+			<if test="removeQuotedCompanyId!=null">
+				AND lesseeSideId != #{removeQuotedCompanyId}
+			</if>
+			<if test="deviceTypeId!=null">
+				AND deviceTypeId = #{deviceTypeId}
+			</if>
+			<if test="parentDeviceTypeId!=null">
+				AND deviceTypeId in (select id from b_devicetype where
+				parentId = #{parentDeviceTypeId})
+			</if>
+			<if test="payMethod!=null">
+				AND payMethod = #{payMethod}
+			</if>
+			<if test="address!=null">
+				AND address like  CONCAT('%', '${address}', '%')
+			</if>
+			<if test="city!=null">
+			AND city like  CONCAT('%', '${city}', '%')
+			</if>
+			<if test="projectId!=null">
+				AND projectId = #{projectId}
+			</if>
+			<if test="status!=null and statusArrayList!= null">
+				AND status in
+				<foreach item="item" index="index" collection="statusArrayList"
+					open="(" separator="," close=")">
+					${item}
+				</foreach>
+			</if>
+			<if test="startDate!=null">
+				AND createTime &gt;= #{startDate}
+			</if>
+			<if test="endDate!=null">
+				AND createTime &lt;= #{endDate}
+			</if>
+		</trim>
+	</select>
+
+</mapper>

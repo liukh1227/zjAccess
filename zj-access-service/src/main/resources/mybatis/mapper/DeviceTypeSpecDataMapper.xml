@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.DeviceTypeSpecDataMapper">
+	<resultMap id="BaseResultMap" type="com.zj.entity.base.po.DeviceTypeSpecData">
+		<id column="devSpecData_id" jdbcType="VARCHAR" property="id" />
+		<result column="data" jdbcType="VARCHAR" property="data" />
+		<result column="definitionId" jdbcType="VARCHAR" property="definitionId" />
+		<result column="deviceTypeId" jdbcType="VARCHAR" property="deviceTypeId" />
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+
+	<resultMap id="SpecDataResultMap" type="com.zj.entity.bm.dto.DeviceTypeSpecDataDto" extends="BaseResultMap">
+		<result column="definitionName" jdbcType="VARCHAR" property="definitionName" />
+		<result column="unit" jdbcType="VARCHAR" property="unit" />
+		<result column="deviceTypeName" jdbcType="VARCHAR" property="deviceTypeName" />
+	</resultMap>
+	<parameterMap type="com.zj.entity.bm.dto.DeviceTypeSpecDataDto"
+		id="DeviceSpaceDataParameterMap">
+		<parameter property="deviceTypeId" resultMap="SpecDataResultMap" />
+	</parameterMap>
+
+	<sql id="Base_Column_List">
+		devSpecData_id , data, definitionId, deviceTypeId, creator,
+		createTime
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="SpecDataResultMap">
+		select
+		typeData.devSpecData_id as
+		devSpecData_id,typeData.definitionId as
+		definitionId,typeData.deviceTypeId as deviceTypeId,
+		typeData.creator as creator,typeData.createTime as createTime,
+		typeDef.attributeName as definitionName,typeDef.unit as unit,deviceType.typeName as
+		deviceTypeName,typeData.data as data
+		from b_devicetypespecdata typeData
+		left join b_devicetypespecdefinition typeDef on typeData.definitionId
+		= typeDef.devSpecDef_id
+		left join b_devicetype deviceType on deviceType.deviceType_id =
+		typeData.deviceTypeId
+		where typeData.devSpecData_id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		b_devicetypespecdata
+		where devSpecData_id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.zj.entity.base.po.DeviceTypeSpecData"
+		keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into b_devicetypespecdata (devSpecData_id, data, definitionId,
+		deviceTypeId, creator, createTime
+		)
+		values (#{id,jdbcType=VARCHAR},
+		#{data,jdbcType=VARCHAR},
+		#{definitionId,jdbcType=VARCHAR},
+		#{deviceTypeId,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.zj.entity.base.po.DeviceTypeSpecData"
+		keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into b_devicetypespecdata
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				devSpecData_id,
+			</if>
+			<if test="data != null">
+				data,
+			</if>
+			<if test="definitionId != null">
+				definitionId,
+			</if>
+			<if test="deviceTypeId != null">
+				deviceTypeId,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="data != null">
+				#{data,jdbcType=VARCHAR},
+			</if>
+			<if test="definitionId != null">
+				#{definitionId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceTypeId != null">
+				#{deviceTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.DeviceTypeSpecData">
+		update b_devicetypespecdata
+		<set>
+			<if test="data != null">
+				data = #{data,jdbcType=VARCHAR},
+			</if>
+			<if test="definitionId != null">
+				definitionId = #{definitionId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceTypeId != null">
+				deviceTypeId = #{deviceTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				createTime = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where devSpecData_id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zj.entity.base.po.DeviceTypeSpecData">
+		update
+		b_devicetypespecdata
+		set data = #{data,jdbcType=VARCHAR},
+		definitionId =
+		#{definitionId,jdbcType=VARCHAR},
+		deviceTypeId =
+		#{deviceTypeid,jdbcType=VARCHAR},
+		creator =
+		#{creator,jdbcType=VARCHAR},
+		createTime =
+		#{createTime,jdbcType=TIMESTAMP}
+		where devSpecData_id =
+		#{id,jdbcType=VARCHAR}
+	</update>
+
+	<select id="getDeviceTypeSpecDataPageList" parameterType="com.zj.entity.bm.form.DeviceTypeSpecDataQueryForm"
+		resultMap="SpecDataResultMap">
+		select
+	devSpecData_id , data, definitionId, specData.deviceTypeId as deviceTypeId, specData.creator as creator,
+		specData.createTime as createTime,	deviceType.typeName as deviceTypeName,specdefin.attributeName as definitionName
+		from b_devicetypespecdata specData
+		left join b_devicetype deviceType on specData.deviceTypeId =deviceType.deviceType_id
+		left join b_devicetypespecdefinition specdefin on specData.definitionId = specdefin.devSpecDef_id
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="definitionId!=null">
+				AND specData.definitionId = #{definitionId}
+			</if>
+			<if test="deviceTypeId!=null">
+				AND specData.deviceTypeId = #{deviceTypeId}
+			</if>
+		</trim>
+		order by CAST(`data` AS DECIMAL) 
+	</select>
+
+	<select id="getKeyAttributeDeviceTypeSpecDataList" parameterMap="DeviceSpaceDataParameterMap"
+		resultMap="SpecDataResultMap">
+		select
+		specData.devSpecData_id as devSpecData_id,
+		specData.definitionId as
+		definitionId,
+		specData.data as data,
+		specdefin.attributeName as
+		definitionName,
+		specdefin.unit as unit,
+		specdefin.deviceTypeId as
+		deviceTypeId,
+		deviceType.typeName as deviceTypeName
+		from
+		b_devicetypespecdata
+		specData left join b_devicetypespecdefinition
+		specdefin
+		on specData.definitionId = specdefin.devSpecDef_id
+		left join
+		b_devicetype deviceType
+		on specdefin.deviceTypeId =deviceType.deviceType_id
+		where
+		specdefin.isDisplay =1 and specdefin.isKeyAttribute = 1 and
+		specdefin.deviceTypeId = #{deviceTypeId}
+		order by CAST(`specData.data` AS DECIMAL)  
+	</select>
+
+</mapper>

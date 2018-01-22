@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.OrderStatementMapper">
+	<resultMap id="BaseResultMap" type="com.zj.entity.base.po.OrderStatement">
+		<id column="orderStatement_id" jdbcType="VARCHAR" property="id" />
+		<result column="rentOrderId" jdbcType="VARCHAR" property="rentOrderId" />
+		<result column="statementType" jdbcType="INTEGER" property="statementType" />
+		<result column="startTime" jdbcType="VARCHAR" property="startTime" />
+		<result column="endTime" jdbcType="VARCHAR" property="endTime" />
+		<result column="statementAmount" jdbcType="DECIMAL" property="statementAmount" />
+		<result column="statementDescription" jdbcType="VARCHAR"
+			property="statementDescription" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="currentHandler" jdbcType="VARCHAR" property="currentHandler" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+	<resultMap id="ResultMap"
+		type="com.zj.entity.tm.dto.OrderStatementContainComanyNameDto">
+		<id column="orderStatement_id" jdbcType="VARCHAR" property="id" />
+		<result column="rentOrderId" jdbcType="VARCHAR" property="rentOrderId" />
+		<result column="statementType" jdbcType="INTEGER" property="statementType" />
+		<result column="startTime" jdbcType="VARCHAR" property="startTime" />
+		<result column="endTime" jdbcType="VARCHAR" property="endTime" />
+		<result column="statementAmount" jdbcType="DECIMAL" property="statementAmount" />
+		<result column="statementDescription" jdbcType="VARCHAR"
+			property="statementDescription" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="currentHandler" jdbcType="VARCHAR" property="currentHandler" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="leasingSideId" jdbcType="VARCHAR" property="leasingSideId" />
+		<result column="leasingSideName" jdbcType="VARCHAR" property="leasingSideName" />
+		<result column="lesseeSideId" jdbcType="VARCHAR" property="lesseeSideId" />
+		<result column="lesseeSideName" jdbcType="VARCHAR" property="lesseeSideName" />
+	</resultMap>
+	<parameterMap type="com.zj.entity.tm.dto.OrderStatementContainComanyNameDto"
+		id="OrderStatementParameterMap">
+		<parameter property="id" resultMap="ResultMap" />
+	</parameterMap>
+	<sql id="Base_Column_List">
+		orderStatement_id, rentOrderId, statementType,
+		startTime, endTime, statementAmount,
+		statementDescription,
+		status,
+		creator, currentHandler, createTime
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_orderstatement
+		where orderStatement_id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		t_orderstatement
+		where orderStatement_id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insertSelective" parameterType="com.zj.entity.base.po.OrderStatement"
+		keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into t_orderstatement
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				orderStatement_id,
+			</if>
+			<if test="rentOrderId != null">
+				rentOrderId,
+			</if>
+			<if test="statementType != null">
+				statementType,
+			</if>
+			<if test="startTime != null">
+				startTime,
+			</if>
+			<if test="endTime != null">
+				endTime,
+			</if>
+			<if test="statementAmount != null">
+				statementAmount,
+			</if>
+			<if test="statementDescription != null">
+				statementDescription,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="currentHandler != null">
+				currentHandler,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="rentOrderId != null">
+				#{rentOrderId,jdbcType=VARCHAR},
+			</if>
+			<if test="statementType != null">
+				#{statementType,jdbcType=INTEGER},
+			</if>
+			<if test="startTime != null">
+				#{startTime,jdbcType=VARCHAR},
+			</if>
+			<if test="endTime != null">
+				#{endTime,jdbcType=VARCHAR},
+			</if>
+			<if test="statementAmount != null">
+				#{statementAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="statementDescription != null">
+				#{statementDescription,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="currentHandler != null">
+				#{currentHandler,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.OrderStatement">
+		update t_orderstatement
+		<set>
+			<if test="rentOrderId != null">
+				rentOrderId = #{rentOrderId,jdbcType=VARCHAR},
+			</if>
+			<if test="statementType != null">
+				statementType = #{statementType,jdbcType=INTEGER},
+			</if>
+			<if test="startTime != null">
+				startTime = #{startTime,jdbcType=VARCHAR},
+			</if>
+			<if test="endTime != null">
+				endTime = #{endTime,jdbcType=VARCHAR},
+			</if>
+			<if test="statementAmount != null">
+				statementAmount = #{statementAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="statementDescription != null">
+				statementDescription =
+				#{statementDescription,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="currentHandler != null">
+				currentHandler = #{currentHandler,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				createTime = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where orderStatement_id = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="getOrderStatementPageList" parameterType="com.zj.entity.tm.form.OrderStatementQueryForm"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_orderstatement
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="rentOrderId!=null">
+				AND rentOrderId = #{rentOrderId}
+			</if>
+			<if test="statementType!=null">
+				AND statementType = #{statementType}
+			</if>
+			<if test="currentHandler!=null">
+				AND currentHandler = #{currentHandler}
+			</if>
+			<if test="status!=null and statusArrayList!= null">
+				AND status in
+				<foreach item="item" index="index" collection="statusArrayList"
+					open="(" separator="," close=")">
+					${item}
+				</foreach>
+			</if>
+		</trim>
+	</select>
+	<select id="getOrderStatementDetailPageList" parameterType="com.zj.entity.tm.form.OrderStatementQueryForm"
+		resultMap="ResultMap">
+		select
+		orderStatement.orderStatement_id as orderStatement_id,
+		orderStatement.rentOrderId as rentOrderId,
+		orderStatement.statementType as statementType,
+		orderStatement.startTime as startTime,orderStatement.endTime as
+		endTime, orderStatement.statementAmount as statementAmount,
+		orderStatement.statementDescription as
+		statementDescription,orderStatement.status as status,
+		orderStatement.creator as creator,
+		orderStatement.currentHandler as
+		currentHandler, orderStatement.createTime as createTime,
+		rentOrder.lesseeSideId as lesseeSideId,lesCompany.companyName as
+		lesseeSideName,
+		rentOrder.leasingSideId as leasingSideId,
+		leaCompany.companyName as leasingSideName
+		from
+		t_orderstatement
+		orderStatement
+		left join t_rentorder rentOrder
+		on
+		orderStatement.rentOrderId = rentOrder.rentOrder_id
+		left join b_company
+		lesCompany on lesCompany.company_id =
+		rentOrder.lesseeSideId
+		left join
+		b_company leaCompany on leaCompany.company_id =
+		rentOrder.leasingSideId
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="rentOrderId!=null">
+				AND orderStatement.rentOrderId = #{rentOrderId}
+			</if>
+			<if test="statementType!=null">
+				AND orderStatement.statementType = #{statementType}
+			</if>
+			<if test="currentHandler!=null">
+				AND orderStatement.currentHandler = #{currentHandler}
+			</if>
+			<if test="status!=null and statusArrayList!= null">
+				AND orderStatement.status in
+				<foreach item="item" index="index" collection="statusArrayList"
+					open="(" separator="," close=")">
+					${item}
+				</foreach>
+			</if>
+		</trim>
+		order by orderStatement.createTime desc
+	</select>
+	<select id="getOrderStatementDetailInfor" parameterMap="OrderStatementParameterMap"
+		resultMap="ResultMap">
+		select
+		orderStatement.orderStatement_id as orderStatement_id,
+		orderStatement.rentOrderId as rentOrderId,
+		orderStatement.statementType as statementType,
+		orderStatement.startTime as startTime,orderStatement.endTime as
+		endTime, orderStatement.statementAmount as statementAmount,
+		orderStatement.statementDescription as
+		statementDescription,orderStatement.status as status,
+		orderStatement.creator as creator,
+		orderStatement.currentHandler as
+		currentHandler, orderStatement.createTime as createTime,
+		rentOrder.lesseeSideId as lesseeSideId,lesCompany.companyName as
+		lesseeSideName,
+		rentOrder.leasingSideId as leasingSideId,
+		leaCompany.companyName as leasingSideName
+		from
+		t_orderstatement
+		orderStatement
+		left join t_rentorder rentOrder
+		on
+		orderStatement.rentOrderId = rentOrder.rentOrder_id
+		left join b_company
+		lesCompany on lesCompany.company_id =
+		rentOrder.lesseeSideId
+		left join
+		b_company leaCompany on leaCompany.company_id =
+		rentOrder.leasingSideId
+		where orderStatement.orderStatement_id = #{id,jdbcType=VARCHAR}
+	</select>
+	<select id="getOrderStatementCount" parameterType="com.zj.entity.tm.form.OrderStatementQueryForm"
+		resultType="long">
+		select count(orderStatement_id) from t_orderstatement
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="rentOrderId!=null">
+				AND rentOrderId = #{rentOrderId}
+			</if>
+			<if test="statementType!=null">
+				AND statementType = #{statementType}
+			</if>
+			<if test="currentHandler!=null">
+				AND currentHandler = #{currentHandler}
+			</if>
+			<if test="status!=null and statusArrayList!= null">
+				AND status in
+				<foreach item="item" index="index" collection="statusArrayList"
+					open="(" separator="," close=")">
+					${item}
+				</foreach>
+			</if>
+		</trim>
+	</select>
+</mapper>

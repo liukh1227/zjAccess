@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.DeviceModelMapper">
+	<resultMap id="BaseOnlyIdResultMap" type="com.zj.entity.base.po.DeviceModel">
+		<id column="deviceModel_id" jdbcType="VARCHAR" property="id" />
+   </resultMap>
+	<resultMap id="BaseResultMap" type="com.zj.entity.base.po.DeviceModel">
+		<id column="deviceModel_id" jdbcType="VARCHAR" property="id" />
+		<result column="modelName" jdbcType="VARCHAR" property="modelName" />
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="modelPicture" jdbcType="LONGVARCHAR" property="modelPicture" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<!--一对一关联 -->
+		<association property="deviceType" column="deviceTypeId"
+			javaType="com.zj.entity.base.po.DeviceType">
+			<id column="deviceTypeId" jdbcType="VARCHAR" property="deviceType.id" />
+			<result column="typeName" jdbcType="VARCHAR" property="typeName" />
+		</association>
+		<!--一对一关联 -->
+		<association property="deviceBrand" column="deviceBrandId"
+			javaType="com.zj.entity.base.po.DeviceBrand">
+			<id column="deviceBrandId" jdbcType="VARCHAR" property="deviceBrand.id" />
+			<result column="brandName" jdbcType="VARCHAR" property="brandName" />
+		</association>
+
+		<!--一对一关联 -->
+		<association property="deviceTypeSpecData" column="keyAttributeValueId"
+			javaType="com.zj.entity.base.po.DeviceTypeSpecData">
+			<id column="keyAttributeValueId" jdbcType="VARCHAR" property="deviceTypeSpecData.id" />
+		</association>
+	</resultMap>
+
+	<resultMap id="DeviceModelMoreResultMap" type="com.zj.entity.base.po.DeviceModel">
+		<id property="id" column="deviceModel_id" />
+		<result property="modelName" column="modelName" />
+		<result property="modelPicture" column="modelPicture" />
+		<result property="deviceBrand.id" column="deviceBrandId" />
+		<result property="deviceBrand.brandName" column="deviceBrandName" />
+		<result property="deviceType.id" column="deviceTypeId" />
+		<result property="deviceType.typeName" column="deviceTypeName" />
+		<result property="deviceTypeSpecData.id" column="keyAttributeValueId" />
+		<result property="creator" column="creator" />
+		<result property="createTime" column="createTime" />
+	</resultMap>
+<parameterMap type="com.zj.entity.base.po.DeviceModel" id="DeviceModelParams">
+<parameter property="id" resultMap="DeviceModelMoreResultMap"/>
+</parameterMap>
+
+	<sql id="Base_Column_List">
+		deviceModel_id, modelName, deviceTypeId, deviceBrandId,
+		keyAttributeValueId, creator,modelPicture,
+		createTime
+	</sql>
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="DeviceModelMoreResultMap">
+		select m.deviceModel_id as deviceModel_id,m.deviceBrandId as deviceBrandId,b.brandName as
+		deviceBrandName,m.deviceTypeId as deviceTypeId,m.modelPicture as modelPicture,t.typeName as
+		deviceTypeName,m.keyAttributeValueId as keyAttributeValueId,m.creator as
+		creator,m.createTime as createTime,m.modelName as modelName
+		from b_devicemodel m
+		left join b_devicetype t on m.deviceTypeId = t.deviceType_id
+		left join b_devicebrand b
+		on m.deviceBrandId = b.deviceBrand_id
+		left join b_devicetypespecdata s on m.keyAttributeValueId = s.devSpecData_id
+		where m.deviceModel_id
+		= #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		b_devicemodel
+		where deviceModel_id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insertSelective" parameterType="com.zj.entity.base.po.DeviceModel"
+		keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into b_devicemodel
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				deviceModel_id,
+			</if>
+			<if test="modelName != null">
+				modelName,
+			</if>
+			<if test="deviceType!= null and deviceType.id != null">
+				deviceTypeId,
+			</if>
+			<if test="deviceBrand!= null and deviceBrand.id != null">
+				deviceBrandId,
+			</if>
+			<if test="deviceTypeSpecData != null and deviceTypeSpecData.id != null">
+				keyAttributeValueId,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="modelPicture != null">
+				modelPicture,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="modelName != null">
+				#{modelName,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceType!= null and deviceType.id != null">
+				#{deviceType.id,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceBrand!= null and deviceBrand.id != null">
+				#{deviceBrand.id,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceTypeSpecData!= null and deviceTypeSpecData.id!= null">
+				#{deviceTypeSpecData.id,jdbcType=VARCHAR},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="modelPicture != null">
+				#{modelPicture,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.DeviceModel">
+		update b_devicemodel
+		<set>
+			<if test="modelName != null">
+				modelName = #{modelName,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceType != null and deviceType.id != null">
+				deviceTypeId =
+				#{deviceType.id,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceBrand != null and deviceBrand.id != null">
+				deviceBrandId =
+				#{deviceBrand.id,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceTypeSpecData!= null and deviceTypeSpecData.id != null">
+				keyAttributeValueId =
+				#{deviceTypeSpecData.id,jdbcType=VARCHAR},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="modelPicture != null">
+				modelPicture = #{modelPicture,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="createTime != null">
+				createTime = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where deviceModel_id = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="getAllDeviceModeIdlList" resultMap="DeviceModelMoreResultMap">
+	    select deviceModel_id as deviceModel_id from b_devicemodel
+	</select>
+	<select id="getDeviceModelPageList" parameterType="com.zj.entity.bm.form.DeviceModelQueryForm"
+		resultMap="DeviceModelMoreResultMap">
+		select m.deviceModel_id as deviceModel_id,m.deviceBrandId as deviceBrandId,b.brandName as
+		deviceBrandName,m.deviceTypeId as deviceTypeId,m.modelPicture as modelPicture,t.typeName as
+		deviceTypeName,m.keyAttributeValueId as keyAttributeValueId,m.creator as
+		creator,m.createTime as createTime,m.modelName as modelName
+		from b_devicemodel m
+		left join b_devicetype t on m.deviceTypeId = t.deviceType_id
+		left join b_devicebrand b
+		on m.deviceBrandId = b.deviceBrand_id
+		left join b_devicetypespecdata s on m.keyAttributeValueId = s.devSpecData_id
+
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="modelName!=null">
+				AND m.modelName like  CONCAT('%', '${modelName}', '%')
+			</if>
+			<if test="deviceBrandId!=null">
+				AND m.deviceBrandId = #{deviceBrandId}
+			</if>
+			<if test="deviceTypeId!=null">
+				AND m.deviceTypeId = #{deviceTypeId}
+			</if>
+		</trim>
+	</select>
+</mapper>

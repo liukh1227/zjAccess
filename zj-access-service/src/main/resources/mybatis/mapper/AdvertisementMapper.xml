@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.AdvertisementMapper">
+  <resultMap id="BaseResultMap" type="com.zj.entity.base.po.Advertisement">
+    <id column="advertisement_id" jdbcType="VARCHAR" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="pictureURL" jdbcType="VARCHAR" property="pictureURL" />
+    <result column="pictureContent" jdbcType="VARCHAR" property="pictureContent" />
+    <result column="orderNum" jdbcType="INTEGER" property="orderNum" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="adaptBSideType" jdbcType="VARCHAR" property="adaptBSideType" />
+    <result column="adaptTerminal" jdbcType="VARCHAR" property="adaptTerminal" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="companyId" jdbcType="VARCHAR" property="companyId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    advertisement_id , title, pictureURL, pictureContent, orderNum, status, adaptBSideType, adaptTerminal,createTime,companyId
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from s_advertisement
+    where advertisement_id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from s_advertisement
+    where advertisement_id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.zj.entity.base.po.Advertisement"
+keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+    insert into s_advertisement
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        advertisement_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="pictureURL != null">
+        pictureURL,
+      </if>
+      <if test="pictureContent != null">
+        pictureContent,
+      </if>
+      <if test="orderNum != null">
+        orderNum,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="adaptBSideType != null">
+        adaptBSideType,
+      </if>
+      <if test="adaptTerminal != null">
+        adaptTerminal,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="companyId != null">
+        companyId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureURL != null">
+        #{pictureURL,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureContent != null">
+        #{pictureContent,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="adaptBSideType != null">
+        #{adaptBSideType,jdbcType=VARCHAR},
+      </if>
+      <if test="adaptTerminal != null">
+        #{adaptTerminal,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.Advertisement">
+    update s_advertisement
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureURL != null">
+        pictureURL = #{pictureURL,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureContent != null">
+        pictureContent = #{pictureContent,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null">
+        orderNum = #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="adaptBSideType != null">
+        adaptBSideType = #{adaptBSideType,jdbcType=VARCHAR},
+      </if>
+      <if test="adaptTerminal != null">
+        adaptTerminal = #{adaptTerminal,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        companyId = #{companyId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where advertisement_id = #{id,jdbcType=VARCHAR}
+  </update>
+	<select id="getAdvertisementPageList" parameterType="com.zj.entity.sm.form.AdvertisementQueryForm"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from s_advertisement
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="adaptBSideType!=null">
+				AND adaptBSideType = #{adaptBSideType}
+			</if>
+			<if test="adaptTerminal!=null">
+				AND adaptTerminal = #{adaptTerminal}
+			</if>
+			<if test="status!=null">
+				AND status = #{status}
+			</if>
+			<if test="title!=null">
+				AND title = #{title}
+			</if>
+			<if test="companyId!=null">
+				AND companyId = #{companyId}
+			</if>
+
+		</trim>
+	</select>
+</mapper>

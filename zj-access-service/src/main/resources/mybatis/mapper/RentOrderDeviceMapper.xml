@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.RentOrderDeviceMapper">
+	<resultMap id="BaseResultMap" type="com.zj.entity.base.po.RentOrderDevice">
+		<id column="rentorderdevice_id" jdbcType="VARCHAR" property="id" />
+		<result column="deviceModelId" jdbcType="VARCHAR" property="deviceModelId" />
+		<result column="deviceModelName" jdbcType="VARCHAR" property="deviceModelName" />
+		<result column="quantity" jdbcType="INTEGER" property="quantity" />
+		<result column="unitPrice" jdbcType="DECIMAL" property="unitPrice" />
+		<result column="startTime" jdbcType="VARCHAR" property="startTime" />
+		<result column="endTime" jdbcType="VARCHAR" property="endTime" />
+		<result column="saleAmount" jdbcType="DECIMAL" property="saleAmount" />
+		<result column="picture" jdbcType="LONGVARCHAR" property="picture" />
+		<result column="leaseTerm" jdbcType="VARCHAR" property="leaseTerm" />
+		<result column="billingType" jdbcType="INTEGER" property="billingType" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+	<resultMap type="com.zj.entity.tm.dto.RentOrderDeviceListDto" extends="BaseResultMap"
+		id="DetailResultMap">
+		<result column="deviceBrandName" jdbcType="VARCHAR" property="deviceBrandName" />
+		<result column="deviceTypeName" jdbcType="VARCHAR" property="deviceTypeName" />
+		<result column="rentOrderId" jdbcType="VARCHAR" property="rentOrderId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		rentorderdevice_id, deviceModelId, deviceModelName,
+		quantity, unitPrice,
+		startTime,
+		endTime, saleAmount, picture, leaseTerm,
+		billingType, createTime
+	</sql>
+	<select id="getAssRentOrderDevices" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_rentorderdevice
+		where rentOrderId = #{id,jdbcType=VARCHAR}
+	</select>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_rentorderdevice
+		where rentorderdevice_id =
+		#{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		t_rentorderdevice
+		where rentorderdevice_id = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<insert id="insertSelective" parameterType="com.zj.entity.base.po.RentOrderDevice"
+		keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into t_rentorderdevice
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				rentorderdevice_id,
+			</if>
+			<if test="rentOrder != null and rentOrder.id != null">
+				rentOrderId,
+			</if>
+			<if test="deviceModelId != null">
+				deviceModelId,
+			</if>
+			<if test="deviceModelName != null">
+				deviceModelName,
+			</if>
+			<if test="quantity != null">
+				quantity,
+			</if>
+			<if test="unitPrice != null">
+				unitPrice,
+			</if>
+			<if test="startTime != null">
+				startTime,
+			</if>
+			<if test="endTime != null">
+				endTime,
+			</if>
+			<if test="saleAmount != null">
+				saleAmount,
+			</if>
+			<if test="picture != null">
+				picture,
+			</if>
+			<if test="leaseTerm != null">
+				leaseTerm,
+			</if>
+			<if test="billingType != null">
+				billingType,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="rentOrder != null and rentOrder.id != null">
+				#{rentOrder.id,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceModelId != null">
+				#{deviceModelId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceModelName != null">
+				#{deviceModelName,jdbcType=VARCHAR},
+			</if>
+			<if test="quantity != null">
+				#{quantity,jdbcType=INTEGER},
+			</if>
+			<if test="unitPrice != null">
+				#{unitPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="startTime != null">
+				#{startTime,jdbcType=VARCHAR},
+			</if>
+			<if test="endTime != null">
+				#{endTime,jdbcType=VARCHAR},
+			</if>
+			<if test="saleAmount != null">
+				#{saleAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="picture != null">
+				#{picture,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="leaseTerm != null">
+				#{leaseTerm,jdbcType=VARCHAR},
+			</if>
+			<if test="billingType != null">
+				#{billingType,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.RentOrderDevice">
+		update t_rentorderdevice
+		<set>
+			<if test="rentOrder != null and rentOrder.id != null">
+				rentOrderId = #{rentOrder.id,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceModelId != null">
+				deviceModelId = #{deviceModelId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceModelName != null">
+				deviceModelName = #{deviceModelName,jdbcType=VARCHAR},
+			</if>
+			<if test="quantity != null">
+				quantity = #{quantity,jdbcType=INTEGER},
+			</if>
+			<if test="unitPrice != null">
+				unitPrice = #{unitPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="startTime != null">
+				startTime = #{startTime,jdbcType=VARCHAR},
+			</if>
+			<if test="endTime != null">
+				endTime = #{endTime,jdbcType=VARCHAR},
+			</if>
+			<if test="saleAmount != null">
+				saleAmount = #{saleAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="picture != null">
+				picture = #{picture,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="leaseTerm != null">
+				leaseTerm = #{leaseTerm,jdbcType=VARCHAR},
+			</if>
+			<if test="billingType != null">
+				billingType = #{billingType,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				createTime = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where rentorderdevice_id = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="getRentOrderDevicePageList" parameterType="com.zj.entity.tm.form.RentOrderDeviceQueryForm"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_rentorderdevice
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="rentOrderId!=null">
+				AND rentOrderId = #{rentOrderId}
+			</if>
+			<if test="deviceModelId!=null">
+				AND deviceModelId = #{deviceModelId}
+			</if>
+		</trim>
+	</select>
+	<select id="getRentOrderDeviceDeatilAllList" parameterType="java.lang.String"
+		resultMap="DetailResultMap">
+		select
+		rentorderDevice.*,
+		deviceType.typeName as deviceTypeName,
+		brand.brandName as deviceBrandName
+		FROM
+		t_rentorderdevice rentorderDevice
+		LEFT JOIN
+		b_devicemodel model on model.deviceModel_id = rentorderDevice.deviceModelId
+		LEFT JOIN
+		b_devicetype deviceType on deviceType.deviceType_id = model.deviceTypeId
+		LEFT JOIN b_devicebrand brand on brand.deviceBrand_id =
+		model.deviceBrandId
+		where rentorderDevice.rentOrderId=#{rentOrderId}
+
+	</select>
+</mapper>

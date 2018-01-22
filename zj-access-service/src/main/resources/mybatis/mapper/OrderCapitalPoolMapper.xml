@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.OrderCapitalPoolMapper">
+	<resultMap id="BaseResultMap" type="com.zj.entity.base.po.OrderCapitalPool">
+		<id column="orderCapitalPool_id" jdbcType="VARCHAR" property="id" />
+		<result column="rentOrderId" jdbcType="VARCHAR" property="rentOrderId" />
+		<result column="type" jdbcType="INTEGER" property="type" />
+		<result column="capitalSideId" jdbcType="VARCHAR" property="capitalSideId" />
+		<result column="amount" jdbcType="DECIMAL" property="amount" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		orderCapitalPool_id, rentOrderId, type, capitalSideId, amount, status, createTime
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_ordercapitalpool
+		where orderCapitalPool_id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from t_ordercapitalpool
+		where orderCapitalPool_id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insertSelective" parameterType="com.zj.entity.base.po.OrderCapitalPool"
+		keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into t_ordercapitalpool
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				orderCapitalPool_id,
+			</if>
+			<if test="rentOrderId != null">
+				rentOrderId,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="capitalSideId != null">
+				capitalSideId,
+			</if>
+			<if test="amount != null">
+				amount,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="rentOrderId != null">
+				#{rentOrderId,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="capitalSideId != null">
+				#{capitalSideId,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null">
+				#{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.OrderCapitalPool">
+		update t_ordercapitalpool
+		<set>
+			<if test="rentOrderId != null">
+				rentOrderId = #{rentOrderId,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="capitalSideId != null">
+				capitalSideId = #{capitalSideId,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null">
+				amount = #{amount,jdbcType=DECIMAL},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				createTime = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where orderCapitalPool_id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zj.entity.base.po.OrderCapitalPool">
+		update t_ordercapitalpool
+		set rentOrderId = #{rentOrderId,jdbcType=VARCHAR},
+		type = #{type,jdbcType=INTEGER},
+		capitalSideId = #{capitalSideId,jdbcType=VARCHAR},
+		amount = #{amount,jdbcType=DECIMAL},
+		status = #{status,jdbcType=INTEGER},
+		createTime = #{createTime,jdbcType=TIMESTAMP}
+		where orderCapitalPool_id = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="getOrderCapitalPoolPageList" parameterType="com.zj.entity.tm.form.OrderCapitalPoolQueryForm"
+		resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List"/> 
+		from t_ordercapitalpool
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="capitalSideId!=null">
+				AND capitalSideId = #{capitalSideId}
+			</if>
+			<if test="rentOrderId!=null">
+				AND rentOrderId = #{rentOrderId}
+			</if>
+			<if test="status!=null">
+				AND status = #{status}
+			</if>
+		</trim>
+	</select>
+		<select id="getOrderCapitalPoolAllList" parameterType="com.zj.entity.tm.form.OrderCapitalPoolQueryForm"
+		resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List"/> 
+		from t_ordercapitalpool
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="capitalSideId!=null">
+				AND capitalSideId = #{capitalSideId}
+			</if>
+			<if test="rentOrderId!=null">
+				AND rentOrderId = #{rentOrderId}
+			</if>
+			<if test="status!=null">
+				AND status = #{status}
+			</if>
+		</trim>
+	</select>
+</mapper>

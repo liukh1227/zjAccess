@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.DeliveryOrderMapper">
+  <resultMap id="BaseResultMap" type="com.zj.entity.base.po.DeliveryOrder">
+    <id column="deliveryorder_id" jdbcType="VARCHAR" property="id" />
+    <result column="rentOrderId" jdbcType="VARCHAR" property="rentOrderId" />
+    <result column="rentOrderDeviceId" jdbcType="VARCHAR" property="rentOrderDeviceId" />
+    <result column="deviceId" jdbcType="VARCHAR" property="deviceId" />
+    <result column="deviceName" jdbcType="VARCHAR" property="deviceName" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    deliveryorder_id , rentOrderId, rentOrderDeviceId, deviceId, deviceName, creator, status, createTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_deliveryorder
+    where deliveryorder_id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_deliveryorder
+    where deliveryorder_id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.zj.entity.base.po.DeliveryOrder"
+  	keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+    insert into t_deliveryorder
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        deliveryorder_id,
+      </if>
+      <if test="rentOrderId != null">
+        rentOrderId,
+      </if>
+      <if test="rentOrderDeviceId != null">
+        rentOrderDeviceId,
+      </if>
+      <if test="deviceId != null">
+        deviceId,
+      </if>
+      <if test="deviceName != null">
+        deviceName,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="rentOrderId != null">
+        #{rentOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="rentOrderDeviceId != null">
+        #{rentOrderDeviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null">
+        #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceName != null">
+        #{deviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.DeliveryOrder">
+    update t_deliveryorder
+    <set>
+      <if test="rentOrderId != null">
+        rentOrderId = #{rentOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="rentOrderDeviceId != null">
+        rentOrderDeviceId = #{rentOrderDeviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null">
+        deviceId = #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceName != null">
+        deviceName = #{deviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where deliveryorder_id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zj.entity.base.po.DeliveryOrder">
+    update t_deliveryorder
+    set rentOrderId = #{rentOrderId,jdbcType=VARCHAR},
+      rentOrderDeviceId = #{rentOrderDeviceId,jdbcType=VARCHAR},
+      deviceId = #{deviceId,jdbcType=VARCHAR},
+      deviceName = #{deviceName,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      createTime = #{createTime,jdbcType=TIMESTAMP}
+    where deliveryorder_id = #{id,jdbcType=VARCHAR}
+  </update>
+  	<select id="getDeliveryOrderPageList" parameterType="com.zj.entity.tm.form.DeliveryOrderQueryForm"
+		resultMap="BaseResultMap">
+		select 
+		 <include refid="Base_Column_List" />
+		from t_deliveryorder
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="rentOrderDeviceId!=null">
+				AND rentOrderDeviceId = #{rentOrderDeviceId}
+			</if>
+			<if test="rentOrderId!=null">
+				AND rentOrderId = #{rentOrderId}
+			</if>
+			<if test="status!=null">
+				AND status = #{status}
+			</if>
+		</trim>
+	</select>
+  	<select id="getDeliveryOrderAllList" parameterType="com.zj.entity.tm.form.DeliveryOrderQueryForm"
+		resultMap="BaseResultMap">
+		select 
+		 <include refid="Base_Column_List" />
+		from t_deliveryorder
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="rentOrderDeviceId!=null">
+				AND rentOrderDeviceId = #{rentOrderDeviceId}
+			</if>
+			<if test="rentOrderId!=null">
+				AND rentOrderId = #{rentOrderId}
+			</if>
+			<if test="status!=null">
+				AND status = #{status}
+			</if>
+		</trim>
+	</select>
+</mapper>

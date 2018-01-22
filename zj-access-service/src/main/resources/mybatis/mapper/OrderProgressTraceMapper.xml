@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.OrderProgressTraceMapper">
+	<resultMap id="BaseResultMap" type="com.zj.entity.base.po.OrderProgressTrace">
+		<id column="orderProgress_id" jdbcType="VARCHAR" property="id" />
+		<result column="orderId" jdbcType="VARCHAR" property="orderId" />
+		<result column="handlerId" jdbcType="VARCHAR" property="handlerId" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		orderProgress_id , orderId, handlerId, status, createTime
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_orderprogresstrace
+		where orderProgress_id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		t_orderprogresstrace
+		where orderProgress_id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insertSelective" parameterType="com.zj.entity.base.po.OrderProgressTrace"
+		keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into t_orderprogresstrace
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				orderProgress_id,
+			</if>
+			<if test="orderId != null">
+				orderId,
+			</if>
+			<if test="handlerId != null">
+				handlerId,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orderId != null">
+				#{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="handlerId != null">
+				#{handlerId,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.OrderProgressTrace">
+		update t_orderprogresstrace
+		<set>
+			<if test="orderId != null">
+				orderId = #{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="handlerId != null">
+				handlerId = #{handlerId,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				createTime = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where orderProgress_id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<select id="getOrderProgressTracePageList" parameterType="com.zj.entity.tm.form.OrderProgressTraceQueryForm"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_orderprogresstrace
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="handlerId!=null">
+				AND handlerId = #{handlerId}
+			</if>
+			<if test="orderId!=null">
+				AND orderId = #{orderId}
+			</if>
+			<if test="status!=null">
+				AND status = #{status}
+			</if>
+		</trim>
+	 order by createTime desc,status desc
+	</select>
+</mapper>

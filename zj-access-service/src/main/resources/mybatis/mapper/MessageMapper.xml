@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.MessageMapper">
+	<resultMap id="BaseResultMap" type="com.zj.entity.base.po.Message">
+		<id column="message_id" jdbcType="VARCHAR" property="id" />
+		<result column="type" jdbcType="VARCHAR" property="type" />
+		<result column="externalRelatedId" jdbcType="VARCHAR" property="externalRelatedId" />
+		<result column="operatorId" jdbcType="VARCHAR" property="operatorId" />
+		<result column="content" jdbcType="LONGVARCHAR" property="content" />
+		<result column="userId" jdbcType="VARCHAR" property="userId" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+
+	<resultMap id="ResultMap" type="com.zj.entity.sm.dto.MessageDto">
+		<id column="message_id" jdbcType="VARCHAR" property="id" />
+		<result column="type" jdbcType="VARCHAR" property="type" />
+		<result column="externalRelatedId" jdbcType="VARCHAR" property="externalRelatedId" />
+		<result column="operatorId" jdbcType="VARCHAR" property="operatorId" />
+		<result column="content" jdbcType="LONGVARCHAR" property="content" />
+		<result column="userId" jdbcType="VARCHAR" property="userId" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="operatorPicture" jdbcType="VARCHAR" property="operatorPicture" />
+		<result column="operatorCompanyName" jdbcType="VARCHAR"
+			property="operatorCompanyName" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		message_id, type, externalRelatedId, operatorId,
+		content, userId, status,
+		createTime
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from s_message
+		where message_id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		s_message
+		where message_id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insertSelective" parameterType="com.zj.entity.base.po.Message"
+		keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into s_message
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				message_id,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="externalRelatedId != null">
+				externalRelatedId,
+			</if>
+			<if test="operatorId != null">
+				operatorId,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+			<if test="userId != null">
+				userId,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="externalRelatedId != null">
+				#{externalRelatedId,jdbcType=VARCHAR},
+			</if>
+			<if test="operatorId != null">
+				#{operatorId,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.Message">
+		update s_message
+		<set>
+			<if test="type != null">
+				type = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="externalRelatedId != null">
+				externalRelatedId =
+				#{externalRelatedId,jdbcType=VARCHAR},
+			</if>
+			<if test="operatorId != null">
+				operatorId = #{operatorId,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="userId != null">
+				userId = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				createTime = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where message_id = #{id,jdbcType=VARCHAR}
+	</update>
+
+
+	<select id="getMessagePageList" parameterType="com.zj.entity.sm.form.MessageQueryForm"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from s_message
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="type!=null">
+				AND type = #{type}
+			</if>
+			<if test="externalRelatedId!=null">
+				AND externalRelatedId = #{externalRelatedId}
+			</if>
+			<if test="operatorId!=null">
+				AND operatorId = #{operatorId}
+			</if>
+			<if test="userId!=null">
+				AND userId = #{userId}
+			</if>
+			<if test="status!=null">
+				AND status = #{status}
+			</if>
+		</trim>
+		order by status asc ,createTime desc
+	</select>
+	<select id="getMessageDeatilPageList" parameterType="com.zj.entity.sm.form.MessageQueryForm"
+		resultMap="ResultMap">
+		select
+		message.message_id as id, message.type as type,
+		message.externalRelatedId as
+		externalRelatedId, message.operatorId as
+		operatorId,
+		message.content as content, message.userId as userId,
+		message.status as status,
+		message.createTime as createTime,
+		users.headPortrait as operatorPicture,
+		company.companyName as
+		operatorCompanyName
+		from
+		s_message message left join
+		b_user users on
+		message.operatorId = users.user_id
+		left join b_company company on
+		users.companyId = company.company_id
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="type!=null">
+				AND message.type = #{type}
+			</if>
+			<if test="externalRelatedId!=null">
+				AND message.externalRelatedId = #{externalRelatedId}
+			</if>
+			<if test="operatorId!=null">
+				AND message.operatorId = #{operatorId}
+			</if>
+			<if test="userId!=null">
+				AND message.userId = #{userId}
+			</if>
+			<if test="status!=null">
+				AND message.status = #{status}
+			</if>
+		</trim>
+		order by message.status asc ,message.createTime desc
+	</select>
+	<select id="getUnReadMessageAmount" parameterType="com.zj.entity.tm.form.InqueryOrderQueryForm"
+		resultType="long">
+		select COUNT(message_id) from s_message
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="type!=null">
+				AND type = #{type}
+			</if>
+			<if test="externalRelatedId!=null">
+				AND externalRelatedId = #{externalRelatedId}
+			</if>
+			<if test="operatorId!=null">
+				AND operatorId = #{operatorId}
+			</if>
+			<if test="userId!=null">
+				AND userId = #{userId}
+			</if>
+			<if test="status!=null">
+				AND status = #{status}
+			</if>
+		</trim>
+	</select>
+
+</mapper>

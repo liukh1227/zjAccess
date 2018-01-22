@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.ProjectMapper">
+  <resultMap id="BaseResultMap" type="com.zj.entity.base.po.Project">
+    <id column="project_id" jdbcType="VARCHAR" property="id" />
+    <result column="theme" jdbcType="VARCHAR" property="theme" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="publisherId" jdbcType="VARCHAR" property="publisherId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+    <resultMap id="ResultMap" type="com.zj.entity.pm.dto.ProjectListDto">
+    <id column="project_id" jdbcType="VARCHAR" property="id" />
+    <result column="theme" jdbcType="VARCHAR" property="theme" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="publisherId" jdbcType="VARCHAR" property="publisherId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="viewCount" jdbcType="BIGINT" property="viewCount" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    project_id  , theme, content,publisherId, status, address,createTime
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from p_project
+    where project_id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from p_project
+    where project_id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.zj.entity.base.po.Project"
+  keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+    insert into p_project
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        project_id,
+      </if>
+      <if test="theme != null">
+        theme,
+      </if>
+      <if test="publisherId != null">
+        publisherId,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="theme != null">
+        #{theme,jdbcType=VARCHAR},
+      </if>
+      <if test="publisherId != null">
+        #{publisherId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+       <if test="createTime != null">
+          #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.Project">
+    update p_project
+    <set>
+      <if test="theme != null">
+        theme = #{theme,jdbcType=VARCHAR},
+      </if>
+      <if test="publisherId != null">
+        publisherId = #{publisherId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where project_id = #{id,jdbcType=VARCHAR}
+  </update>
+    <select id="getProjectPageList" parameterType="com.zj.entity.pm.form.ProjectQueryForm" 
+    resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+	 from p_project
+	<trim prefix="WHERE" prefixOverrides="AND |OR" > 
+            <if test="address!=null">  
+                AND address = #{address}  
+            </if>  
+            <if test="content!=null">  
+                AND content = #{content}  
+            </if>  
+            <if test="publisherId!=null">  
+                AND publisherId =  #{publisherId}  
+            </if>  
+            <if test="status!=null">  
+                AND status = #{status}  
+            </if>  
+            <if test="theme!=null">  
+                AND theme = #{theme}  
+            </if>  
+        </trim> 
+	</select>
+    <select id="getProjectDeatilPageList" parameterType="com.zj.entity.pm.form.ProjectQueryForm" 
+    resultMap="ResultMap">
+    select 
+    project_id , theme, content,publisherId, status, address,createTime,
+    (select COUNT(log_id) from s_log where operatorContent = project_id) as viewCount
+	 from p_project
+	<trim prefix="WHERE" prefixOverrides="AND |OR" > 
+            <if test="address!=null">  
+                AND address = #{address}  
+            </if>  
+            <if test="content!=null">  
+                AND content = #{content}  
+            </if>  
+            <if test="publisherId!=null">  
+                AND publisherId =  #{publisherId}  
+            </if>  
+            <if test="status!=null">  
+                AND status = #{status}  
+            </if>  
+            <if test="theme!=null">  
+                AND theme = #{theme}  
+            </if>  
+        </trim> 
+	</select>
+</mapper>

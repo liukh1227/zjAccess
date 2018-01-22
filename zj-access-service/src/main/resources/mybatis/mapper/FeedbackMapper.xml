@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.FeedbackMapper">
+	<resultMap id="BaseResultMap" type="com.zj.entity.base.po.Feedback">
+		<id column="feedback_id" jdbcType="VARCHAR" property="id" />
+		<result column="content" jdbcType="LONGVARCHAR" property="content" />
+		<result column="publisherId" jdbcType="VARCHAR" property="publisherId" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		feedback_id, content, publisherId, status,createTime
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from s_feedback
+		where feedback_id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from s_feedback
+		where feedback_id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insertSelective" parameterType="com.zj.entity.base.po.Feedback"
+		keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into s_feedback
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				feedback_id,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+			<if test="publisherId != null">
+				publisherId,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="publisherId != null">
+				#{publisherId,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.Feedback">
+		update s_feedback
+		<set>
+			<if test="content != null">
+				content = #{content,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="publisherId != null">
+				publisherId = #{publisherId,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+		</set>
+		where feedback_id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<select id="getFeedbackPageList" parameterType="com.zj.entity.sm.form.FeedbackQueryForm"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from s_feedback
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="publisherId!=null">
+				AND publisherId = #{publisherId}
+			</if>
+			<if test="status!=null">
+				AND status = #{status}
+			</if>
+
+		</trim>
+	</select>
+</mapper>

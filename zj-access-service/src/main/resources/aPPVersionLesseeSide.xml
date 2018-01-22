@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<aPPVersion>
+<update channel="guanwang" >
+    <version>1</version>
+    <name>承租方1.0.1.apk</name>
+    <url>http://o7f8tg26i.bkt.clouddn.com/%E6%89%BF%E7%A7%9F%E6%96%B91.0.1.apk</url>
+    <updatetip>
+    1、系统改版，新UI的设计； 
+    2、增加屏幕关闭功能； 
+    3、系统性能提升。
+    </updatetip>
+    <force>0</force>
+</update>
+<update channel="360" >
+    <version>1</version>
+    <name>360LESAPP.apk</name>
+    <url>http://api.chebaotec.com/adp/apk/TCBAPP.apk</url>
+    <updatetip>
+    1、系统改版，新UI的设计;  
+    2、增加屏幕关闭功能; 
+    3、系统性能提升。
+    </updatetip>
+    <force>1</force>
+</update>
+<update channel="baidu">
+    <version>1</version>
+    <name>baiduLESAPP.apk</name>
+    <url>http://api.chebaotec.com/adp/apk/TCBAPP.apk</url>
+    <updatetip>
+    1、系统改版，新UI的设计;  
+    2、增加屏幕关闭功能; 
+    3、系统性能提升。
+    </updatetip>
+    <force>1</force>
+</update>
+</aPPVersion>
+

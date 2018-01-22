@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.OrderInteractiveTraceMapper">
+	<resultMap id="BaseResultMap" type="com.zj.entity.base.po.OrderInteractiveTrace">
+		<id column="orderinteractive_id" jdbcType="VARCHAR" property="id" />
+		<result column="relatedStatementId" jdbcType="VARCHAR"
+			property="relatedStatementId" />
+		<result column="relatedStatementType" jdbcType="VARCHAR"
+			property="relatedStatementType" />
+		<result column="publisherId" jdbcType="VARCHAR" property="publisherId" />
+		<result column="publisherCompanyName" jdbcType="VARCHAR"
+			property="publisherCompanyName" />
+		<result column="publishContent" jdbcType="VARCHAR" property="publishContent" />
+		<result column="posterIcon" jdbcType="VARCHAR" property="posterIcon" />
+		<result column="posterCompanyId" jdbcType="VARCHAR" property="posterCompanyId" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		orderinteractive_id, relatedStatementId, relatedStatementType, publisherId,
+		publisherCompanyName,
+		publishContent, posterIcon, posterCompanyId, createTime
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_orderinteractivetrace
+		where orderinteractive_id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from t_orderinteractivetrace
+		where orderinteractive_id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insertSelective" parameterType="com.zj.entity.base.po.OrderInteractiveTrace"
+		keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into t_orderinteractivetrace
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				orderinteractive_id,
+			</if>
+			<if test="relatedStatementId != null">
+				relatedStatementId,
+			</if>
+			<if test="relatedStatementType != null">
+				relatedStatementType,
+			</if>
+			<if test="publisherId != null">
+				publisherId,
+			</if>
+			<if test="publisherCompanyName != null">
+				publisherCompanyName,
+			</if>
+			<if test="publishContent != null">
+				publishContent,
+			</if>
+			<if test="posterIcon != null">
+				posterIcon,
+			</if>
+			<if test="posterCompanyId != null">
+				posterCompanyId,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="relatedStatementId != null">
+				#{relatedStatementId,jdbcType=VARCHAR},
+			</if>
+			<if test="relatedStatementType != null">
+				#{relatedStatementType,jdbcType=VARCHAR},
+			</if>
+			<if test="publisherId != null">
+				#{publisherId,jdbcType=VARCHAR},
+			</if>
+			<if test="publisherCompanyName != null">
+				#{publisherCompanyName,jdbcType=VARCHAR},
+			</if>
+			<if test="publishContent != null">
+				#{publishContent,jdbcType=VARCHAR},
+			</if>
+			<if test="posterIcon != null">
+				#{posterIcon,jdbcType=VARCHAR},
+			</if>
+			<if test="posterCompanyId != null">
+				#{posterCompanyId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.OrderInteractiveTrace">
+		update t_orderinteractivetrace
+		<set>
+			<if test="relatedStatementId != null">
+				relatedStatementId = #{relatedStatementId,jdbcType=VARCHAR},
+			</if>
+			<if test="relatedStatementType != null">
+				relatedStatementType = #{relatedStatementType,jdbcType=VARCHAR},
+			</if>
+			<if test="publisherId != null">
+				publisherId = #{publisherId,jdbcType=VARCHAR},
+			</if>
+			<if test="publisherCompanyName != null">
+				publisherCompanyName = #{publisherCompanyName,jdbcType=VARCHAR},
+			</if>
+			<if test="publishContent != null">
+				publishContent = #{publishContent,jdbcType=VARCHAR},
+			</if>
+			<if test="posterIcon != null">
+				posterIcon = #{posterIcon,jdbcType=VARCHAR},
+			</if>
+			<if test="posterCompanyId != null">
+				posterCompanyId = #{posterCompanyId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				createTime = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where orderinteractive_id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zj.entity.base.po.OrderInteractiveTrace">
+		update t_orderinteractivetrace
+		set relatedStatementId = #{relatedStatementId,jdbcType=VARCHAR},
+		relatedStatementType = #{relatedStatementType,jdbcType=VARCHAR},
+		publisherId = #{publisherId,jdbcType=VARCHAR},
+		publisherCompanyName = #{publisherCompanyName,jdbcType=VARCHAR},
+		publishContent = #{publishContent,jdbcType=VARCHAR},
+		posterIcon = #{posterIcon,jdbcType=VARCHAR},
+		posterCompanyId = #{posterCompanyId,jdbcType=VARCHAR},
+		createTime = #{createTime,jdbcType=TIMESTAMP}
+		where orderinteractive_id = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="getOrderInteractiveTracePageList" parameterType="com.zj.entity.tm.form.OrderInteractiveTraceQueryForm"
+		resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+		from t_orderinteractivetrace
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="relatedStatementId!=null">
+				AND relatedStatementId = #{relatedStatementId}
+			</if>
+		</trim>
+		order by createTime DESC
+	</select>
+</mapper>

@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.DeviceMapper">
+	<resultMap id="BaseResultMap" type="com.zj.entity.base.po.Device">
+		<id column="device_id" jdbcType="VARCHAR" property="id" />
+		<result column="deviceBrand" jdbcType="VARCHAR" property="deviceBrand" />
+		<result column="deviceType" jdbcType="VARCHAR" property="deviceType" />
+		<result column="deviceName" jdbcType="VARCHAR" property="deviceName" />
+		<result column="deviceModel" jdbcType="VARCHAR" property="deviceModel" />
+		<result column="sequenceNum" jdbcType="VARCHAR" property="sequenceNum" />
+		<result column="plateNumber" jdbcType="VARCHAR" property="plateNumber" />
+		<result column="manufactureYear" jdbcType="VARCHAR" property="manufactureYear" />
+		<result column="address" jdbcType="VARCHAR" property="address" />
+		<result column="latitude" jdbcType="VARCHAR" property="latitude" />
+		<result column="longitude" jdbcType="VARCHAR" property="longitude" />
+		<result column="isImported" jdbcType="BIT" property="isImported" />
+		<result column="workingTime" jdbcType="INTEGER" property="workingTime" />
+		<result column="picture" jdbcType="LONGVARCHAR" property="picture" />
+		<result column="rentPerDay" jdbcType="VARCHAR" property="rentPerDay" />
+		<result column="rentPerMonth" jdbcType="VARCHAR" property="rentPerMonth" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="companyId" jdbcType="VARCHAR" property="companyId" />
+		<result column="isRealDevice" jdbcType="INTEGER" property="isRealDevice" />
+		<result column="realDeviceId" jdbcType="VARCHAR" property="realDeviceId" />
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+	<resultMap type="com.zj.entity.dm.dto.DeviceListDto" id="DeviceMoreListResultMap"
+		extends="BaseResultMap">
+		<result column="deviceTypeName" jdbcType="VARCHAR" property="deviceTypeName" />
+		<result column="deviceBrandName" jdbcType="VARCHAR" property="deviceBrandName" />
+		<result column="deviceModelName" jdbcType="VARCHAR" property="deviceModelName" />
+	</resultMap>
+	<resultMap type="com.zj.entity.dm.dto.DeviceDetailInforListDto"
+		id="DeviceDetailMoreListResultMap" extends="DeviceMoreListResultMap">
+		<result column="modelQuote" jdbcType="VARCHAR" property="modelQuote" />
+		<result column="deviceTypeSpecDataValue" jdbcType="VARCHAR"
+			property="deviceTypeSpecDataValue" />
+		<result column="DeviceTypeSpecDefinitionName" jdbcType="VARCHAR"
+			property="DeviceTypeSpecDefinitionName" />
+		<result column="unit" jdbcType="VARCHAR" property="unit" />
+		<result column="content" jdbcType="VARCHAR" property="content" />
+		<result column="isPassed" jdbcType="BIT" property="isPassed" />
+	</resultMap>
+
+	<resultMap type="com.zj.entity.dm.dto.DeviceStatisticsDto"
+		id="getDeviceStatisticsMap">
+		<result column="isRealDevice" jdbcType="INTEGER" property="isRealDevice" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="amount" jdbcType="INTEGER" property="amount" />
+	</resultMap>
+
+
+	<sql id="Base_Column_List">
+		device_id , deviceBrand, deviceType, deviceName,
+		deviceModel,
+		sequenceNum,plateNumber, manufactureYear,address,
+		latitude, longitude,
+		isImported, workingTime, picture,
+		rentPerDay,rentPerMonth,status,
+		companyId, isRealDevice, realDeviceId,
+		creator, createTime
+	</sql>
+	<sql id="Base_More_Column_List">
+		device.device_id as device_id,
+		deviceBrand, deviceType, deviceName,
+		deviceModel,
+		sequenceNum,
+		plateNumber, manufactureYear,
+		company.address
+		as address, company.latitude as latitude, company.longitude as
+		longitude,
+		isImported,
+		workingTime, picture, rentPerDay,
+		rentPerMonth,
+		device.status as status,
+		device.companyId as companyId, isRealDevice,
+		realDeviceId,
+		device.creator as creator, device.createTime as
+		createTime,
+		deviceType.typeName as deviceTypeName
+		,deviceBrand.brandName as deviceBrandName
+		,deviceModel.modelName as
+		deviceModelName
+		,company.companyName as companyName
+	</sql>
+	<sql id="Base_Detail_More_Column_List">
+		DISTINCT device.device_id as device_id
+		,deviceBrand, deviceType,
+		deviceName,
+		deviceModel
+		,sequenceNum
+		,plateNumber, manufactureYear
+		,company.address as address
+		,company.latitude as latitude
+		,company.longitude as longitude
+		,isImported
+		,workingTime
+		,device.picture as picture
+		,rentPerDay
+		,rentPerMonth
+		,device.status as status
+		,device.companyId as
+		companyId, isRealDevice, realDeviceId
+		,device.creator as creator,
+		device.createTime as createTime
+		,deviceType.typeName as deviceTypeName
+		,deviceBrand.brandName as
+		deviceBrandName
+		,deviceModel.modelName as
+		deviceModelName
+		,company.companyName as companyName
+		,companyDeviceType.modelQuote as
+		modelQuote
+		,devicespecData.data as deviceTypeSpecDataValue
+		,devicespecDef.attributeName as DeviceTypeSpecDefinitionName
+		,devicespecDef.unit as unit
+		,audit.content as content
+		,audit.isPassed as
+		isPassed
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="DeviceDetailMoreListResultMap">
+		select
+		<include refid="Base_Detail_More_Column_List" />
+	    from d_device device
+		left join b_devicetype deviceType on deviceType.deviceType_id =
+		device.deviceType
+		left join b_devicebrand deviceBrand on deviceBrand.deviceBrand_id
+		=device.deviceBrand
+		left join b_devicemodel deviceModel on deviceModel.deviceModel_id
+		=device.deviceModel
+		left join b_devicetypespecdata devicespecData on
+		devicespecData.devSpecData_id = deviceModel.keyAttributeValueId
+		left join b_devicetypespecdefinition devicespecDef on
+		devicespecDef.devSpecDef_id = devicespecData.definitionId
+		left join b_company company on company.company_id = device.companyId
+		left join b_audit audit on audit.relatedId = device.device_id
+		left join d_companydevicetype companyDeviceType on
+		companyDeviceType.deviceModelId = device.deviceModel and
+		companyDeviceType.companyId = device.companyId
+		where device.device_id=#{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		d_device
+		where device_id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.zj.entity.base.po.Device"
+		keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into d_device (device_id, deviceBrand, deviceType,
+		deviceName,
+		deviceModel, sequenceNum,
+		plateNumber, manufactureYear, address,
+		latitude, longitude, isImported,
+		workingTime, picture, rentPerDay,
+		rentPerMonth, status, companyId,
+		isRealDevice, realDeviceId, creator,
+		createTime)
+		values (#{id,jdbcType=VARCHAR},
+		#{deviceBrand,jdbcType=VARCHAR},
+		#{deviceType,jdbcType=VARCHAR},
+		#{deviceName,jdbcType=VARCHAR}, #{deviceModel,jdbcType=VARCHAR},
+		#{sequenceNum,jdbcType=VARCHAR},
+		#{plateNumber,jdbcType=VARCHAR},
+		#{manufactureYear,jdbcType=VARCHAR},
+		#{address,jdbcType=VARCHAR},
+		#{latitude,jdbcType=VARCHAR}, #{longitude,jdbcType=VARCHAR},
+		#{isImported,jdbcType=BIT},
+		#{workingTime,jdbcType=INTEGER},
+		#{picture,jdbcType=LONGVARCHAR},
+		#{rentPerDay,jdbcType=VARCHAR},
+		#{rentPerMonth,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
+		#{companyId,jdbcType=VARCHAR},
+		#{isRealDevice,jdbcType=INTEGER},
+		#{realDeviceId,jdbcType=VARCHAR},
+		#{creator,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zj.entity.base.po.Device"
+		keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+
+		insert into d_device
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				device_id,
+			</if>
+			<if test="deviceBrand != null">
+				deviceBrand,
+			</if>
+			<if test="deviceType != null">
+				deviceType,
+			</if>
+			<if test="deviceName != null">
+				deviceName,
+			</if>
+			<if test="deviceModel != null">
+				deviceModel,
+			</if>
+			<if test="sequenceNum != null">
+				sequenceNum,
+			</if>
+			<if test="plateNumber != null">
+				plateNumber,
+			</if>
+			<if test="manufactureYear != null">
+				manufactureYear,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="latitude != null">
+				latitude,
+			</if>
+			<if test="longitude != null">
+				longitude,
+			</if>
+			<if test="isImported != null">
+				isImported,
+			</if>
+			<if test="workingTime != null">
+				workingTime,
+			</if>
+			<if test="picture != null">
+				picture,
+			</if>
+			<if test="rentPerDay != null">
+				rentPerDay,
+			</if>
+			<if test="rentPerMonth != null">
+				rentPerMonth,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="companyId != null">
+				companyId,
+			</if>
+			<if test="isRealDevice != null">
+				isRealDevice,
+			</if>
+			<if test="realDeviceId != null">
+				realDeviceId,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+			<if test="isTempData != null">
+				isTempData,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceBrand != null">
+				#{deviceBrand,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceType != null">
+				#{deviceType,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceName != null">
+				#{deviceName,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceModel != null">
+				#{deviceModel,jdbcType=VARCHAR},
+			</if>
+			<if test="sequenceNum != null">
+				#{sequenceNum,jdbcType=VARCHAR},
+			</if>
+			<if test="plateNumber != null">
+				#{plateNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="manufactureYear != null">
+				#{manufactureYear,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="latitude != null">
+				#{latitude,jdbcType=VARCHAR},
+			</if>
+			<if test="longitude != null">
+				#{longitude,jdbcType=VARCHAR},
+			</if>
+			<if test="isImported != null">
+				#{isImported,jdbcType=BIT},
+			</if>
+			<if test="workingTime != null">
+				#{workingTime,jdbcType=INTEGER},
+			</if>
+			<if test="picture != null">
+				#{picture,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="rentPerDay != null">
+				#{rentPerDay,jdbcType=VARCHAR},
+			</if>
+			<if test="rentPerMonth != null">
+				#{rentPerMonth,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="companyId != null">
+				#{companyId,jdbcType=VARCHAR},
+			</if>
+			<if test="isRealDevice != null">
+				#{isRealDevice,jdbcType=INTEGER},
+			</if>
+			<if test="realDeviceId != null">
+				#{realDeviceId,jdbcType=VARCHAR},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isTempData != null">
+				#{isTempData,jdbcType=BIT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.Device">
+		update d_device
+		<set>
+			<if test="deviceBrand != null">
+				deviceBrand = #{deviceBrand,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceType != null">
+				deviceType = #{deviceType,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceName != null">
+				deviceName = #{deviceName,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceModel != null">
+				deviceModel = #{deviceModel,jdbcType=VARCHAR},
+			</if>
+			<if test="sequenceNum != null">
+				sequenceNum = #{sequenceNum,jdbcType=VARCHAR},
+			</if>
+			<if test="plateNumber != null">
+				plateNumber = #{plateNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="manufactureYear != null">
+				manufactureYear = #{manufactureYear,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				address = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="latitude != null">
+				latitude = #{latitude,jdbcType=VARCHAR},
+			</if>
+			<if test="longitude != null">
+				longitude = #{longitude,jdbcType=VARCHAR},
+			</if>
+			<if test="isImported != null">
+				isImported = #{isImported,jdbcType=BIT},
+			</if>
+			<if test="workingTime != null">
+				workingTime = #{workingTime,jdbcType=INTEGER},
+			</if>
+			<if test="picture != null">
+				picture = #{picture,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="rentPerDay != null">
+				rentPerDay = #{rentPerDay,jdbcType=VARCHAR},
+			</if>
+			<if test="rentPerMonth != null">
+				rentPerMonth = #{rentPerMonth,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="companyId != null">
+				companyId = #{companyId,jdbcType=VARCHAR},
+			</if>
+			<if test="isRealDevice != null">
+				isRealDevice = #{isRealDevice,jdbcType=INTEGER},
+			</if>
+			<if test="realDeviceId != null">
+				realDeviceId = #{realDeviceId,jdbcType=VARCHAR},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				createTime = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where device_id = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="getDevicePageList" parameterType="com.zj.entity.dm.form.DeviceQueryForm"
+		resultMap="DeviceMoreListResultMap">
+		select
+		<include refid="Base_More_Column_List" />
+		from d_device device left join
+		b_devicetype deviceType on
+		deviceType.deviceType_id = device.deviceType
+		left join b_devicebrand
+		deviceBrand on deviceBrand.deviceBrand_id =device.deviceBrand
+		left join
+		b_devicemodel deviceModel on deviceModel.deviceModel_id
+		=device.deviceModel
+		left join b_company company on company.company_id =
+		device.companyId
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="companyId!=null">
+				AND device.companyId = #{companyId}
+			</if>
+			<if test="deviceBrand!=null">
+				AND device.deviceBrand = #{deviceBrand}
+			</if>
+			<if test="deviceModel!=null">
+				AND device.deviceModel = #{deviceModel}
+			</if>
+			<if test="deviceName!=null">
+				AND device.deviceName = #{deviceName}
+			</if>
+			<if test="deviceType!=null">
+				AND device.deviceType = #{deviceType}
+			</if>
+			<if test="startDate!=null">
+				AND device.createTime &gt;= #{startDate}
+			</if>
+			<if test="endDate!=null">
+				AND device.createTime &lt;= #{endDate}
+			</if>
+			<if test="isImported!=null">
+				AND device.isImported = #{isImported}
+			</if>
+			<if test="isRealDevice!=null">
+				AND device.isRealDevice = #{isRealDevice}
+			</if>
+			<if test="manufactureYear!=null">
+				AND device.manufactureYear = #{manufactureYear}
+			</if>
+			<if test="realDeviceId!=null">
+				AND device.realDeviceId = #{realDeviceId}
+			</if>
+			<if test="sequenceNum!=null">
+				AND device.sequenceNum = #{sequenceNum}
+			</if>
+			<if test="workingTime!=null">
+				AND device.workingTime = #{workingTime}
+			</if>
+			<if test="status!=null">
+				AND device.status = #{status}
+			</if>
+		</trim>
+	</select>
+	<select id="getDeviceDetailPageList" parameterType="com.zj.entity.dm.form.DeviceQueryForm"
+		resultMap="DeviceDetailMoreListResultMap">
+		select
+		<include refid="Base_Detail_More_Column_List" />
+		from d_device device
+		left join b_devicetype deviceType on deviceType.deviceType_id =
+		device.deviceType
+		left join b_devicebrand deviceBrand on deviceBrand.deviceBrand_id
+		=device.deviceBrand
+		left join b_devicemodel deviceModel on deviceModel.deviceModel_id
+		=device.deviceModel
+		left join b_devicetypespecdata devicespecData on
+		devicespecData.devSpecData_id = deviceModel.keyAttributeValueId
+		left join b_devicetypespecdefinition devicespecDef on
+		devicespecDef.devSpecDef_id = devicespecData.definitionId
+		left join b_company company on company.company_id = device.companyId
+		left join b_audit audit on audit.relatedId = device.device_id
+		left join d_companydevicetype companyDeviceType on
+		companyDeviceType.deviceModelId = device.deviceModel and
+		companyDeviceType.companyId = device.companyId
+
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="companyId!=null">
+				AND device.companyId = #{companyId}
+			</if>
+			<if test="deviceBrand!=null">
+				AND device.deviceBrand = #{deviceBrand}
+			</if>
+			<if test="deviceModel!=null">
+				AND device.deviceModel = #{deviceModel}
+			</if>
+			<if test="deviceName!=null">
+				AND device.deviceName = #{deviceName}
+			</if>
+			<if test="deviceType!=null">
+				AND device.deviceType = #{deviceType}
+			</if>
+			<if test="startDate!=null">
+				AND device.createTime &gt;= #{startDate}
+			</if>
+			<if test="endDate!=null">
+				AND device.createTime &lt;= #{endDate}
+			</if>
+			<if test="isImported!=null">
+				AND device.isImported = #{isImported}
+			</if>
+			<if test="isRealDevice!=null">
+				AND device.isRealDevice = #{isRealDevice}
+			</if>
+			<if test="manufactureYear!=null">
+				AND device.manufactureYear = #{manufactureYear}
+			</if>
+			<if test="realDeviceId!=null">
+				AND device.realDeviceId = #{realDeviceId}
+			</if>
+			<if test="sequenceNum!=null">
+				AND device.sequenceNum = #{sequenceNum}
+			</if>
+			<if test="workingTime!=null">
+				AND device.workingTime = #{workingTime}
+			</if>
+			<if test="status!=null">
+				AND device.status = #{status}
+			</if>
+		</trim>
+	</select>
+	<select id="getDeviceStatisticsList" parameterType="com.zj.entity.dm.form.DeviceQueryForm"
+		resultMap="getDeviceStatisticsMap">
+		select status, isRealDevice ,count(device_id) as amount
+		from
+		d_device
+		where companyId=#{companyId}
+		GROUP BY status,isRealDevice
+	</select>
+</mapper>

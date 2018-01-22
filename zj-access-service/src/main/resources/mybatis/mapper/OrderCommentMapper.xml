@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.OrderCommentMapper">
+	<resultMap id="BaseResultMap" type="com.zj.entity.base.po.OrderComment">
+		<id column="orderComment_id" jdbcType="VARCHAR" property="id" />
+		<result column="rentOrderId" jdbcType="VARCHAR" property="rentOrderId" />
+		<result column="commentSideId" jdbcType="VARCHAR" property="commentSideId" />
+		<result column="commentSideCompanyName" jdbcType="VARCHAR"
+			property="commentSideCompanyName" />
+		<result column="content" jdbcType="VARCHAR" property="content" />
+		<result column="star" jdbcType="INTEGER" property="star" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="beCommentedCompanyId" jdbcType="VARCHAR"
+			property="beCommentedCompanyId" />
+		<result column="beCommentedCompanyName" jdbcType="VARCHAR"
+			property="beCommentedCompanyName" />
+		<result column="commentator" jdbcType="VARCHAR" property="commentator" />
+		<result column="commentatorIcon" jdbcType="VARCHAR" property="commentatorIcon" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		orderComment_id, rentOrderId, commentSideId,
+		commentSideCompanyName, content, star,
+		status, beCommentedCompanyId,
+		beCommentedCompanyName, commentator, commentatorIcon, createTime
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_ordercomment
+		where orderComment_id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from
+		t_ordercomment
+		where orderComment_id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insertSelective" parameterType="com.zj.entity.base.po.OrderComment"
+		keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into t_ordercomment
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				orderComment_id,
+			</if>
+			<if test="rentOrderId != null">
+				rentOrderId,
+			</if>
+			<if test="commentSideId != null">
+				commentSideId,
+			</if>
+			<if test="commentSideCompanyName != null">
+				commentSideCompanyName,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+			<if test="star != null">
+				star,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="beCommentedCompanyId != null">
+				beCommentedCompanyId,
+			</if>
+			<if test="beCommentedCompanyName != null">
+				beCommentedCompanyName,
+			</if>
+			<if test="commentator != null">
+				commentator,
+			</if>
+			<if test="commentatorIcon != null">
+				commentatorIcon,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="rentOrderId != null">
+				#{rentOrderId,jdbcType=VARCHAR},
+			</if>
+			<if test="commentSideId != null">
+				#{commentSideId,jdbcType=VARCHAR},
+			</if>
+			<if test="commentSideCompanyName != null">
+				#{commentSideCompanyName,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=VARCHAR},
+			</if>
+			<if test="star != null">
+				#{star,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="beCommentedCompanyId != null">
+				#{beCommentedCompanyId,jdbcType=VARCHAR},
+			</if>
+			<if test="beCommentedCompanyName != null">
+				#{beCommentedCompanyName,jdbcType=VARCHAR},
+			</if>
+			<if test="commentator != null">
+				#{commentator,jdbcType=VARCHAR},
+			</if>
+			<if test="commentatorIcon != null">
+				#{commentatorIcon,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.OrderComment">
+		update t_ordercomment
+		<set>
+			<if test="rentOrderId != null">
+				rentOrderId = #{rentOrderId,jdbcType=VARCHAR},
+			</if>
+			<if test="commentSideId != null">
+				commentSideId = #{commentSideId,jdbcType=VARCHAR},
+			</if>
+			<if test="commentSideCompanyName != null">
+				commentSideCompanyName =
+				#{commentSideCompanyName,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="star != null">
+				star = #{star,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="beCommentedCompanyId != null">
+				beCommentedCompanyId =
+				#{beCommentedCompanyId,jdbcType=VARCHAR},
+			</if>
+			<if test="beCommentedCompanyName != null">
+				beCommentedCompanyName =
+				#{beCommentedCompanyName,jdbcType=VARCHAR},
+			</if>
+			<if test="commentator != null">
+				commentator = #{commentator,jdbcType=VARCHAR},
+			</if>
+			<if test="commentatorIcon != null">
+				commentatorIcon = #{commentatorIcon,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				createTime = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where orderComment_id = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="getOrderCommentCount" parameterType="com.zj.entity.tm.form.OrderCommentQueryForm"
+		resultType="Long">
+		select COUNT(ordercomment_id)
+		from t_ordercomment
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="beCommentedCompanyId!=null">
+				AND beCommentedCompanyId = #{beCommentedCompanyId}
+			</if>
+			<if test="commentSideId!=null">
+				AND commentSideId = #{commentSideId}
+			</if>
+			<if test="rentOrderId!=null">
+				AND rentOrderId = #{rentOrderId}
+			</if>
+			<if test="star!=null">
+				AND star = #{star}
+			</if>
+		<if test="status!=null and statusArrayList!= null">
+				AND status in
+				<foreach item="item" index="index" collection="statusArrayList"
+					open="(" separator="," close=")">
+					${item}
+				</foreach>
+			</if>
+		</trim>
+	</select>
+	<select id="getComprehensiveOrderComment" parameterType="com.zj.entity.tm.form.OrderCommentQueryForm"
+		resultType="Long">
+		select 
+		IFNULL(AVG(star),0)  
+		from t_ordercomment
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="beCommentedCompanyId!=null">
+				AND beCommentedCompanyId = #{beCommentedCompanyId}
+			</if>
+			<if test="commentSideId!=null">
+				AND commentSideId = #{commentSideId}
+			</if>
+			<if test="rentOrderId!=null">
+				AND rentOrderId = #{rentOrderId}
+			</if>
+			<if test="star!=null">
+				AND star = #{star}
+			</if>
+			<if test="status!=null and statusArrayList!= null">
+				AND status in
+				<foreach item="item" index="index" collection="statusArrayList"
+					open="(" separator="," close=")">
+					${item}
+				</foreach>
+			</if>
+		</trim>
+	</select>
+	<select id="getOrderCommentPageList" parameterType="com.zj.entity.tm.form.OrderCommentQueryForm"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_ordercomment
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="beCommentedCompanyId!=null">
+				AND beCommentedCompanyId = #{beCommentedCompanyId}
+			</if>
+			<if test="commentSideId!=null">
+				AND commentSideId = #{commentSideId}
+			</if>
+			<if test="rentOrderId!=null">
+				AND rentOrderId = #{rentOrderId}
+			</if>
+			<if test="star!=null">
+				AND star = #{star}
+			</if>
+			<if test="status!=null and statusArrayList!= null">
+				AND status in
+				<foreach item="item" index="index" collection="statusArrayList"
+					open="(" separator="," close=")">
+					${item}
+				</foreach>
+			</if>
+		</trim>
+	</select>
+</mapper>

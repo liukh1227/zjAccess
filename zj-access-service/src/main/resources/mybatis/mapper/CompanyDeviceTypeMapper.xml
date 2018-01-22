@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.CompanyDeviceTypeMapper">
+	<resultMap id="BaseResultMap" type="com.zj.entity.base.po.CompanyDeviceType">
+		<id column="comDevType_id" jdbcType="VARCHAR" property="id" />
+		<result column="companyId" jdbcType="VARCHAR" property="companyId" />
+		<result column="deviceModelId" jdbcType="VARCHAR" property="deviceModelId" />
+		<result column="deviceModelName" jdbcType="VARCHAR" property="deviceModelName" />
+		<result column="modelQuote" jdbcType="VARCHAR" property="modelQuote" />
+		<result column="picture" jdbcType="LONGVARCHAR" property="picture" />
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		comDevType_id, companyId, deviceModelId, deviceModelName, modelQuote, picture,
+		creator, createTime
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from d_companydevicetype
+		where comDevType_id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from d_companydevicetype
+		where comDevType_id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.zj.entity.base.po.CompanyDeviceType"
+		keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into d_companydevicetype (comDevType_id, companyId, deviceModelId,
+		deviceModelName, modelQuote, picture,
+		creator, createTime)
+		values (#{id,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR},
+		#{deviceModelId,jdbcType=VARCHAR},
+		#{deviceModelName,jdbcType=VARCHAR}, #{modelQuote,jdbcType=VARCHAR},
+		#{picture,jdbcType=VARCHAR},
+		#{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zj.entity.base.po.CompanyDeviceType"
+		keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert into d_companydevicetype
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				comDevType_id,
+			</if>
+			<if test="companyId != null">
+				companyId,
+			</if>
+			<if test="deviceModelId != null">
+				deviceModelId,
+			</if>
+			<if test="deviceModelName != null">
+				deviceModelName,
+			</if>
+			<if test="modelQuote != null">
+				modelQuote,
+			</if>
+			<if test="picture != null">
+				picture,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="companyId != null">
+				#{companyId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceModelId != null">
+				#{deviceModelId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceModelName != null">
+				#{deviceModelName,jdbcType=VARCHAR},
+			</if>
+			<if test="modelQuote != null">
+				#{modelQuote,jdbcType=VARCHAR},
+			</if>
+			<if test="picture != null">
+				#{picture,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.CompanyDeviceType">
+		update d_companydevicetype
+		<set>
+			<if test="companyId != null">
+				companyId = #{companyId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceModelId != null">
+				deviceModelId = #{deviceModelId,jdbcType=VARCHAR},
+			</if>
+			<if test="deviceModelName != null">
+				deviceModelName = #{deviceModelName,jdbcType=VARCHAR},
+			</if>
+			<if test="modelQuote != null">
+				modelQuote = #{modelQuote,jdbcType=VARCHAR},
+			</if>
+			<if test="picture != null">
+				picture = #{picture,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				createTime = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where comDevType_id = #{id,jdbcType=VARCHAR}
+	</update>
+	<select id="getCompanyDeviceTypePageList" parameterType="com.zj.entity.dm.form.CompanyDeviceTypeQueryForm"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from d_companydevicetype
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="companyId!=null">
+				AND companyId = #{companyId}
+			</if>
+			<if test="deviceModelId!=null">
+				AND deviceModelId = #{deviceModelId}
+			</if>
+
+		</trim>
+	</select>
+</mapper>
