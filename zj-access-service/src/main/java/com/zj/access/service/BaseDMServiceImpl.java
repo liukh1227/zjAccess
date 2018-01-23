@@ -19,6 +19,7 @@ import com.zj.access.base.mapper.CompanyAvailableDeviceMapper;
 import com.zj.access.base.mapper.CompanyDeviceTypeMapper;
 import com.zj.access.base.mapper.CompanyMapper;
 import com.zj.access.base.mapper.DeviceBrandMapper;
+import com.zj.access.base.mapper.DeviceInspectionMapper;
 import com.zj.access.base.mapper.DeviceMapper;
 import com.zj.access.base.mapper.DeviceModelMapper;
 import com.zj.access.base.mapper.DeviceStatusTraceMapper;
@@ -37,11 +38,13 @@ import com.zj.entity.base.po.Company;
 import com.zj.entity.base.po.CompanyDeviceType;
 import com.zj.entity.base.po.Device;
 import com.zj.entity.base.po.DeviceBrand;
+import com.zj.entity.base.po.DeviceInspection;
 import com.zj.entity.base.po.DeviceModel;
 import com.zj.entity.base.po.DeviceStatusTrace;
 import com.zj.entity.base.po.DeviceType;
 import com.zj.entity.base.po.Message;
 import com.zj.entity.bm.dto.UserDto;
+import com.zj.entity.bm.form.DeviceInspectionQueryForm;
 import com.zj.entity.dm.dto.CompanyAvailableDevice;
 import com.zj.entity.dm.dto.CompanyAvailableDeviceInMapDto;
 import com.zj.entity.dm.dto.DeviceDetailInforListDto;
@@ -2124,6 +2127,117 @@ public String updateCheckDevice(String data) {
 			throw new RuntimeException("addDevice Exception!");
 		}
 	 
+	jsonStr = JSON.toJSONString(dto);
+	return jsonStr;
+}
+
+@Override
+public String addDeviceInspection(String data) {
+	String jsonStr = "";
+	BaseDto dto = new BaseDto();
+	if (StringUtils.isNotBlank(data)) {
+		try {
+
+			DeviceInspection deviceInspection = JSON.parseObject(data,DeviceInspection.class);
+			if (deviceInspection == null) {
+				dto.setRcode(1);
+				dto.setRinfo("The data parseObject to DeviceInspection is null !");
+				return JSON.toJSONString(dto);
+			}
+
+			if (deviceInspection.getDeviceId() == null) {
+				dto.setRcode(1);
+				dto.setRinfo("The data 's deviceId is null !");
+				return JSON.toJSONString(dto);
+			}
+			if (deviceInspection.getProjectId() == null) {
+				dto.setRcode(1);
+				dto.setRinfo("The data 's projectId is null !");
+				return JSON.toJSONString(dto);
+			}
+
+			if (deviceInspection.getUserId() == null) {
+				dto.setRcode(1);
+				dto.setRinfo("The data 's userId is null !");
+				return JSON.toJSONString(dto);
+			}
+			if (deviceInspection.getStatus() == null) {
+				dto.setRcode(1);
+				dto.setRinfo("The data 's status is null !");
+				return JSON.toJSONString(dto);
+			}
+             boolean isHashed = false;
+             if(deviceInspection.getProjectId() != null && deviceInspection.getDeviceId() != null){
+            	 DeviceInspectionQueryForm form = new DeviceInspectionQueryForm();
+            	 form.setProjectId(StringUtils.trim(deviceInspection.getProjectId()));
+            	 form.setDeviceId(StringUtils.trim(deviceInspection.getDeviceId()));
+            	 BaseObjDto<ItemPage< DeviceInspection>> listDto = baseDao.getPageList(DeviceInspectionMapper.class, DeviceInspection.class, form, "getDeviceInspectionPageList");
+            	 if(FrameworkUtils.isSuccess(listDto) && listDto.getData()!= null && listDto.getData().getItems()!= null && listDto.getData().getItems().size()>0 ){
+            		 List<DeviceInspection> list = listDto.getData().getItems();
+            		 DeviceInspection queryDeviceInspection = list.get(0);
+            		 deviceInspection.setId(queryDeviceInspection.getId());
+            		 isHashed = true;
+            	 }
+            	 	
+             }
+			
+             deviceInspection.setInspectionTime(new Date());
+             if(isHashed){
+            	 dto = baseDao.updateByPrimaryKeySelective(DeviceInspectionMapper.class, deviceInspection);
+             }else{
+            	 dto = baseDao.insertSelective(DeviceInspectionMapper.class,deviceInspection);
+             }
+			
+			
+
+			if (FrameworkUtils.isSuccess(dto)) {
+				log.info("addDeviceInspection success!");
+			} else {
+				log.error("addDeviceInspection failure!");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("addDeviceInspection exception!");
+			throw new RuntimeException("addDeviceInspection Exception!");
+		}
+	} else {
+		log.error("---addDeviceInspection -------- data is null ==== ");
+	}
+	jsonStr = JSON.toJSONString(dto);
+	return jsonStr;
+}
+
+@Override
+public String updateDeviceInspection(String inspectionId, String data) {
+	String jsonStr = "";
+	BaseDto dto = new BaseDto();
+	
+	if (StringUtils.isNotBlank(inspectionId) && StringUtils.isNotBlank(data)) {
+		try {
+			DeviceInspection deviceInspection = JSON.parseObject(data, DeviceInspection.class);
+			if (deviceInspection == null) {
+				dto.setRcode(1);
+				dto.setRinfo("The data parseObject to DeviceInspection is null !");
+				return JSON.toJSONString(dto);
+			}
+			deviceInspection.setId(inspectionId);
+			
+			dto = baseDao.updateByPrimaryKeySelective(DeviceInspectionMapper.class,deviceInspection);
+
+			if (FrameworkUtils.isSuccess(dto)) {
+				log.info("updateDeviceInspection success!");
+			} else {
+				log.error("updateDeviceInspection failure!");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("updateDeviceInspection exception!");
+			throw new RuntimeException("updateDeviceInspection Exception!");
+		}
+
+	} else {
+		log.error("---updateDeviceInspection -------- data or inspectionId is null ==== ");
+	}
 	jsonStr = JSON.toJSONString(dto);
 	return jsonStr;
 }

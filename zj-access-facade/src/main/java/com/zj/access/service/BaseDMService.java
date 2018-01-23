@@ -273,4 +273,22 @@ public interface BaseDMService {
 	 * @return
 	 */
 	public String updateCheckDevice(String data);
+	
+	/**
+	 * 增加机器校验信息
+	 * @author liukh
+	 * @date 2018-1-23 上午11:22:27
+	 * @param data
+	 * @return
+	 */
+	public String addDeviceInspection(String data);
+	/**
+	 * 修改机器校验信息
+	 * @author liukh
+	 * @date 2018-1-23 上午11:24:09
+	 * @param inspectionId
+	 * @param data
+	 * @return
+	 */
+	public String updateDeviceInspection(String inspectionId,String data);
 }

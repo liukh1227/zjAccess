@@ -1106,5 +1106,8 @@ public interface BaseTMService {
 	// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<其他>>>>>>>>>>>>>>>>>>>>>>>
 
 	public boolean isPeerRentOrder(String rentOrderId);
+	
+	// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<校验机器>>>>>>>>>>>>>>>>>>>>>>>
+	public String queryInspectionDevice(String data);
 
 }

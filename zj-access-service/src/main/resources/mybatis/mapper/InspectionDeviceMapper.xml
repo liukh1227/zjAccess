@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.InspectionDeviceMapper">
+	<resultMap id="BaseResultMap" type="com.zj.entity.tm.dto.InspectionDevice">
+		<result column="deviceId" jdbcType="VARCHAR" property="deviceId" />
+		<result column="deviceName" jdbcType="VARCHAR" property="deviceName" />
+		<result column="companyId" jdbcType="VARCHAR" property="companyId" />
+		<result column="modelName" jdbcType="VARCHAR" property="modelName" />
+		<result column="picture" jdbcType="VARCHAR" property="picture" />
+		<result column="brandName" jdbcType="VARCHAR" property="brandName" />
+		<result column="typeName" jdbcType="VARCHAR" property="typeName" />
+		<result column="specDataValue" jdbcType="VARCHAR" property="specDataValue" />
+		<result column="unit" jdbcType="VARCHAR" property="unit" />
+		<result column="attributeName" jdbcType="VARCHAR" property="attributeName" />
+		<result column="companyName" jdbcType="VARCHAR" property="companyName" />
+		<result column="address" jdbcType="VARCHAR" property="address" />
+		<result column="telePhone" jdbcType="VARCHAR" property="telePhone" />
+		<result column="projectId" jdbcType="VARCHAR" property="projectId" />
+		<result column="projectName" jdbcType="VARCHAR" property="projectName" />
+		<result column="userName" jdbcType="VARCHAR" property="userName" />
+		<result column="cellPhone" jdbcType="VARCHAR" property="cellPhone" />
+		<result column="inspectionStatus" jdbcType="VARCHAR" property="inspectionStatus" />
+		<result column="inspectionTime" jdbcType="TIMESTAMP" property="inspectionTime" />
+		<result column="inspectionId" jdbcType="VARCHAR" property="inspectionId" />
+		
+	</resultMap>
+
+	<parameterMap type="com.zj.entity.tm.dto.InspectionDevice"
+		id="InspectionDeviceParameterMap">
+		<parameter property="deviceId" resultMap="BaseResultMap" />
+		<parameter property="projectId" resultMap="BaseResultMap" />
+	</parameterMap>
+
+	<sql id="Base_Column_List">
+		deviceId,deviceName,companyId,modelName,picture,brandName,typeName,
+	 specDataValue,unit, attributeName,companyName,address, telePhone,
+	 projectId, projectName,userName,cellPhone,inspectionStatus,inspectionTime,inspectionId
+	</sql>
+
+	<select id="getInspectionDevice" parameterMap="InspectionDeviceParameterMap"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from view_inspectionDevice
+		where deviceId =
+		#{deviceId,jdbcType=VARCHAR} and projectId =
+		#{projectId,jdbcType=VARCHAR}
+	</select>
+	
+	  	<select id="getInspectionDevicePageList" parameterType="com.zj.entity.tm.form.InspectionDeviceQueryForm" resultMap="BaseResultMap">
+		select  
+		 <include refid="Base_Column_List" />
+		from view_inspectionDevice
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="deviceId!=null">
+				AND deviceId = #{deviceId}
+			</if>
+			
+		</trim>
+	</select>
+
+</mapper>

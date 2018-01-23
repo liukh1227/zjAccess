@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zj.access.base.mapper.DeviceInspectionMapper">
+  <resultMap id="BaseResultMap" type="com.zj.entity.base.po.DeviceInspection">
+    <id column="inspection_id" jdbcType="VARCHAR" property="id" />
+    <result column="deviceId" jdbcType="VARCHAR" property="deviceId" />
+    <result column="informationType" jdbcType="INTEGER" property="informationType" />
+    <result column="userId" jdbcType="VARCHAR" property="userId" />
+    <result column="projectId" jdbcType="VARCHAR" property="projectId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="inspectionTime" jdbcType="TIMESTAMP" property="inspectionTime" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+   inspection_id, deviceId, userId, projectId, remark, inspectionTime, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_deviceInspection
+    where inspection_id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_deviceInspection
+    where inspection_id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zj.entity.base.po.DeviceInspection"
+  keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+    insert into t_deviceInspection ( inspection_id, deviceId, userId, projectId, remark, inspectionTime, status)
+    values (#{id,jdbcType=VARCHAR}, #{deviceId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{projectId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},#{inspectionTime,jdbcType=TIMESTAMP},#{status,jdbcType=VARCHAR} 
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zj.entity.base.po.DeviceInspection"
+  keyProperty="id">
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+    insert into t_deviceInspection
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        inspection_id,
+      </if>
+      <if test="deviceId != null">
+        deviceId,
+      </if>
+      <if test="userId != null">
+        userId,
+      </if>
+      <if test="projectId != null">
+        projectId,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="inspectionTime != null">
+        inspectionTime,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null">
+        #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectionTime != null">
+        #{inspectionTime,jdbcType=TIMESTAMP},
+      </if>
+         <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zj.entity.base.po.DeviceInspection">
+    update t_deviceInspection
+    <set>
+
+      <if test="deviceId != null">
+        deviceId = #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        userId = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        projectId = #{projectId,jdbcType=VARCHAR},
+      </if>
+       <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectionTime != null">
+        inspectionTime = #{inspectionTime,jdbcType=TIMESTAMP},
+      </if>
+         <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where inspection_id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zj.entity.base.po.DeviceInspection">
+    update t_deviceInspection
+    set deviceId = #{deviceId,jdbcType=VARCHAR},
+      userId = #{userId,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      projectId = #{projectId,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      inspectionTime = #{inspectionTime,jdbcType=TIMESTAMP},
+        status = #{status,jdbcType=VARCHAR}
+    where inspection_id = #{id,jdbcType=VARCHAR}
+  </update>
+  	<select id="getDeviceInspectionPageList" parameterType="com.zj.entity.bm.form.DeviceInspectionQueryForm" resultMap="BaseResultMap">
+		select  
+		 <include refid="Base_Column_List" />
+		from t_deviceInspection
+		<trim prefix="WHERE" prefixOverrides="AND |OR">
+			<if test="userId!=null">
+				AND userId = #{userId}
+			</if>
+			<if test="status!=null">
+				AND status = #{status}
+			</if>
+			<if test="projectId!=null">
+				AND projectId = #{projectId}
+			</if>
+			<if test="deviceId!=null">
+				AND deviceId = #{deviceId}
+			</if>
+			
+		</trim>
+	</select>
+</mapper>

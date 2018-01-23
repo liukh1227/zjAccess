@@ -22,6 +22,7 @@ import com.zj.access.base.mapper.AccountDetailMapper;
 import com.zj.access.base.mapper.CompanyDeviceTypeMapper;
 import com.zj.access.base.mapper.CompanyMapper;
 import com.zj.access.base.mapper.DeliveryOrderMapper;
+import com.zj.access.base.mapper.DeviceInspectionMapper;
 import com.zj.access.base.mapper.DeviceMapper;
 import com.zj.access.base.mapper.DeviceModelMapper;
 import com.zj.access.base.mapper.DeviceStatusTraceMapper;
@@ -32,6 +33,7 @@ import com.zj.access.base.mapper.InqueryOrderMapper;
 import com.zj.access.base.mapper.InqueryRentMapper;
 import com.zj.access.base.mapper.InqueryRentQuoteMapper;
 import com.zj.access.base.mapper.InqueryRentThrowMapper;
+import com.zj.access.base.mapper.InspectionDeviceMapper;
 import com.zj.access.base.mapper.MessageMapper;
 import com.zj.access.base.mapper.OrderCapitalPoolMapper;
 import com.zj.access.base.mapper.OrderCommentMapper;
@@ -54,6 +56,7 @@ import com.zj.entity.base.po.Company;
 import com.zj.entity.base.po.CompanyDeviceType;
 import com.zj.entity.base.po.DeliveryOrder;
 import com.zj.entity.base.po.Device;
+import com.zj.entity.base.po.DeviceInspection;
 import com.zj.entity.base.po.DeviceModel;
 import com.zj.entity.base.po.DeviceStatusTrace;
 import com.zj.entity.base.po.DeviceType;
@@ -84,6 +87,7 @@ import com.zj.entity.tm.dto.InqueryOrderDto;
 import com.zj.entity.tm.dto.InqueryRentDetailDto;
 import com.zj.entity.tm.dto.InqueryRentDetailListDto;
 import com.zj.entity.tm.dto.InqueryRentQuotoAndInqueryRentDto;
+import com.zj.entity.tm.dto.InspectionDevice;
 import com.zj.entity.tm.dto.LockedMoneyTigDto;
 import com.zj.entity.tm.dto.OrderCalculatePriceDto;
 import com.zj.entity.tm.dto.OrderCapitalPoolListDto;
@@ -97,6 +101,7 @@ import com.zj.entity.tm.form.InqueryOrderQueryForm;
 import com.zj.entity.tm.form.InqueryRentQueryForm;
 import com.zj.entity.tm.form.InqueryRentQuoteQueryForm;
 import com.zj.entity.tm.form.InqueryRentThrowQueryForm;
+import com.zj.entity.tm.form.InspectionDeviceQueryForm;
 import com.zj.entity.tm.form.OrderCapitalPoolQueryForm;
 import com.zj.entity.tm.form.OrderCommentQueryForm;
 import com.zj.entity.tm.form.OrderInteractiveTraceQueryForm;
@@ -8067,6 +8072,70 @@ public class BaseTMServiceImpl implements BaseTMService {
 		}
 
 		return JSON.toJSONString(dto);
+	}
+
+	@Override
+	public String queryInspectionDevice(String data) {
+		String jsonStr = "";
+		BaseObjDto<InspectionDevice>  dto = new BaseObjDto<InspectionDevice>();
+		if (StringUtils.isNotBlank(data)) {
+			try {
+                  JSONObject jsob = JSON.parseObject(data);
+                  
+				if (jsob == null) {
+					dto.setRcode(1);
+					dto.setRinfo("The data parse to JSONObject is null !");
+					return JSON.toJSONString(dto);
+				}
+
+				if (jsob.get("deviceId") == null) {
+					dto.setRcode(1);
+					dto.setRinfo("The data 's deviceId is null !");
+					return JSON.toJSONString(dto);
+				}
+				if(jsob.get("projectId") !=null){
+					Map<String, Object> queryParams = new HashMap<String, Object>();
+					queryParams.put("deviceId", jsob.get("deviceId"));
+					queryParams.put("projectId",jsob.get("projectId"));
+					dto = baseDao.getObjProperty(InspectionDeviceMapper.class,"getInspectionDevice", queryParams);
+					if(FrameworkUtils.isSuccess(dto)){
+						return JSON.toJSONString(dto);
+					}
+				}
+				
+				InspectionDeviceQueryForm form = new InspectionDeviceQueryForm();
+            	 form.setDeviceId(StringUtils.trim(jsob.get("deviceId").toString()));
+            	 BaseObjDto<ItemPage<InspectionDevice>> listDto = baseDao.getPageList(InspectionDeviceMapper.class, InspectionDevice.class, form, "getInspectionDevicePageList");
+            	 if(FrameworkUtils.isSuccess(listDto) && listDto.getData()!= null && listDto.getData().getItems()!= null && listDto.getData().getItems().size()>0 ){
+            		 List<InspectionDevice> list = listDto.getData().getItems();
+            		 InspectionDevice queryInspectionDevice = list.get(0);
+            		 if(queryInspectionDevice.getInspectionStatus()== null){
+            			 queryInspectionDevice.setInspectionStatus("0");
+            		 }
+            		 if(queryInspectionDevice.getProjectId()==null && jsob.get("projectId") !=null){
+            			 queryInspectionDevice.setProjectId(jsob.get("projectId").toString());
+            		 }
+            		 dto.setData(queryInspectionDevice);
+            		 FrameworkUtils.setSuccess(dto);
+            		 
+            	 }
+            	 
+	
+				if (FrameworkUtils.isSuccess(dto)) {
+					log.info("queryInspectionDevice success!");
+				} else {
+					log.error("queryInspectionDevice failure!");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				log.error("queryInspectionDevice exception!");
+				throw new RuntimeException("queryInspectionDevice Exception!");
+			}
+		} else {
+			log.error("---queryInspectionDevice -------- data is null ==== ");
+		}
+		jsonStr = JSON.toJSONString(dto);
+		return jsonStr;
 	}
 
 }

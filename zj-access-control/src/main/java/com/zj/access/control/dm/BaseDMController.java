@@ -713,5 +713,65 @@ public class BaseDMController extends CommonController {
 		return jsonStr;
 	}
 	
+	/**
+	 * 新增设备通行信息
+	 * @author liukh
+	 * @date 2018-1-23 下午2:25:29
+	 * @param request
+	 * @param response
+	 * @param session
+	 * @param data
+	 * @return
+	 */
+	@RequestMapping(value = "/deviceInspection", method = { RequestMethod.POST })
+	@ResponseBody
+	public String addDeviceInspection(HttpServletRequest request,
+			HttpServletResponse response,HttpSession session,
+			@RequestParam(value = "data", required = true) String data) {
+		String jsonStr = JSON.toJSONString(new BaseDto());
+		try {
+			if(session.getAttribute("addDeviceInspection")!= null){
+				BaseDto vo = new BaseDto();
+				vo.setRcode(21);
+				vo.setRinfo("请求已提交，请耐心等待!");
+				return JSON.toJSONString(vo);
+			}
+			session.setAttribute("addDeviceInspection", "addDeviceInspection");
+			jsonStr = baseDMService.addDeviceInspection(data);
+		} catch (Exception e) {
+			log.error("addDevice ---- 异常,message = " + e.getMessage());
+			e.printStackTrace();
+			session.setAttribute("addDeviceInspection", null);
+		}
+		session.setAttribute("addDeviceInspection", null);
+		return jsonStr;
+	}
+	
+	/**
+	 * 修改通行信息
+	 * @author liukh
+	 * @date 2018-1-23 下午2:28:57
+	 * @param request
+	 * @param response
+	 * @param inspectionId
+	 * @param data
+	 * @return
+	 */
+	@RequestMapping(value = "/{inspectionId}/deviceInspection", method = { RequestMethod.POST })
+	@ResponseBody
+	public String updateDeviceInspection(HttpServletRequest request,
+			HttpServletResponse response,
+			@PathVariable(value = "inspectionId") String inspectionId,
+			@RequestParam(value = "data", required = true) String data) {
+		String jsonStr = JSON.toJSONString(new BaseDto());
+		try {
+			jsonStr = baseDMService.updateDeviceInspection(inspectionId, data);
+		} catch (Exception e) {
+			log.error("updateDeviceInspection ---- 异常,message = " + e.getMessage());
+			e.printStackTrace();
+		}
+		return jsonStr;
+	}
+
 
 }

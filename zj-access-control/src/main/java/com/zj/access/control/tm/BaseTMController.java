@@ -2624,5 +2624,41 @@ public class BaseTMController extends CommonController {
 		return jsonStr;
 
 	}
+	
+	/**
+	 * 校验设备
+	 * @author liukh
+	 * @date 2018-1-23 下午2:19:03
+	 * @param request
+	 * @param response
+	 * @param session
+	 * @param data：{deviceId,projectId}
+	 * @return
+	 */
+	
+	@RequestMapping(value = "/inspectionDevice", method = { RequestMethod.POST })
+	@ResponseBody
+	public String queryInspectionDevice(HttpServletRequest request,
+			HttpServletResponse response, HttpSession session,
+			@RequestParam(value = "data", required = true) String data) {
+		String jsonStr = JSON.toJSONString(new BaseDto());
+		try {
+			if (session.getAttribute("queryInspectionDevice") != null) {
+				BaseDto dto = new BaseDto();
+				dto.setRcode(BaseDto.ERROR_RCODE);
+				dto.setRinfo("请求已提交，请耐心等待!");
+				return JSON.toJSONString(dto);
+			}
+			session.setAttribute("queryInspectionDevice",
+					"queryInspectionDevice");
+			jsonStr = baseTMService.queryInspectionDevice(data);
+		} catch (Exception e) {
+			log.error("queryInspectionDevice ---- 异常,message = "
+					+ e.getMessage());
+			e.printStackTrace();
+		}
+		session.setAttribute("queryInspectionDevice", null);
+		return jsonStr;
+	}
 
 }
