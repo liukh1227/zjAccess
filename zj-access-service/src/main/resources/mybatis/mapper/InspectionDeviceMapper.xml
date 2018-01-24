@@ -22,7 +22,7 @@
 		<result column="inspectionStatus" jdbcType="VARCHAR" property="inspectionStatus" />
 		<result column="inspectionTime" jdbcType="TIMESTAMP" property="inspectionTime" />
 		<result column="inspectionId" jdbcType="VARCHAR" property="inspectionId" />
-		
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
 	</resultMap>
 
 	<parameterMap type="com.zj.entity.tm.dto.InspectionDevice"
@@ -34,7 +34,7 @@
 	<sql id="Base_Column_List">
 		deviceId,deviceName,companyId,modelName,picture,brandName,typeName,
 	 specDataValue,unit, attributeName,companyName,address, telePhone,
-	 projectId, projectName,userName,cellPhone,inspectionStatus,inspectionTime,inspectionId
+	 projectId, projectName,userName,cellPhone,inspectionStatus,inspectionTime,inspectionId,remark
 	</sql>
 
 	<select id="getInspectionDevice" parameterMap="InspectionDeviceParameterMap"

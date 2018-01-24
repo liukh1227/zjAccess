@@ -27,6 +27,7 @@ public class InspectionDevice implements Serializable{
 	private String inspectionStatus;
 	private Date inspectionTime;
 	private String inspectionId;
+	private String remark;
 	
 	public String getDeviceId() {
 		return deviceId;
@@ -147,6 +148,12 @@ public class InspectionDevice implements Serializable{
 	}
 	public void setInspectionId(String inspectionId) {
 		this.inspectionId = inspectionId;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 	
 	
