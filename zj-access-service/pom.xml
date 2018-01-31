@@ -191,7 +191,9 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>access-test-service</finalName>
+		<finalName>access-service</finalName> 
+		<!--<finalName>access-service</finalName>-->
+		
 		<!-- 新建项目的时候生成，其余时候注释 -->
 		<plugins>
 			<!-- <plugin> <groupId>org.mybatis.generator</groupId> <artifactId>mybatis-generator-maven-plugin</artifactId> 

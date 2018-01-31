@@ -1069,6 +1069,7 @@ public class BaseDMServiceImpl implements BaseDMService {
 						page.setPagesCount(1);
 						returnBaseListDto.setData(page);
 						dto = returnBaseListDto;
+						FrameworkUtils.setSuccess(dto);
 						log.info("getNearCompanyAvailableDeviceListInRadius success");
 					} else {
 						FrameworkUtils.setNoData(dto);

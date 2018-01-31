@@ -1013,7 +1013,7 @@ public class BaseSMServiceImpl implements BaseSMService {
 		ItemPage<Advertisement> pages = new ItemPage<Advertisement>();
 
 		List<Advertisement> list = new ArrayList<Advertisement>();
-
+/**
 		Advertisement advertisement1 = new Advertisement();
 		String pictureUrl1 = "http://api.chebaotec.com/app/device/2016122217335490448823050/20170105/ded13793ee5c8a979eb9b650ef754435.jpg";
 		advertisement1.setPictureURL(pictureUrl1);
@@ -1025,6 +1025,15 @@ public class BaseSMServiceImpl implements BaseSMService {
 		list.add(advertisement2);
 		pages.setItems(list);
 		listDto.setData(pages);
+		**/
+		Advertisement advertisement3 = new Advertisement();
+		String pictureUrl3 = "http://p3cyhxr7s.bkt.clouddn.com/fsk20180130145657.png";
+		advertisement3.setPictureURL(pictureUrl3);
+		list.add(advertisement3);
+		pages.setItems(list);
+		listDto.setData(pages);
+
+		
 
 		return JSON.toJSONString(listDto);
 	}

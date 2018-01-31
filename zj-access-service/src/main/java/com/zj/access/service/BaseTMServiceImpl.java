@@ -666,10 +666,36 @@ public class BaseTMServiceImpl implements BaseTMService {
 		String jsonStr = "";
 		BaseDto dto = new BaseDto();
 		if (StringUtils.isNotBlank(inqueryDeviceId)) {
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("id", StringUtils.trim(inqueryDeviceId));
+			BaseObjDto<InqueryDeviceListDto> deviceDto = baseDao
+					.getObjProperty(InqueryDeviceMapper.class,
+							"selectInquerDevieDeatilinfo", paramsMap);
+			if (!FrameworkUtils.isSuccess(deviceDto)) {
+				dto.setRcode(BaseDto.ERROR_RCODE);
+				dto.setRinfo("The data's  inqueryDeviceId is not exits !");
+				return JSON.toJSONString(dto);
+			}
+			String inqueryOrderId = null;
+			InqueryDeviceListDto queryDevice = deviceDto.getData();
+			if(queryDevice.getInqueryOrderId()!= null){
+				inqueryOrderId = queryDevice.getInqueryOrderId();
+			}
+			
 			// 删除
 			dto = baseDao.deleteByPrimaryKey(InqueryDeviceMapper.class,
 					StringUtils.trim(inqueryDeviceId));
 			if (FrameworkUtils.isSuccess(dto)) {
+				if(StringUtils.isNotBlank(inqueryOrderId)){
+					InqueryDeviceQueryForm form = new InqueryDeviceQueryForm();
+					form.setInqueryOrderId(inqueryOrderId);
+					BaseObjDto<ItemPage<InqueryDeviceAllListDto>> pagesDto = baseDao.getPageList(
+							InqueryDeviceMapper.class, InqueryDeviceAllListDto.class, form,
+							"getInqueryDevicePageList");
+					if(!FrameworkUtils.isSuccess(pagesDto)&& pagesDto.getRcode() == BaseDto.NO_DATA_RCODE ){
+						return deleteInqueryOrder(inqueryOrderId);
+					}
+				}
 				log.info("deleteInqueryDevice success!");
 			}
 		} else {

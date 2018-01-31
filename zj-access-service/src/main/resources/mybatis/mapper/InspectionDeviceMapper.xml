@@ -3,6 +3,7 @@
 <mapper namespace="com.zj.access.base.mapper.InspectionDeviceMapper">
 	<resultMap id="BaseResultMap" type="com.zj.entity.tm.dto.InspectionDevice">
 		<result column="deviceId" jdbcType="VARCHAR" property="deviceId" />
+		<result column="sequenceNum" jdbcType="VARCHAR" property="sequenceNum" />
 		<result column="deviceName" jdbcType="VARCHAR" property="deviceName" />
 		<result column="companyId" jdbcType="VARCHAR" property="companyId" />
 		<result column="modelName" jdbcType="VARCHAR" property="modelName" />
@@ -32,7 +33,7 @@
 	</parameterMap>
 
 	<sql id="Base_Column_List">
-		deviceId,deviceName,companyId,modelName,picture,brandName,typeName,
+		deviceId,sequenceNum,deviceName,companyId,modelName,picture,brandName,typeName,
 	 specDataValue,unit, attributeName,companyName,address, telePhone,
 	 projectId, projectName,userName,cellPhone,inspectionStatus,inspectionTime,inspectionId,remark
 	</sql>

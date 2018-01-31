@@ -24,26 +24,21 @@
 	<!-- 提供方应用信息，用于计算依赖关系 -->
  	<dubbo:application name="app-provider" />
 
-	<!-- 使用multicast广播注册中心暴露服务地址 -->
-	<!--<dubbo:registry address="multicast://224.5.6.7:1234" /> -->
-
 	<!-- 使用zookeeper注册中心暴露服务地址 即zookeeper的所在服务器ip地址和端口号 -->
-	  <!--<dubbo:registry address="zookeeper://119.23.237.219:2181" />  -->
      <dubbo:registry address="zookeeper://127.0.0.1:2181"/> 
-      <!-- YS <dubbo:registry address="zookeeper://10.0.2.6:4181"/> --> 
 	<!-- 用dubbo协议在20880端口暴露服务 -->
- 	<dubbo:protocol name="dubbo" port="20886" />
+ 	<dubbo:protocol name="dubbo" port="20888" />
 
 	<!-- 声明需要暴露的服务接口 -->
- 	<dubbo:service interface="com.zj.access.service.IInitService" ref="initService" group="zjtest"/>
-	<dubbo:service interface="com.zj.access.service.BaseBMService" ref="baseBMService" group="zjtest"/>
-	<dubbo:service interface="com.zj.access.service.BaseDMService" ref="baseDMService" group="zjtest"/>
-	<dubbo:service interface="com.zj.access.service.BaseOtherService" ref="baseOtherService" group="zjtest"/>
-	<dubbo:service interface="com.zj.access.service.BasePMService" ref="basePMService" group="zjtest"/>
-	<dubbo:service interface="com.zj.access.service.BaseSMService" ref="baseSMService" group="zjtest"/>
-	<dubbo:service interface="com.zj.access.service.BaseSysService" ref="baseSysService" group="zjtest"/>
-	<dubbo:service interface="com.zj.access.service.BaseTMService" ref="baseTMService" group="zjtest"/>
-	<dubbo:service interface="com.zj.access.service.FtpUploadMyService" ref="ftpUploadMyService" group="zjtest" />
-	<dubbo:service interface="com.zj.access.service.FtpUploadService" ref="ftpUploadService" group="zjtest"/>
-	<dubbo:service interface="com.zj.access.service.ISmsService" ref="smsService" group="zjtest"/>
+ 	<dubbo:service interface="com.zj.access.service.IInitService" ref="initService" group="zj"/>
+	<dubbo:service interface="com.zj.access.service.BaseBMService" ref="baseBMService" group="zj"/>
+	<dubbo:service interface="com.zj.access.service.BaseDMService" ref="baseDMService" group="zj"/>
+	<dubbo:service interface="com.zj.access.service.BaseOtherService" ref="baseOtherService" group="zj"/>
+	<dubbo:service interface="com.zj.access.service.BasePMService" ref="basePMService" group="zj"/>
+	<dubbo:service interface="com.zj.access.service.BaseSMService" ref="baseSMService" group="zj"/>
+	<dubbo:service interface="com.zj.access.service.BaseSysService" ref="baseSysService" group="zj"/>
+	<dubbo:service interface="com.zj.access.service.BaseTMService" ref="baseTMService" group="zj"/>
+	<dubbo:service interface="com.zj.access.service.FtpUploadMyService" ref="ftpUploadMyService" group="zj" />
+	<dubbo:service interface="com.zj.access.service.FtpUploadService" ref="ftpUploadService" group="zj"/>
+	<dubbo:service interface="com.zj.access.service.ISmsService" ref="smsService" group="zj"/>
 </beans>

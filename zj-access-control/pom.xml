@@ -189,7 +189,7 @@
 				<directory>src/main/resources</directory>
 			</resource>
 		</resources>
-		<finalName>zjtestaccess</finalName>
+	     	<finalName>zjtestaccess</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>

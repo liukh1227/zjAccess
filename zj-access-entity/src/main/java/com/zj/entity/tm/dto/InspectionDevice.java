@@ -8,6 +8,7 @@ public class InspectionDevice implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private String deviceId;
+	private String sequenceNum;
 	private String deviceName;
 	private String companyId;
 	private String modelName;
@@ -34,6 +35,13 @@ public class InspectionDevice implements Serializable{
 	}
 	public void setDeviceId(String deviceId) {
 		this.deviceId = deviceId;
+	}
+	
+	public String getSequenceNum() {
+		return sequenceNum;
+	}
+	public void setSequenceNum(String sequenceNum) {
+		this.sequenceNum = sequenceNum;
 	}
 	public String getDeviceName() {
 		return deviceName;
